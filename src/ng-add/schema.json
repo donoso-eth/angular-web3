@@ -1,0 +1,29 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "$id": "my-schematics",
+    "title": "Demo of Schematics",
+    "type": "object",
+    "properties": {
+      "project": {
+        "description": "Project Path",
+        "type": "string",
+        "default":"default",
+        "x-prompt": "What is your Project name"
+      },
+      "minimal": {
+        "description": "Minimal ",
+        "type": "boolean",
+        "default": true,
+        "x-prompt": "Do you want to create minimal app to play on?"
+      },
+      "debug_vs_code": {
+        "description": "Debug Vs code",
+        "type": "boolean",
+        "default": false,
+        "x-prompt": "Do you want to configure vsdebug?"
+      }
+    },
+    "required": [
+      "minimal", "debug_vs_code"
+    ]
+  }

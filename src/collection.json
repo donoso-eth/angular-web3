@@ -1,0 +1,12 @@
+{
+  "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "description": "Initialization AngularOnChain schematicss",
+      "factory": "./ng-add/index#ngAdd",
+      "aliases": ["init"],
+      "schema": "./ng-add/schema.json"
+    }
+    
+  }
+}
