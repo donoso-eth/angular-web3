@@ -10,7 +10,7 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "noUnusedParameters": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "rootDir": "src/",
     "skipDefaultLibCheck": true,
     "skipLibCheck": true,

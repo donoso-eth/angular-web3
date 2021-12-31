@@ -1,29 +1,34 @@
 {
-    "$schema": "http://json-schema.org/schema",
-    "$id": "my-schematics",
-    "title": "Demo of Schematics",
-    "type": "object",
-    "properties": {
-      "project": {
-        "description": "Project Path",
-        "type": "string",
-        "default":"default",
-        "x-prompt": "What is your Project name"
-      },
-      "minimal": {
-        "description": "Minimal ",
-        "type": "boolean",
-        "default": true,
-        "x-prompt": "Do you want to create minimal app to play on?"
-      },
-      "debug_vs_code": {
-        "description": "Debug Vs code",
-        "type": "boolean",
-        "default": false,
-        "x-prompt": "Do you want to configure vsdebug?"
-      }
+  "$schema": "http://json-schema.org/schema",
+  "$id": "my-schematics",
+  "title": "Demo of Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "description": "Project Path",
+      "type": "string",
+      "default": "default",
+      "x-prompt": "What is your Project name"
     },
-    "required": [
-      "minimal", "debug_vs_code"
-    ]
+    "configuration": {
+      "type": "string",
+      "description": "description",
+      "uniqueItems": true,
+      "default":"Hello Dapp World",
+      "enum": ["hello","debug","nft"],
+      "x-prompt": {
+        "message": "Which dapp would you like to start with?",
+        "type": "list",
+        "multiselect": false,
+        "items": [
+          {"value":"hello","label":"Hello Dapp World"},
+          {"value":"debug","label":"Debug Contract"},
+          {"value":"nft","label":"NFT Creation"}
+        ]
+      },
+      "required": [
+        "configuration"
+      ]
+    }
   }
+}
