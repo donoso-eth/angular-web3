@@ -39,15 +39,14 @@ ng add @angularonchain/install
 > install and start your 👷‍ Hardhat chain:
 
 ```bash
-npm run
+npm run 
 ```
 
 
-🔏 Edit your smart contract `YourContract.sol` in `packages/hardhat/contracts`
+🔏 Edit your smart contract `.sol` in `hagreeterrdhat/contracts`
 
-📝 Edit your frontend `App.jsx` in `packages/react-app/src`
 
-💼 Edit your deployment scripts in `packages/hardhat/deploy`  
+💼 Edit your deployment scripts in `/hardhat/deploy`  
  &nbsp;  
 
 
