@@ -122,6 +122,9 @@ export function ngAdd(options: any): Rule {
     },
 
     (tree: Tree, _context: SchematicContext) => {
+
+ 
+
       adScriptsToPackageJson(tree, ngadd_scritps);
       addPackageToDevPackageJson(tree, devDeps);
       return tree;

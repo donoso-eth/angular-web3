@@ -1,0 +1,18 @@
+<div style="text-align:center;"> 
+  <p><span> CONTRACT DEPLOYED TO</span>
+    <br>
+   {{contract_address}}
+  </p>
+  <p>Current Greeting {{greeting}}
+<div> 
+<div> 
+  <p><span> DEPLOYER: </span>
+   {{deployer_address}}
+   {{deployer_balance}}
+  </p>
+  <p>Contract connected at address {{contract_address}}
+    <br>
+    <input [(ngModel)]="greeting_input"  type="text" placeholder="Enter new Greeting" />
+    <br>
+  <button (click)="changeGreeting()" class="btn_send">SEND</button>
+<div>  
