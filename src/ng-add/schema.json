@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "$id": "my-schematics",
-  "title": "Demo of Schematics",
+  "$id": "options",
+  "title": "Angualr on Chain",
   "type": "object",
   "properties": {
     "project": {

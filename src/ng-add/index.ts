@@ -1,12 +1,15 @@
-import { normalize } from "@angular-devkit/core";
+import { normalize, strings } from "@angular-devkit/core";
 import { NodePackageInstallTask } from "@angular-devkit/schematics/tasks";
 import {
   apply,
   applyTemplates,
+  branchAndMerge,
   chain,
+  MergeStrategy,
   mergeWith,
   move,
   Rule,
+  template,
   SchematicContext,
   SchematicsException,
   Tree,
@@ -16,7 +19,8 @@ import { devDeps } from "./data/dep";
 import { ngadd_scritps } from "./data/scripts";
 import { addPackageToDevPackageJson } from "./helpers/add_dependencies";
 import { adScriptsToPackageJson } from "./helpers/add_scripts";
-import { hostname } from "os";
+
+
 //import {hardhat_config} from './data/hardhar.config'
 
 // You don't have to export the function as default. You can also have more than one rule factory
@@ -26,13 +30,14 @@ let sourceRoot: string;
 let sourceApp;
 
 function createFiles(host: Tree, options: any): Rule {
+  console.log('my sourceroot')
   const templateRules = [];
   const templateSource = apply(url("./files/common"), [
-    applyTemplates({}),
+    applyTemplates({sourceRoot}),
     move(normalize(`/`)),
   ]);
 
-  templateRules.push(mergeWith(templateSource));
+  templateRules.push(mergeWith(templateSource,MergeStrategy.AllowCreationConflict));
 
   if (!host.exists("src/typings.d.ts")) {
     const templateTypings = apply(url("./files/typings"), [
@@ -52,7 +57,6 @@ function createFiles(host: Tree, options: any): Rule {
 
   return chain(templateRules);
 }
-
 /** Adds a package to the package.json in the given host tree. */
 
 export function setupOptions(host: Tree, options: any): Tree {
@@ -90,37 +94,39 @@ export function setupOptions(host: Tree, options: any): Tree {
     }
   }
 
-  const sourceRoot = project.sourceRoot;
+  sourceRoot = project.sourceRoot;
 
   return host;
 }
 
-// function installDependencies(): Rule {
-//   return (tree: Tree, _context: SchematicContext) => {
-//
-//     _context.addTask(new NodePackageInstallTask());
-//     _context.logger.debug('✅️ Dependencies installed');
-//     return tree;
-//   };
-// }
+function installDependencies(): Rule {
+  return (tree: Tree, _context: SchematicContext) => {
 
-export function ngAdd(_options: any): Rule {
-  console.log(_options);
+    _context.addTask(new NodePackageInstallTask());
+    _context.logger.debug('✅️ Dependencies installed');
+    return tree;
+  };
+}
+
+export function ngAdd(options: any): Rule {
+  console.log(options);
 
   return chain([
     (tree: Tree, _context: SchematicContext) => {
-      setupOptions(tree, _options);
+      setupOptions(tree, options);
     },
     (tree: Tree, _context: SchematicContext) => {
-      return createFiles(tree, _options);
+     return createFiles(tree, options); 
+    
+
     },
 
     (tree: Tree, _context: SchematicContext) => {
       adScriptsToPackageJson(tree, ngadd_scritps);
       addPackageToDevPackageJson(tree, devDeps);
-      _context.addTask(new NodePackageInstallTask());
-      _context.logger.debug("✅️ Dependencies installed");
       return tree;
     },
+
+    installDependencies()
   ]);
 }

@@ -16,7 +16,7 @@ function sortObjectByKeys(obj: Record<string, string>) {
 
 export function addPackageToPackageJson(
   host: Tree,
-  deps:Record<string, string>
+  deps: Record<string, string>
 ): Tree {
   if (host.exists("package.json") == false) {
     host.create("package.json", "{}");
@@ -58,8 +58,6 @@ export function addPackageToDevPackageJson(
       json.devDependencies[key] = deps[key];
     }
   });
-
-  console.log(json);
 
   host.overwrite("package.json", JSON.stringify(json, null, 2));
 

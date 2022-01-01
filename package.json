@@ -1,10 +1,11 @@
 {
   "name": "angularonchain",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "A schematics developping Angular Dapps",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && jasmine src/**/*_spec.js"
+    "test": "npm run build && jasmine src/**/*_spec.js",
+    "schema": "cd src/ng-add && npx -p dtsgenerator dtsgen schema.json -o schema.d.ts"
   },
   "keywords": [
     "schematics"
@@ -12,7 +13,7 @@
   "ng-add": {
     "save": false
   },
-  "author": "",
+  "author": "@jdonoso_coding",
   "license": "MIT",
   "schematics": "./src/collection.json",
   "dependencies": {
