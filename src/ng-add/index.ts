@@ -53,9 +53,9 @@ function createFiles(host: Tree, options: any): Rule {
    
     const templateBasics = apply(url("./files/hello"), [
       applyTemplates({}),
-      move(normalize(`/${sourceRoot}/app`)),
+      move(normalize(`/${sourceRoot}/app/`)),
     ]);
-    templateRules.push(mergeWith(templateBasics));
+    templateRules.push(mergeWith(templateBasics,MergeStrategy.Overwrite));
   }
 
   return chain(templateRules);
