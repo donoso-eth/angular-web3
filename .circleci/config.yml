@@ -9,7 +9,6 @@ var_2: &cache_key angular_devkit-0.10.0-{{ checksum "yarn.lock" }}
 
 # Settings common to each job
 anchor_1: &defaults
-  working_directory: ~/ng
   docker:
     - image: *docker_image
 
@@ -50,13 +49,13 @@ jobs:
   test:
     <<: *defaults
     steps:
-      - run: test 
+      - run: npm run test 
 
  
   build:
     <<: *defaults
     steps:
-      - run: build
+      - run: npm run build
 
   
 
@@ -75,3 +74,5 @@ workflows:
       - test:
           requires:
             - build
+
+            
