@@ -1,109 +1,14 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/2.0/configuration-reference
-
-
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
-var_1: &docker_image angular/ngcontainer:0.10.0
-var_2: &cache_key angular_devkit-0.10.0-{{ checksum "yarn.lock" }}
-
-# Settings common to each job
-anchor_1: &defaults
-  working_directory: ~/ng
-  docker:
-    - image: *docker_image
-
-# After checkout, rebase on top of target branch.
-anchor_2: &post_checkout
-  run:
-    name: Rebase PR on target branch
-    command: >
-      if [[ -n "${CIRCLE_PR_NUMBER}" ]]; then
-        # User is required for rebase.
-        git config user.name "ampgular"	
-        git config user.email "ampgular"      
-        # Rebase PR on top of target branch.
-        node tools/rebase-pr.js ampgular/ampgular ${CIRCLE_PR_NUMBER}
-      else
-        echo "This build is not over a PR, nothing to do."
-      fi
-anchor_3: &restore_cache
-  restore_cache:
-    keys:
-      - *cache_key
-      # This fallback should be the cache_key without variables.
-      - angular_devkit-0.7.0-
-anchor_4: &attach_options
-  at: .
-
-# Job definitions
-version: 2
+version: 2.1
+orbs:
+  node: circleci/node@4.7.0
 jobs:
-  install:
-    <<: *defaults
+  build:
+    executor:
+      name: node/default
+      tag: '10.4'
     steps:
       - checkout
-      - *post_checkout
-      - *restore_cache
-      - run: yarn install --frozen-lockfile
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ./*
-      - save_cache:
-          key: *cache_key
-          paths:
-            - ~/.cache/yarn
-
-  lint:
-    <<: *defaults
-    steps:
-      - attach_workspace: *attach_options
-      - run: npm run lint
-
-  validate:
-    <<: *defaults
-    steps:
-      - attach_workspace: *attach_options
-      - run: npm run validate -- --ci
-  # test:
-  #   <<: *defaults
-  #   steps:
-  #     - attach_workspace: *attach_options
-  #     - run: npm run test 
-
- 
-  build:
-    <<: *defaults
-    steps:
-      - attach_workspace: *attach_options
-      - run: npm run admin -- build
-
-  
-
-workflows:
-  version: 2
-  default_workflow:
-    jobs:
-      - install:
-          filters:  # using regex filters requires the entire branch to match
-            branches:
-              only:  # only branches matching the below regex filters will run
-                - master    
-      - lint:
-          requires:
-            - install
-
-      - validate:
-          requires:
-            - lint      
-      - build:
-          requires:
-            - validate
-          filters:
-            branches:
-              ignore:
-              - /docs-preview/
-      # - test:
-      #     requires:
-      #       - build
+      - node/with-cache:
+          steps:
+            - run: npm install
+      - run: npm run test
