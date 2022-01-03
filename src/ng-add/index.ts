@@ -42,13 +42,13 @@ function createFiles(host: Tree, options: any): Rule {
   if (!host.exists("src/typings.d.ts")) {
     const templateTypings = apply(url("./files/typings"), [
       applyTemplates({}),
-      move(normalize(`/`)),
+      move(normalize(`/src/`)),
     ]);
     templateRules.push(mergeWith(templateTypings));
   }
 
   if (options.configuration == "hello") {
-    const templateBasics = apply(url("./files/basics"), [
+    const templateBasics = apply(url("./files/basics/hello"), [
       applyTemplates({}),
       move(normalize(`/${sourceRoot}/app`)),
     ]);
