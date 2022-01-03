@@ -37,7 +37,6 @@ jobs:
     steps:
       - checkout
       - *post_checkout
-      - *restore_cache
       - run: yarn install --frozen-lockfile
       - persist_to_workspace:
           root: .
@@ -51,14 +50,12 @@ jobs:
   test:
     <<: *defaults
     steps:
-      - attach_workspace: *attach_options
       - run: npm run test 
 
  
   build:
     <<: *defaults
     steps:
-      - attach_workspace: *attach_options
       - run: npm run build
 
   
