@@ -86,6 +86,12 @@ describe("ng-add", () => {
     expect(packageJson).toContain(`"compile": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json compile"`);
   });
 
+  it("Hello app creates Hello world chain module", async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync("ng-add", {}, appTree)
+      .toPromise();
+      expect(tree.exists("/projects/schematest/src/app/hello-world-on-chain/hello-world-on-chain.module.ts")).toBeTrue();
+  });
 
 
 });

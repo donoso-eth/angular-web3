@@ -13,6 +13,10 @@
   "ng-add": {
     "save": false
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jdonosocoding/angularonchain"
+  },
   "author": "@jdonoso_coding",
   "license": "MIT",
   "schematics": "./src/collection.json",
