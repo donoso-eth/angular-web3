@@ -37,7 +37,7 @@ jobs:
     steps:
       - checkout
       - *post_checkout
-      - run: yarn install --frozen-lockfile
+      - run: yarn install 
       - persist_to_workspace:
           root: .
           paths:
