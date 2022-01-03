@@ -17,6 +17,10 @@
   "ng-add": {
     "save": false
   },
+  "engines": {
+    "node": ">=10.9.0 <11.0.0",
+    "yarn": ">=1.9.0 <2.0.0"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/jdonosocoding/angularonchain"
