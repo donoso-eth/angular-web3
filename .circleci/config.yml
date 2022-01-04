@@ -18,7 +18,7 @@ jobs:
     docker:
       - image: 'cimg/base:stable'
     steps:
-      - run: yarn test
+      - run: yarn test  --ignore-engines
 
 workflows:
   test_my_app:
