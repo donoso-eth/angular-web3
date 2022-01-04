@@ -1,55 +1,17 @@
-# Use the latest 2.1 version of CircleCI pipeline process engine.
-# See: https://circleci.com/docs/2.0/configuration-reference
-
-
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
-var_1: &docker_image circleci/node:7.10
-
-# Settings common to each job
-anchor_1: &defaults
-  docker:
-    - image: *docker_image
-  working_directory: ~/angularonchain/
-# Job definitions
-version: 2
+version: '2.1'
+orbs:
+  node: circleci/node@x.y
 jobs:
-  install:
-    <<: *defaults
+  install-node-example:
+    docker:
+      - image: 'cimg/base:stable'
     steps:
       - checkout
-      - run: yarn install --frozen-lockfile  --ignore-engines
-      - run:
-          name: Setup Environment Variables
-          command: echo $PWD
-
-  test:
-    <<: *defaults
-    steps:
-      - run: yarn test
-
- 
-  build:
-    <<: *defaults
-    steps:
-      - run: yarn build
-
-  
-
+      - node/install:
+          install-yarn: true
+          node-version: '16.13'
+      - run: node --version
 workflows:
-  version: 2
-  default_workflow:
+  test_my_app:
     jobs:
-      - install:
-          filters:  # using regex filters requires the entire branch to match
-            branches:
-              only:  # only branches matching the below regex filters will run
-                - main         
-      - build:
-          requires:
-            - install
-      - test:
-          requires:
-            - build
-
-            
+      - install-node-example
