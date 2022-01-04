@@ -7,12 +7,16 @@ jobs:
       - image: 'cimg/base:stable'
     steps:
       - checkout
-      - run: npm install
+      - node/install:
+          install-yarn: true
+          node-version: '16.13'
+      - run: node --version
+      - run: yarn install
   test:
     docker:
       - image: 'cimg/base:stable'
     steps:
-      - run: npm run test
+      - run: yarn test
 
 workflows:
   test_my_app:
