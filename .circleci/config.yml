@@ -19,6 +19,9 @@ jobs:
     steps:
       - checkout
       - run: yarn install --frozen-lockfile  --ignore-engines
+      - run:
+          name: Setup Environment Variables
+          command: ls
 
   test:
     <<: *defaults
