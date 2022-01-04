@@ -43,13 +43,13 @@ jobs:
   test:
     <<: *defaults
     steps:
-      - run: ./npm run test 
+      - run: ls
 
  
   build:
     <<: *defaults
     steps:
-      - run: ./npm run build
+      - run: ls
 
   
 
