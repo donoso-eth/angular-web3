@@ -4,14 +4,13 @@
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
-var_1: &docker_image angular/ngcontainer:0.10.0
-var_2: &cache_key angular_devkit-0.10.0-{{ checksum "yarn.lock" }}
+var_1: &docker_image circleci/node:7.10
 
 # Settings common to each job
 anchor_1: &defaults
   docker:
     - image: *docker_image
-
+  working_directory: ~/repo
 # After checkout, rebase on top of target branch.
 anchor_2: &post_checkout
   run:
@@ -41,10 +40,6 @@ jobs:
           root: .
           paths:
             - ./*
-      - save_cache:
-          key: *cache_key
-          paths:
-            - ~/.cache/yarn
 
   test:
     <<: *defaults
