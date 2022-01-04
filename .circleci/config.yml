@@ -28,7 +28,7 @@ jobs:
       - run: yarn test
 
 workflows:
-  test_my_app:
+  test_build_app:
     jobs:
       - build:
           filters:  # using regex filters requires the entire branch to match
