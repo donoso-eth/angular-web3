@@ -23,13 +23,13 @@ jobs:
   test:
     <<: *defaults
     steps:
-      - run: yarn run test
+      - run: yarn test
 
  
   build:
     <<: *defaults
     steps:
-      - run: yarn run build
+      - run: yarn build
 
   
 
