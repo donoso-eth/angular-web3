@@ -30,8 +30,8 @@ workflows:
     jobs:
       - install
       - build:
-        requires:
+          requires:
           - install
       - test:
-        requires:
+          requires:
           - build 
