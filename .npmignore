@@ -1,4 +1,1 @@
 
-# Ignores TypeScript files, but keeps definitions.
-*.ts
-!*.d.ts

@@ -1,6 +1,6 @@
 {
   "name": "angularonchain",
-  "version": "0.0.1",
+  "version": "0.0.2-beta3",
   "description": "A schematics developping Angular Dapps",
   "scripts": {
     "build": "tsc -p tsconfig.json",
@@ -8,10 +8,18 @@
     "schema": "cd src/ng-add && npx -p dtsgenerator dtsgen schema.json -o schema.d.ts"
   },
   "keywords": [
-    "schematics"
+    "angular",
+    "ng add",
+    "blockchain",
+    "ethereum",
+    "polygon"
   ],
   "ng-add": {
     "save": false
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jdonosocoding/angularonchain"
   },
   "author": "@jdonoso_coding",
   "license": "MIT",
@@ -19,6 +27,7 @@
   "dependencies": {
     "@angular-devkit/core": "^13.1.2",
     "@angular-devkit/schematics": "^13.1.2",
+    "@schematics/angular": "^13.1.2",
     "typescript": "~4.5.2"
   },
   "devDependencies": {

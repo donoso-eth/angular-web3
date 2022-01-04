@@ -1,0 +1,42 @@
+version: "2.1"
+orbs:
+  node: circleci/node@5.0.0
+jobs:
+  build:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - checkout
+      - node/install:
+          install-yarn: true
+          node-version: "16.13"
+      - run: node --version
+      - run: yarn --version
+      - run: yarn install  --ignore-engines
+      - run: yarn build
+  test:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - checkout
+      - node/install:
+          install-yarn: true
+          node-version: "16.13"
+      - run: node --version
+      - run: yarn --version
+      - run: yarn install  --ignore-engines
+      - run: yarn test
+
+workflows:
+  test_build_app:
+    jobs:
+      - build:
+          filters:  # using regex filters requires the entire branch to match
+            branches:
+              only:  # only branches matching the below regex filters will run
+                - release
+      - test:
+          filters:  # using regex filters requires the entire branch to match
+            branches:
+              only:  # only branches matching the below regex filters will run
+                - release

@@ -2,7 +2,8 @@ Thanks to  @austingriffit for crafting the awesome [Scaffold-eth](https://github
 
 
 # ⛓️  AngularOnChain
-
+[![CircleCI branch](https://img.shields.io/circleci/project/github/jdonosocoding/angularonchain/main.svg?label=build)](https://circleci.com/gh/jdonosocoding/angularonchain) [![CircleCI branch](https://img.shields.io/circleci/project/github/jdonosocoding/angularonchain/main.svg?label=test)](https://circleci.com/gh/jdonosocoding/angularonchain) [![latest](https://img.shields.io/npm/v/angularonchain/latest.svg)](https://npmjs.com/package/angularonchain) 
+[![License](https://img.shields.io/npm/l/@ampgular/cli.svg)](/LICENSE) 
 <p align="center">
   <img src="docs/images/angular_on_chain.png"  alt="[Angular On Chain" width="350" title="[Angular On Chaint">
 </p>
@@ -35,7 +36,7 @@ Superpower the angular superdevs with the best and easy to use tools for get up 
 
 # 🏄‍♂️ Quick Start
 
-Prerequisites: [Node](https://nodejs.org/en/download/) plus [Yarn](https://classic.yarnpkg.com/en/docs/install/) or [Npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) and [Git](https://git-scm.com/downloads)
+Prerequisites an **Angular project** to install the schematics
 
 ### 1) Add the angularonchain schematics package to your project  
 
@@ -43,7 +44,7 @@ Prerequisites: [Node](https://nodejs.org/en/download/) plus [Yarn](https://class
 ng add angularonchain
 ```
   &nbsp;  
-### 2) Choose installation Options:
+### 2) chose installation Options:
 The package will prompt the options for configuration  
 - Project name: if not provided, the angular,json default project will be taken
 - Demo Dapp to be installed. The roadmap shows the plan to add additional demo Dapps, for the time being only "Hello on Chan
@@ -82,19 +83,60 @@ npm run deploy:localhost
  &nbsp;  
 
 ### 4) Your demo App:  
- &nbsp; 
+Our target is to upload every two weeks a new Demo App till we have around 10 dapps showcasing major use cases.
 
+For the time being, we have only available the first one: **hello chain angular dapp** 
+&nbsp; 
+- **Hardhat file structure**.
+The schematics package will scaffold the required hardhat config:  
+
+<p align="center">
+  <img src="docs/images/hardhat_files.png"  alt="[Angular On Chain" width="350" title="Angular On Chaint">
+</p>
+
+Will do the wiring with the contracts artifacts moving the required artifacts and json files to the assets folder  
+
+ &nbsp;
+ - **Dapp Demo Feature module**.
+ It will also scaffold a angular module with the use case chosen. In our case the the "hello world on chain module"
+<p align="center">
+  <img src="docs/images/feature_dapp.png"  alt="Feature Dapp Module" width="350" title="Feature Dapp Module">
+</p>
+The next steps are: 
+
+    - Importing the feature module in the respective module (for instance AppModule)
+    - Copy the selector of the exported featuremodule component into the chosen component .html   
+ &nbsp;
+ - **typings.d.ts** file.  
+  We The contract interface .abi file and the contract address will be directly imported through json files, we require to have following lines of code in your typings.d.ts file:  
+  ```javascript
+declare var module: NodeModule;
+    interface NodeModule {
+    id: string;
+}
+
+declare module "*.json" {
+    const value: any;
+    export default value;
+}   
+```
+In the case that no typings.d.ts file is available, the schematics package will create it.
+ &nbsp;
+ ```
+ng serve
+```
+ &nbsp;
 # 📚 Documentation
 
 As per [Scaffold-eth](https://github.com/scaffold-eth/scaffold-eth), find a non exhaustive list of ressources to learn solidity, inlcuding the [Scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) resources  
 Documentation, tutorials, challenges, and many more resources, visit: [docs.scaffoldeth.io](https://docs.scaffoldeth.io)  
  &nbsp; 
 
-For quickstarters we recommend learning the basics of **ethers** and **solidity**, ethers is the library used for interacting bewtween the app and the blockchain and solidity is the choosen languaje for dreating **smart contracts**  
+For quickstarters we recommend learning the basics of **ethers** and **solidity**, ethers is the library used for interacting bewtween the app and the blockchain and solidity is the chosen languaje for dreating **smart contracts**  
 &nbsp; 
 
 # 🔭 Learning ethers.js
-ethers,js and web3,js are the most popular libraries to interactact with the blockchain, we have choosen ether for our project, the main reason is the separation of concern of providers and signers. A very instructive video can be seen at [ethers.js: A Complete, Tiny and Simple Ethereum Library in JavaScript by Richard Moore](https://www.youtube.com/watch?v=r1ldSzcqaHo)  
+ethers,js and web3,js are the most popular libraries to interactact with the blockchain, we have chosen ether for our project, the main reason is the separation of concern of providers and signers. A very instructive video can be seen at [ethers.js: A Complete, Tiny and Simple Ethereum Library in JavaScript by Richard Moore](https://www.youtube.com/watch?v=r1ldSzcqaHo)  
 &nbsp;  
 Follow the [Getting Started guide](https://docs.ethers.io/v5/getting-started/) with special interest in understanding the main three concepts within the common terminology:
 <p align="center">
@@ -133,7 +175,33 @@ Minimal code snippet
 
 
 &nbsp; 
-# 🔭 Learning Solidity
+# 🔭 Learning Solidity  
+Minimal code snippet our our hello world dapp, get a first solidity flavour!
+
+```javascript
+//SPDX-License-Identifier: Unlicense
+pragma solidity ^0.8.0;
+
+import "hardhat/console.sol";
+
+contract DemoContract {
+    string private greeting;
+
+    constructor(string memory _greeting) {
+        console.log("Deploying a Smart Contract with greeting:", _greeting);
+        greeting = _greeting;
+    }
+
+    function greet() public view returns (string memory) {
+        return greeting;
+    }
+
+    function setGreeting(string memory _greeting) public {
+        console.log("Changing greeting from '%s' to '%s'", greeting, _greeting);
+        greeting = _greeting;
+    }
+}
+```
 
 📕 Read the docs: https://docs.soliditylang.org
 

@@ -14,16 +14,14 @@
       "type": "string",
       "description": "description",
       "uniqueItems": true,
-      "default":"Hello Dapp World",
+      "default":"hello",
       "enum": ["hello","debug","nft"],
       "x-prompt": {
         "message": "Which dapp would you like to start with?",
         "type": "list",
         "multiselect": false,
         "items": [
-          {"value":"hello","label":"Hello Dapp World"},
-          {"value":"debug","label":"Debug Contract"},
-          {"value":"nft","label":"NFT Creation"}
+          {"value":"hello","label":"Hello Dapp World"}
         ]
       },
       "required": [
