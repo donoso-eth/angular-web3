@@ -13,7 +13,7 @@ jobs:
       - run: node --version
       - run: yarn --version
       - run: yarn install  --ignore-engines
-      - run: yarn test  --ignore-engines
+      - run: yarn test
   test:
     docker:
       - image: "cimg/base:stable"
