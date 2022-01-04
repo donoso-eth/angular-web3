@@ -10,7 +10,6 @@ var_1: &docker_image circleci/node:7.10
 anchor_1: &defaults
   docker:
     - image: *docker_image
-  working_directory: ~/.
 # After checkout, rebase on top of target branch.
 anchor_2: &post_checkout
   run:
@@ -44,13 +43,13 @@ jobs:
   test:
     <<: *defaults
     steps:
-      - run: npm run test 
+      - run: ./npm run test 
 
  
   build:
     <<: *defaults
     steps:
-      - run: npm run build
+      - run: ./npm run build
 
   
 
