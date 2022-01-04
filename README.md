@@ -2,7 +2,8 @@ Thanks to  @austingriffit for crafting the awesome [Scaffold-eth](https://github
 
 
 # ⛓️  AngularOnChain
-
+[![CircleCI branch](https://img.shields.io/circleci/project/github/jdonosocoding/angularonchain/main.svg?label=circleci)](https://circleci.com/gh/jdonosocoding/angularonchain) [![latest](https://img.shields.io/npm/v/angularonchain/latest.svg)](https://npmjs.com/package/angularonchain) 
+[![License](https://img.shields.io/npm/l/@ampgular/cli.svg)](/LICENSE) 
 <p align="center">
   <img src="docs/images/angular_on_chain.png"  alt="[Angular On Chain" width="350" title="[Angular On Chaint">
 </p>
