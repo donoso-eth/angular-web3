@@ -10,21 +10,6 @@ var_1: &docker_image circleci/node:7.10
 anchor_1: &defaults
   docker:
     - image: *docker_image
-# After checkout, rebase on top of target branch.
-anchor_2: &post_checkout
-  run:
-    name: Rebase PR on target branchmaster
-    command: >
-      if [[ -n "${CIRCLE_PR_NUMBER}" ]]; then
-        # User is required for rebase.
-        git config user.name "jdonosocoding"	
-        git config user.name "jdonosocoding"	
-        git config user.email "ampgular"      
-        # Rebase PR on top of target branch.
-        node tools/rebase-pr.jsjdonosocoding/angularonchain ${CIRCLE_PR_NUMBER}
-      else
-        echo "This build is not over a PR, nothing to do."
-      fi
 
 # Job definitions
 version: 2
@@ -33,23 +18,18 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - *post_checkout
       - run: yarn install --frozen-lockfile  --ignore-engines
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ./*
 
   test:
     <<: *defaults
     steps:
-      - run: ls
+      - run: npm run test
 
  
   build:
     <<: *defaults
     steps:
-      - run: ls
+      - run: npm run build
 
   
 
