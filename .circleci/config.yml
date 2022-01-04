@@ -19,8 +19,19 @@ jobs:
       - image: "cimg/base:stable"
     steps:
       - run: yarn test
+  build:
+    docker:
+      - image: "cimg/base:stable"
+    steps:
+      - run: yarn build
 
 workflows:
   test_my_app:
     jobs:
-      - install-node-example
+      - install
+      - build:
+        requires:
+          - install
+      - test:
+        requires:
+          - build 
