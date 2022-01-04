@@ -7,12 +7,12 @@ jobs:
       - image: 'cimg/base:stable'
     steps:
       - checkout
-      - run: yarn install
+      - run: npm install
   test:
     docker:
       - image: 'cimg/base:stable'
     steps:
-      - run: yarn test
+      - run: npm run test
 
 workflows:
   test_my_app:
