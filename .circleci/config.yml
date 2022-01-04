@@ -30,5 +30,13 @@ jobs:
 workflows:
   test_my_app:
     jobs:
-      - build
-      - test
+      - build:
+          filters:  # using regex filters requires the entire branch to match
+            branches:
+              only:  # only branches matching the below regex filters will run
+                - release
+      - test:
+          filters:  # using regex filters requires the entire branch to match
+            branches:
+              only:  # only branches matching the below regex filters will run
+                - release
