@@ -10,7 +10,7 @@ var_1: &docker_image circleci/node:7.10
 anchor_1: &defaults
   docker:
     - image: *docker_image
-  working_directory: ~/repo
+  working_directory: ~/.
 # After checkout, rebase on top of target branch.
 anchor_2: &post_checkout
   run:
