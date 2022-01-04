@@ -1,22 +1,22 @@
-version: '2.1'
-orbs: 
+version: "2.1"
+orbs:
   node: circleci/node@5.0.0
 jobs:
   install-node-example:
     docker:
-      - image: 'cimg/base:stable'
+      - image: "cimg/base:stable"
     steps:
       - checkout
       - node/install:
           install-yarn: true
-          node-version: '16.13'
+          node-version: "16.13"
       - run: node --version
       - run: yarn --version
       - run: yarn install  --ignore-engines
-      - run: yarn test
+      - run: yarn test  --ignore-engines
   test:
     docker:
-      - image: 'cimg/base:stable'
+      - image: "cimg/base:stable"
     steps:
       - run: yarn test  --ignore-engines
 
