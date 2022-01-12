@@ -1,0 +1,13 @@
+.blockchain_is_busy {
+    animation: spinHorizontal 2s infinite linear;
+    filter: hue-rotate(
+220deg
+);
+
+}
+
+@keyframes spinHorizontal {
+    0% { transform: rotate(0deg) }
+    50% { transform: rotate(360deg)  }
+    100% { transform: rotate(0deg) }
+}

@@ -1,0 +1,56 @@
+<div  *ngIf="abi_input !== undefined" style="
+    background: #f5f5f5;
+    padding: 0px 10px 10px;
+    margin: 10px;
+    border-width: 1px;
+    border-style: solid;; 
+
+    width: 300px" [style.border-color]="abi_input.stateMutability == 'payable'? 
+    'red' : abi_input.stateMutability == 'view' ? 'green' : 'blue'" >
+  <h3 style="margin-top: unset;font-weight: 500;">{{ abi_input.name }}</h3>
+  <div style="padding: 15px; text-align: center;">
+    <form style="width: 100%" [formGroup]="input_form">
+      <input style="
+          width: 100%;
+          margin: 2px 0px;
+          height: 40px;
+          border: 1px solid gainsboro;
+        " formControlName="{{ myInput.name }}" placeholder="{{ myInput.name }}"
+        *ngFor="let myInput of abi_input.inputs" />
+    </form>
+    <div *ngIf="abi_input.stateMutability == 'payable'">
+      <mat-form-field floatLabel="always" style="
+          background: rgb(255 114 47 / 58%);
+          margin: 5px 0;
+          width: 100%;
+        " class="example-full-width" appearance="fill">
+        <mat-label>Ether</mat-label>
+        <input type="number" matInput [formControl]="payable_input" placeholder="0" class="example-right-align" />
+        <span matSuffix>&nbsp;ETH</span>
+      </mat-form-field>
+    </div>
+
+    <button (click)="runMyFunction()" *ngIf="
+        abi_input.inputs.length == 0 && abi_input.stateMutability == 'view';
+        else runFunction" mat-mini-fab color="accent" style="margin:auto">
+      <mat-icon aria-hidden="false" aria-label="Example home icon">refresh</mat-icon>
+    </button>
+    <ng-template #runFunction>
+      <button (click)="runMyFunction()" mat-mini-fab color="accent">
+        <mat-icon aria-hidden="false" aria-label="Example home icon">play_arrow</mat-icon>
+      </button>
+    </ng-template>
+    <div *ngIf="abi_input.stateMutability == 'view' || abi_input.stateMutability == 'pure'">
+      <span *ngFor="let label of labels"  style="
+      width: 100%;
+    display: block;
+    margin: 10px 0px;
+    height: 40px;
+    font-size: 16px;
+    line-height: 40px;
+    border: 1px solid #ffffff;
+    background: #9acf3261;
+    " >{{ label }}</span>
+   </div>
+  </div>
+</div>
