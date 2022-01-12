@@ -3,20 +3,29 @@ pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
 
-contract DemoContract {
+contract HelloWorldOnChain {
     string private greeting;
-
+    string public testpublic = 'ahora public';
+    event SetPurpose(uint purpose,address sender);
+    
     constructor(string memory _greeting) {
-        console.log("Deploying a Greeter hola  with greeting:", _greeting);
+        console.log("Deploying a Greeter with greeting:", _greeting);
         greeting = _greeting;
     }
 
+
+    
+    
     function greet() public view returns (string memory) {
+    
         return greeting;
     }
 
-    function setGreeting(string memory _greeting) public {
-        console.log("Changing greeting from '%s' to '%s'", greeting, _greeting);
+    function setGreeting(string memory _greeting) public payable {
+      
         greeting = _greeting;
     }
+
+    receive() external payable {
+}
 }
