@@ -1,10 +1,11 @@
 import { normalize } from "@angular-devkit/core";
 import { Tree, Rule, url, applyTemplates, move, mergeWith, MergeStrategy, chain, apply } from "@angular-devkit/schematics";
+import { IOPTIONS_EXTENDED } from "./schema";
 
-import { IOPTIONS_EXTENDED } from ".";
+
 
 export const  createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
-    console.log(options)
+ 
     const templateRules = [];
     const templateSource = apply(url("./files/common"), [
       applyTemplates({ sourceRoot:options.sourceRoot }),
@@ -32,7 +33,7 @@ export const  createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
   
       const templateHardhat = apply(
         url("./files/0-hello-world-on-chain/hardhat"),
-        [applyTemplates({}), move(normalize(`/`))]
+        [applyTemplates({ sourceRoot:options.sourceRoot }), move(normalize(`/`))]
       );
       templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
     } else if (options.configuration == "debugContract") {
@@ -44,7 +45,7 @@ export const  createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
   
       const templateHardhat = apply(
         url("./files/0-hello-world-on-chain/hardhat"),
-        [applyTemplates({}), move(normalize(`/`))]
+        [applyTemplates({ sourceRoot:options.sourceRoot}), move(normalize(`/`))]
       );
       templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
     } 

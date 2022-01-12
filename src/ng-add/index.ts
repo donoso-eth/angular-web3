@@ -15,28 +15,19 @@ import {
   Tree,
   url,
 } from "@angular-devkit/schematics";
-import { devDeps } from "./data/dep";
-import { ngadd_scritps } from "./data/scripts";
-import { addPackageToDevPackageJson } from "./helpers/add_dependencies";
-import { adScriptsToPackageJson } from "./helpers/add_scripts";
-import { IOPTIONS } from "./schema";
+
+
+
+import { IOPTIONS, IOPTIONS_EXTENDED } from "./schema";
 import { createFiles } from "./createFiles";
-
-export interface IOPTIONS_EXTENDED extends IOPTIONS{
-  sourceRoot?:string
-}
-
-//import {hardhat_config} from './data/hardhar.config'
-
-// You don't have to export the function as default. You can also have more than one rule factory
-// per file.
-
+import { addAndinstallDependencies } from "./addAndInstallDependencies";
+import { adScriptsToPackageJson } from "./addScriptsToPackageJson";
 
 
 
 /** Adds a package to the package.json in the given host tree. */
 
-export function setupOptions(host: Tree, options: IOPTIONS_EXTENDED): Tree {
+export function setupOptions(host: Tree, _options: IOPTIONS_EXTENDED): Tree {
   let workspaceConfig;
 
   workspaceConfig = JSON.parse(host.read("angular.json")!.toString("utf-8"));
@@ -52,7 +43,7 @@ export function setupOptions(host: Tree, options: IOPTIONS_EXTENDED): Tree {
     throw new SchematicsException("Not Angualar Projects Available");
   }
 
-  if (options.project == "default") {
+  if (_options.project == "default") {
     const project_keys = Object.keys(workspaceConfig.projects);
 
     if (workspaceConfig.default == undefined) {
@@ -65,42 +56,29 @@ export function setupOptions(host: Tree, options: IOPTIONS_EXTENDED): Tree {
       }
     }
   } else {
-    project = workspaceConfig.projects[options.project];
+    project = workspaceConfig.projects[_options.project];
 
     if (project == undefined) {
       throw new SchematicsException("Default project Not Available");
     }
   }
 
-  options.sourceRoot = project.sourceRoot;
+  _options.sourceRoot = project.sourceRoot;
 
   return host;
 }
 
-function installDependencies(): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
-    _context.addTask(new NodePackageInstallTask());
-    _context.logger.debug("✅️ Dependencies installed");
-    return tree;
-  };
-}
 
-export function ngAdd(options: IOPTIONS_EXTENDED): Rule {
+export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
   return chain([
     (tree: Tree, _context: SchematicContext) => {
-      setupOptions(tree, options);
+      setupOptions(tree, _options);
     },
     (tree: Tree, _context: SchematicContext) => {
-      return createFiles(tree, options);
+      return createFiles(tree, _options);
     },
+    adScriptsToPackageJson(_options),
+    addAndinstallDependencies(_options),
 
-    (tree: Tree, _context: SchematicContext) => {
-      adScriptsToPackageJson(tree, ngadd_scritps);
-      addPackageToDevPackageJson(tree, devDeps);
-
-      return tree;
-    },
-
-    installDependencies(),
   ]);
 }

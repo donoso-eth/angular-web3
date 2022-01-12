@@ -17,7 +17,7 @@ interface ICONTRACT_DEPLOY {
   jsonName:string
 }
 
-const contract_path_relative = '../src/assets/contracts/';
+const contract_path_relative = '../<%= sourceRoot %>/assets/contracts/';
 const processDir = process.cwd()
 const contract_path = join(processDir,contract_path_relative)
 ensureDir(contract_path)
