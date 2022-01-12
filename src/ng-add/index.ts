@@ -19,50 +19,24 @@ import { devDeps } from "./data/dep";
 import { ngadd_scritps } from "./data/scripts";
 import { addPackageToDevPackageJson } from "./helpers/add_dependencies";
 import { adScriptsToPackageJson } from "./helpers/add_scripts";
-import { ThrowStatement } from "typescript";
+import { IOPTIONS } from "./schema";
+import { createFiles } from "./createFiles";
+
+export interface IOPTIONS_EXTENDED extends IOPTIONS{
+  sourceRoot?:string
+}
 
 //import {hardhat_config} from './data/hardhar.config'
 
 // You don't have to export the function as default. You can also have more than one rule factory
 // per file.
 
-let sourceRoot: string;
-let sourceApp;
 
-function createFiles(host: Tree, options: any): Rule {
- 
-  const templateRules = [];
-  const templateSource = apply(url("./files/common"), [
-    applyTemplates({ sourceRoot }),
-    move(normalize(`/`)),
-  ]);
 
-  templateRules.push(
-    mergeWith(templateSource, MergeStrategy.AllowCreationConflict)
-  );
 
-  if (!host.exists("src/typings.d.ts")) {
-    const templateTypings = apply(url("./files/typings"), [
-      applyTemplates({}),
-      move(normalize(`/src/`)),
-    ]);
-    templateRules.push(mergeWith(templateTypings));
-  }
- 
-  if (options.configuration == "hello") {
-   
-    const templateBasics = apply(url("./files/hello"), [
-      applyTemplates({}),
-      move(normalize(`/${sourceRoot}/app/`)),
-    ]);
-    templateRules.push(mergeWith(templateBasics,MergeStrategy.Overwrite));
-  }
-
-  return chain(templateRules);
-}
 /** Adds a package to the package.json in the given host tree. */
 
-export function setupOptions(host: Tree, options: any): Tree  {
+export function setupOptions(host: Tree, options: IOPTIONS_EXTENDED): Tree {
   let workspaceConfig;
 
   workspaceConfig = JSON.parse(host.read("angular.json")!.toString("utf-8"));
@@ -98,7 +72,7 @@ export function setupOptions(host: Tree, options: any): Tree  {
     }
   }
 
-  sourceRoot = project.sourceRoot;
+  options.sourceRoot = project.sourceRoot;
 
   return host;
 }
@@ -111,9 +85,7 @@ function installDependencies(): Rule {
   };
 }
 
-export function ngAdd(options: any): Rule {
- 
-
+export function ngAdd(options: IOPTIONS_EXTENDED): Rule {
   return chain([
     (tree: Tree, _context: SchematicContext) => {
       setupOptions(tree, options);
@@ -123,13 +95,12 @@ export function ngAdd(options: any): Rule {
     },
 
     (tree: Tree, _context: SchematicContext) => {
- 
       adScriptsToPackageJson(tree, ngadd_scritps);
       addPackageToDevPackageJson(tree, devDeps);
-  
+
       return tree;
     },
-   
+
     installDependencies(),
   ]);
 }

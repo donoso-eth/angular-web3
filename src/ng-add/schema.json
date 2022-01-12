@@ -14,19 +14,27 @@
       "type": "string",
       "description": "description",
       "uniqueItems": true,
-      "default":"hello",
-      "enum": ["hello","debug","nft"],
+      "default":"helloWorld",
+      "enum": ["hello","debugContract"],
       "x-prompt": {
         "message": "Which dapp would you like to start with?",
         "type": "list",
         "multiselect": false,
         "items": [
-          {"value":"hello","label":"Hello Dapp World"}
+          {"value":"helloWorld","label":"Hello Dapp World"},
+          {"value":"debugContract","label":"Debug and Contract"}
         ]
-      },
-      "required": [
-        "configuration"
-      ]
-    }
+      }
+  },
+  "skipInstall": {
+    "description": "skipInstall",
+    "type": "boolean",
+    "default": "false"
+  },
+  "alreadyInstalled": {
+    "description": "skipInstall",
+    "type": "boolean",
+    "default": "false"
   }
+}
 }
