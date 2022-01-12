@@ -60,6 +60,8 @@ describe("Initilization", () => {
   });
 
   it("changes Deploy Contract", async () => {
+    const existing_deploy_file = appTree.readContent("hardhat/scripts/deploy.ts");
+    expect(existing_deploy_file).toContain(`const deployContracts=["helloWorld"]`);
     const tree = await schematicRunner
       .runSchematicAsync(
         "ng-add",
@@ -67,44 +69,18 @@ describe("Initilization", () => {
         appTree
       )
       .toPromise();
-
-    expect(tree.files.length).toBeGreaterThan(2);
+   
+      const new_deploy_file = tree.readContent("hardhat/scripts/deploy.ts");
+      expect(new_deploy_file).toContain(`const deployContracts=["debugContract"]`);
   });
 
-  it("Creates Hardhat Config File", async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync("ng-add", {}, appTree)
-      .toPromise();
-
-    expect(tree.exists("hardhat/hardhat.config.ts")).toBeTrue();
-  });
-
-  it("Hardhat Config File contains assets path", async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync("ng-add", {}, appTree)
-      .toPromise();
-    const hardhat_config_file = tree.readContent("hardhat/hardhat.config.ts");
-    expect(hardhat_config_file).toContain("src/assets");
-  });
 
   it("Add dependencies", async () => {
     const tree = await schematicRunner
       .runSchematicAsync("ng-add", {}, appTree)
       .toPromise();
     const packageJson = tree.read("package.json")!.toString("utf-8");
-
-    expect(packageJson).toContain("hardhat");
-  });
-
-  it("Add scripts", async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync("ng-add", {}, appTree)
-      .toPromise();
-    const packageJson = tree.read("package.json")!.toString("utf-8");
-
-    expect(packageJson).toContain(
-      `"compile": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json compile"`
-    );
+    expect(packageJson.includes("hardhat")).toBeFalse();
   });
 
   // it("Hello app creates Hello world chain module", async () => {

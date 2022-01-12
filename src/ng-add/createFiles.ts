@@ -5,7 +5,7 @@ import { IOPTIONS_EXTENDED } from "./schema";
 
 
 export const  createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
- 
+
     const templateRules = [];
     const templateSource = apply(url("./files/common"), [
       applyTemplates({ sourceRoot:options.sourceRoot }),
@@ -33,22 +33,23 @@ export const  createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
   
       const templateHardhat = apply(
         url("./files/0-hello-world-on-chain/hardhat"),
-        [applyTemplates({ sourceRoot:options.sourceRoot }), move(normalize(`/`))]
+        [applyTemplates({ sourceRoot:options.sourceRoot }), move(normalize(`/hardhat/`))]
       );
       templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
     } else if (options.configuration == "debugContract") {
-      const templateApp = apply(url("./files/0-hello-world-on-chain/demo-app"), [
+
+        const templateApp = apply(url("./files/1-contract-debug/demo-app"), [
         applyTemplates({}),
         move(normalize(`/${options.sourceRoot}/app/dapp/`)),
       ]);
       templateRules.push(mergeWith(templateApp, MergeStrategy.Overwrite));
   
       const templateHardhat = apply(
-        url("./files/0-hello-world-on-chain/hardhat"),
-        [applyTemplates({ sourceRoot:options.sourceRoot}), move(normalize(`/`))]
+        url("./files/1-contract-debug/hardhat"),
+        [applyTemplates({ sourceRoot:options.sourceRoot}), move(normalize(`/hardhat/`))]
       );
       templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
     } 
-  
+    
     return chain(templateRules);
   }

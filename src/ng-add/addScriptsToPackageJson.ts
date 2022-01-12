@@ -20,6 +20,9 @@ function sortObjectByKeys(obj: Record<string, string>) {
 
 export const adScriptsToPackageJson = (_options: IOPTIONS_EXTENDED): Rule => {
   return (host: Tree, _context: SchematicContext) => {
+
+    if (_options.alreadyInstalled == false) {
+
     if (host.exists("package.json") == false) {
       host.create("package.json", "{}");
     }
@@ -38,6 +41,6 @@ export const adScriptsToPackageJson = (_options: IOPTIONS_EXTENDED): Rule => {
 
     json.scripts = sortObjectByKeys(json.scripts);
     host.overwrite("package.json", JSON.stringify(json, null, 2));
-
+  }
   };
 };
