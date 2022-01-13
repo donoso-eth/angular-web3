@@ -8,7 +8,7 @@ import {
   url,
 } from "@angular-devkit/schematics";
 
-import { IOPTIONS, IOPTIONS_EXTENDED } from "./schema/schema";
+import { IOPTIONS_EXTENDED } from "./schema";
 import { createFiles } from "./createFiles";
 import { addAndinstallDependencies } from "./addAndInstallDependencies";
 import { adScriptsToPackageJson } from "./addScriptsToPackageJson";
@@ -65,7 +65,7 @@ const setupOptions = (host: Tree, _options: IOPTIONS_EXTENDED): Tree => {
 
 const changeContractConfig = (host: Tree, _options: IOPTIONS_EXTENDED): Tree =>{
   
-  const contractConfig =  contract_config;
+  const contractConfig:any =  contract_config;
   if (_options.alreadyInstalled == false) {
     const contractConfigString = JSON.stringify({[_options.configuration]:contractConfig[_options.configuration]})
     host.create("hardhat/contract.config.json", contractConfigString)

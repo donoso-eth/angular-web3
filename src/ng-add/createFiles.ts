@@ -1,6 +1,6 @@
 import { normalize } from "@angular-devkit/core";
 import { Tree, Rule, url, applyTemplates, move, mergeWith, MergeStrategy, chain, apply } from "@angular-devkit/schematics";
-import { IOPTIONS_EXTENDED } from "./schema/schema";
+import { IOPTIONS_EXTENDED } from "./schema";
 
 
 
