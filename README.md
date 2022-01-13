@@ -21,15 +21,15 @@ Superpower the angular superdevs with the best and easy to use tools for get up 
 &nbsp; 
 # ROADMAP
 
-10/01/22 First release npm package with min config: version 0.0.2  
+✔️ 10/01/22 First release npm package with min config: version 0.0.1  👏👏👏
   
-15/01/22 Medium article and tutorial 
+🚧 15/01/22 Medium article and tutorial ----> 20/01/22 ⏱️⏱️⏱️
 
-01/02/22 Release npm package with contract interaction: version 0.0.3
+✔️ 01/02/22 Release npm package with contract interaction: version 0.0.2 ----> 13/01/2022 👏👏👏
 
 ...
 
-01/03/2022 Complete reproduction scaffold-eth as angular schemartics: version 1.0.0  
+01/03/2022 Complete reproduction scaffold-eth as angular schematics: version 1.0.0  
 
  &nbsp; 
 
