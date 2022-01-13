@@ -1,35 +1,37 @@
-import { Injectable } from '@angular/core';
-import { ethers } from 'ethers';
-import { Subject } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { ethers } from "ethers";
+import { ReplaySubject, Subject } from "rxjs";
 
-import { NotifierService } from './components/notifier/notifier.service';
-import { uniswap_abi } from './shared/data/uniswap_abi';
-import { BlockWithTransactions, IBALANCE } from './shared/models';
+import { NotifierService } from "./components/notifier/notifier.service";
+import { uniswap_abi } from "./shared/data/uniswap_abi";
+import { BlockWithTransactions, IBALANCE } from "./shared/models";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class DappInjectorService {
   private _provider: ethers.providers.JsonRpcProvider;
   private _myWallet: ethers.Wallet;
   private _myContract: ethers.Contract;
-  private _metaContract:{address: string, abi:any, name:string}
+  private _metaContract: { address: string; abi: any; name: string };
   private _dollarExchange: number;
   private _signer: ethers.providers.JsonRpcSigner;
 
   public walletBalance = new Subject<IBALANCE>();
   public contractBalance = new Subject<IBALANCE>();
 
-  public blocks = new Subject<Array<BlockWithTransactions>>();
+  public blocks = new ReplaySubject<Array<BlockWithTransactions>>(1);
   private _blocks: Array<BlockWithTransactions> = [];
 
+  public blockchain_busy = new Subject<boolean>();
 
-  public blockchain_busy = new Subject<boolean>()
+  constructor(private notifierService: NotifierService) {}
 
-  constructor(
-    private notifierService:NotifierService
-  ) {
-
+  // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  // #region XXXXXXXXXXXX SETTING INFRASTRUCTURE XXXXXXXXXXXXXX
+  // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  set metaContract(meta) {
+    this._metaContract = meta;
   }
 
   async getProvider() {
@@ -45,17 +47,22 @@ export class DappInjectorService {
     }
     return this._signer;
   }
+  // #endregion XXXXXXXXXXXX SETTING INFRASTRUCTURE XXXXXXXXXXXXXX
+
+  // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  // #region XXXXXXXXXXXX WALLET METHODS XXXXXXXXXXXXXXXXXXXXXX
+  // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
   async getMyWallet() {
     if (this._myWallet == undefined) {
       let wallet: ethers.Wallet;
-      const currentPrivateKey = window.localStorage.getItem('metaPrivateKey');
+      const currentPrivateKey = window.localStorage.getItem("metaPrivateKey");
       if (currentPrivateKey) {
         wallet = new ethers.Wallet(currentPrivateKey);
       } else {
         wallet = ethers.Wallet.createRandom();
         const privateKey = wallet._signingKey().privateKey;
-        window.localStorage.setItem('metaPrivateKey', privateKey);
+        window.localStorage.setItem("metaPrivateKey", privateKey);
       }
       this._myWallet = await wallet.connect(this._provider);
     }
@@ -76,19 +83,18 @@ export class DappInjectorService {
       usd: usdBalance.toFixed(2),
     };
 
-    this.walletBalance.next(local_balance)
-
+    this.walletBalance.next(local_balance);
   }
 
   async getWalletBalance() {
     const wallet = this._myWallet;
     return await wallet.getBalance();
   }
+  // #endregion XXXXXXXXXXXX WALLET METHODS XXXXXXXXXXXXXXXXXXXXXX
 
-
-  set metaContract(meta){
-    this._metaContract = meta
-  }
+  // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  // #region XXXXXXXXXXXX CONTRACT METHODS XXXXXXXXXXXXXXXXXXXX
+  // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
   async getContract() {
     // Contract Address (created while deploying)
@@ -109,7 +115,7 @@ export class DappInjectorService {
     }
 
     let weiBalance = await this._provider.getBalance(this._myContract.address);
-    
+
     // if (weiBalance == undefined){
     //   weiBalance = 0
     // }
@@ -121,27 +127,31 @@ export class DappInjectorService {
       usd: usdBalance.toFixed(2),
     };
 
-    this.contractBalance.next(local_balance)
-
+    this.contractBalance.next(local_balance);
   }
 
   async getContractBalance() {
     const contract = this._myContract;
     return await contract.getBalance();
   }
+  // #endregion XXXXXXXXX CONTRACT METHODS XXXXXXXXXXXXXXXXXXXX
+
+  // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  // #region XXXXXXXXXXXX FUNCTIONS AND TRANSACTIONS XXXXXXXXXX
+  // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
   async runTransactionFunction(contractFunction: (args) => any, args) {
-    this.blockchain_busy.next(true)
+    this.blockchain_busy.next(true);
     let notification_message = {
-      type: 'transaction',
-      txhash: '',
-      bknr: '',
-      from: '',
+      type: "transaction",
+      txhash: "",
+      bknr: "",
+      from: "",
       gas: 0,
-      to: '',
-      value: '',
+      to: "",
+      value: "",
       class: [],
-      message: '',
+      message: "",
     };
 
     try {
@@ -154,12 +164,11 @@ export class DappInjectorService {
       notification_message.bknr = result.blockNumber;
 
       result_tx.value == undefined
-        ? (notification_message.value = '0')
+        ? (notification_message.value = "0")
         : (notification_message.value = result_tx.value.toString());
-      notification_message.class = ['green-snackbar'];
+      notification_message.class = ["green-snackbar"];
     } catch (e) {
-      
-      notification_message.type = 'error';
+      notification_message.type = "error";
       // console.log(e);
       // Accounts for Metamask and default signer on all networks
       let myMessage =
@@ -174,7 +183,6 @@ export class DappInjectorService {
         myMessage = e.message;
       }
 
-
       try {
         let obj = JSON.parse(myMessage);
         if (obj && obj.body) {
@@ -185,13 +193,12 @@ export class DappInjectorService {
         }
       } catch (e) {
         //ignore
-
       }
       notification_message.message = myMessage;
-      notification_message.class = ['red-snackbar'];
-      this.blockchain_busy.next(false)
+      notification_message.class = ["red-snackbar"];
+      this.blockchain_busy.next(false);
     }
-    this.notifierService.showNotification(notification_message)
+    this.notifierService.showNotification(notification_message);
   }
 
   async runContractFunction(contractFunction: (args) => any, args) {
@@ -200,7 +207,7 @@ export class DappInjectorService {
   }
 
   async dispatchContractFunction(contractFunction: (args) => any, args, state) {
-    if (state == 'pure' || state == 'view') {
+    if (state == "pure" || state == "view") {
       return await this.runContractFunction(contractFunction, args);
     } else {
       await this.runTransactionFunction(contractFunction, args);
@@ -208,45 +215,42 @@ export class DappInjectorService {
   }
 
   async doTransaction(tx, who) {
-
-    this.blockchain_busy.next(true)
+    this.blockchain_busy.next(true);
     let notification_message = {
-      type: 'transaction',
-      txhash: '',
-      bknr: '',
-      from: '',
+      type: "transaction",
+      txhash: "",
+      bknr: "",
+      from: "",
       gas: 0,
-      to: '',
-      value: '',
+      to: "",
+      value: "",
       class: [],
-      message: '',
+      message: "",
     };
 
     try {
       let tx_obj;
       let tx_result;
-      if (who == 'signer') {
+      if (who == "signer") {
         tx_obj = await this._signer.sendTransaction(tx);
         tx_result = await tx_obj.wait();
-        
       } else {
         tx_obj = await this._myWallet.sendTransaction(tx);
         tx_result = await tx_obj.wait();
       }
-      const result = tx_result
-        notification_message.txhash = result.transactionHash;
-        notification_message.from = result.from;
-        notification_message.to = result.to;
-        notification_message.gas = result.gasUsed;
-        notification_message.bknr = result.blockNumber;
-  
-        tx_result.value == undefined
-          ? (notification_message.value = '0')
-          : (notification_message.value = tx_result.value.toString());
-        notification_message.class = ['green-snackbar'];
-     
+      const result = tx_result;
+      notification_message.txhash = result.transactionHash;
+      notification_message.from = result.from;
+      notification_message.to = result.to;
+      notification_message.gas = result.gasUsed;
+      notification_message.bknr = result.blockNumber;
+
+      tx_result.value == undefined
+        ? (notification_message.value = "0")
+        : (notification_message.value = tx_result.value.toString());
+      notification_message.class = ["green-snackbar"];
     } catch (e) {
-      notification_message.type = 'error';
+      notification_message.type = "error";
       // console.log(e);
       // Accounts for Metamask and default signer on all networks
       let myMessage =
@@ -261,7 +265,6 @@ export class DappInjectorService {
         myMessage = e.message;
       }
 
-   
       try {
         let obj = JSON.parse(myMessage);
         if (obj && obj.body) {
@@ -272,16 +275,22 @@ export class DappInjectorService {
         }
       } catch (e) {
         //ignore
-   
       }
 
       notification_message.message = myMessage;
-      notification_message.class = ['red-snackbar'];
-      this.blockchain_busy.next(false)
+      notification_message.class = ["red-snackbar"];
+      this.blockchain_busy.next(false);
     }
- 
-    this.notifierService.showNotification(notification_message)
+
+    this.notifierService.showNotification(notification_message);
   }
+
+  // #endregion XXXXXXX FUNCTIONS AND TRANSACTIONS XXXXXXXXXX
+
+
+  // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+  // #region XXXXXXXXXXXX HELPER METHODS XXXXXXXXXXXXXXXXXXXXXX
+  // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
   get dollarExchange() {
     return this._dollarExchange;
@@ -290,14 +299,14 @@ export class DappInjectorService {
   async getDollarEther() {
     const p = await Promise.race(
       [
-        'https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406',
+        "https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406",
         `https://eth-mainnet.alchemyapi.io/v2/oKxs-03sij-U_N0iOlrSsZFr29-IqbuF`,
-        'https://rpc.scaffoldeth.io:48544',
+        "https://rpc.scaffoldeth.io:48544",
       ].map((map) => new ethers.providers.JsonRpcProvider(map))
     );
     const main_provider = await p;
 
-    const uniswapUsdcAddress = '0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc';
+    const uniswapUsdcAddress = "0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc";
     const uniswapAbi = uniswap_abi;
 
     const getUniswapContract = async (address) =>
@@ -326,13 +335,13 @@ export class DappInjectorService {
     return ether_value * this._dollarExchange;
   }
 
+  async getOneMoreBlock(blockNumer) {
+    const block = await this._provider.getBlockWithTransactions(blockNumer);
+    this._blocks.push(block);
+    this.blocks.next(this._blocks);
+  }
 
-async getOneMoreBlock(blockNumer) {
-  const block = await this._provider.getBlockWithTransactions(blockNumer)
-  this._blocks.push(block)
-  this.blocks.next(this._blocks)
-}
-
+   // #endregion XXXXXXXXX HELPER METHODS XXXXXXXXXXXXXXXXXXXXXX
 
   async initDapp() {
     await this.getProvider();
@@ -340,20 +349,15 @@ async getOneMoreBlock(blockNumer) {
     await this.getMyWallet();
     await this.getContract();
     await this.getDollarEther();
-    
 
+    this._provider.on("block", async (log, event) => {
+      this.refreshWalletBalance();
+      this.refreshContractBalance();
+      const block = await this._provider.getBlockWithTransactions(log);
+      this._blocks.unshift(block);
 
-  this._provider.on("block", async (log, event) => {
-    this.refreshWalletBalance()
-    this.refreshContractBalance()
-    const block = await this._provider.getBlockWithTransactions(log)
-    this._blocks.unshift(block)
- 
-    this.blocks.next(this._blocks)
-    this.blockchain_busy.next(false)
- 
-})
-
-
+      this.blocks.next(this._blocks);
+      this.blockchain_busy.next(false);
+    });
   }
 }

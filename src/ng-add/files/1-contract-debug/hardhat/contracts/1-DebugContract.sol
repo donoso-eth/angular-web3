@@ -5,7 +5,6 @@ import "hardhat/console.sol";
 
 contract DebugContract {
     string private greeting;
-    string public testpublic = 'ahora public';
     event SetGreetingEvent(address sender,string new_greeting);
     
     constructor(string memory _greeting) {
@@ -13,8 +12,6 @@ contract DebugContract {
         greeting = _greeting;
     }
 
-
-    
     
     function greet() public view returns (string memory) {
     
