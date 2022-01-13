@@ -117,7 +117,7 @@ export class ContractDebugComponent implements AfterViewInit {
         }
 
         if (value.outputs.length > 0) {
-          componentRef.instance.refreshUi(value.outputs);
+          componentRef.instance.refreshUi(myResult);
         }
       }
     );

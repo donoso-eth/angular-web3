@@ -20,8 +20,8 @@ describe("Debug Contract", function () {
     const debugContract = await DebugContract.deploy("Hello, world!");
     await debugContract.deployed();
     expect(await debugContract.greet()).to.equal("Hello, world!");
+   
     const COMPUTE_RESULT= BigNumber.from(32)
-  
     const result = await debugContract.calculate(4,8)
   
    expect(result).to.equal(COMPUTE_RESULT)

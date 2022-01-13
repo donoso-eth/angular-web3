@@ -201,7 +201,7 @@ export class DappInjectorService {
 
   async dispatchContractFunction(contractFunction: (args) => any, args, state) {
     if (state == 'pure' || state == 'view') {
-      await this.runContractFunction(contractFunction, args);
+      return await this.runContractFunction(contractFunction, args);
     } else {
       await this.runTransactionFunction(contractFunction, args);
     }
