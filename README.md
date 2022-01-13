@@ -23,10 +23,11 @@ Superpower the angular superdevs with the best and easy to use tools for get up 
 
 ✔️ 10/01/22 First release npm package with min config: version 0.0.1  👏👏👏
   
-🚧 15/01/22 Medium article and tutorial ----> 20/01/22 ⏱️⏱️⏱️
+🚧 15/01/22 Medium article and tutorial  
+    (update 13/01/22) ----> 20/01/22 ⏱️⏱️⏱️
 
-✔️ 01/02/22 Release npm package with contract interaction: version 0.0.2 ----> 13/01/2022 👏👏👏
-
+✔️ 01/02/22 Release npm package with contract interaction: version 0.0.2   
+    (update 13/01/22) ----> 13/01/22 👏👏👏
 ...
 
 01/03/2022 Complete reproduction scaffold-eth as angular schematics: version 1.0.0  
@@ -49,13 +50,23 @@ The package will prompt the options for configuration
 - Project name: if not provided, the angular,json default project will be taken
 - Demo Dapp to be installed. The roadmap shows the plan to add additional demo Dapps, for the time being only "Hello on Chan
   - Hello On Chain Dapp
-
+  - Debug Contract  
  &nbsp;  
 
 
  
 ### 3) Initialize your 👷‍ Hardhat chain:
-For start up and running we recommend starting learning and playing with the local node. In the case that you want to deploy to a testnest or mainnet you can skip the next command
+For start up and running we recommend starting learning and playing with the local node. 
+
+&nbsp;**Hardhat file structure**.
+The schematics package will scaffold the required hardhat config:  
+
+<p align="center">
+  <img src="docs/images/hardhat_files.png"  alt="[Angular On Chain" width="350" title="Angular On Chaint">
+</p>
+
+Will do the wiring with the contracts artifacts moving the required artifacts and json files to the assets folder  
+In the case that you want to deploy to a testnest or mainnet you can skip the next command
 
 ```javascript
 npm run node   
@@ -74,29 +85,46 @@ When compiling, the contract artifacts will be created in the angular project as
 
 
 ```javascript
-npm run deploy:localhost
+npm run deploy
 // deploy the smartcontract to the chosen network.
 ```
  If you want to deploy to a testnet/mainnet the api and private key have to be configured within hardhat/hardhat.config.ts
 
+
 💼 You can edit your deployment scripts in `/hardhat/deploy`  
  &nbsp;  
+ 
+Developping in the hardhat network it may be useful to use watch hooks for compiling and deploying, if this is required you can avoid the commands 'compile' and 'deploy' and run in watch mode  
+```javascript
+npm run watch
+// launch compile and deploy in watch mode.
+```
+☠️☠️☠️ Don't do watch mode in mainnet  
+⚠️⚠️⚠️ Take care watching in the testnet, test ether is free but you are required to hace some  
+ &nbsp;  
+ **Testing Solidity Contracts**
+ The schematics also include the hardhat test configuratio and infrastructure for solidity contract testing  
+ &nbsp;
+
+
+```javascript
+npm run contracts:test
+// run the contract tests
+```
+```javascript
+npm run contracts:coverage
+// Contracts solidity test coverage analysis
+```
+
+
+&nbsp;
 
 ### 4) Your demo App:  
 Our target is to upload every two weeks a new Demo App till we have around 10 dapps showcasing major use cases.
 
-For the time being, we have only available the first one: **hello chain angular dapp** 
+For the time being, we have the first two: **Hello World On Chain** and **Debug Contrat**
 &nbsp; 
-- **Hardhat file structure**.
-The schematics package will scaffold the required hardhat config:  
-
-<p align="center">
-  <img src="docs/images/hardhat_files.png"  alt="[Angular On Chain" width="350" title="Angular On Chaint">
-</p>
-
-Will do the wiring with the contracts artifacts moving the required artifacts and json files to the assets folder  
-
- &nbsp;
+;
  - **Dapp Demo Feature module**.
  It will also scaffold a angular module with the use case chosen. In our case the the "hello world on chain module"
 <p align="center">
