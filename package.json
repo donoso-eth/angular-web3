@@ -4,7 +4,7 @@
   "description": "A schematics developping Angular Dapps",
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "npm run build && jasmine src/**/*_spec.js",
+    "test": "npm run build && jasmine src//ng-add/tests/**/*_spec.js",
     "schema": "cd src/ng-add && npx -p dtsgenerator dtsgen schema.json -o schema.d.ts"
   },
   "keywords": [

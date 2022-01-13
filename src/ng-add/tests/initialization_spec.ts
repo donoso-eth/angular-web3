@@ -47,7 +47,7 @@ describe("Initilization", () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         "ng-add",
-        { project: "default", configuration: "hello" },
+        { project: "default", configuration: "helloWorld" },
         appTree
       )
       .toPromise();
@@ -57,15 +57,25 @@ describe("Initilization", () => {
 
   it("Creates Hardhat Config File", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add", {}, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorld" }, appTree)
       .toPromise();
 
     expect(tree.exists("hardhat/hardhat.config.ts")).toBeTrue();
   });
 
+
+  it("Creates Contract JSON Config File", async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorld" }, appTree)
+      .toPromise();
+
+    expect(tree.exists("hardhat/contract.config.json")).toBeTrue();
+  });
+
+
   it("Hardhat Config File contains assets path", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add", {}, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorld" }, appTree)
       .toPromise();
     const hardhat_config_file = tree.readContent("hardhat/hardhat.config.ts");
 
@@ -74,7 +84,7 @@ describe("Initilization", () => {
 
   it("Add dependencies", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add", {}, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorld" }, appTree)
       .toPromise();
     const packageJson = tree.read("package.json")!.toString("utf-8");
 
@@ -83,7 +93,7 @@ describe("Initilization", () => {
 
   it("Add scripts", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add", {}, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorld" }, appTree)
       .toPromise();
     const packageJson = tree.read("package.json")!.toString("utf-8");
 

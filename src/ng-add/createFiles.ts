@@ -14,7 +14,7 @@ export const  createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
     if (options.alreadyInstalled == false) {
     const templateCommonHardhat = apply(url("./files/common/hardhat"), [
       applyTemplates({ sourceRoot:options.sourceRoot }),
-      move(normalize(`/`)),
+      move(normalize(`/hardhat/`)),
     ]);
   
     templateRules.push(
@@ -43,7 +43,7 @@ export const  createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
     if (options.configuration == "helloWorld") {
       const templateApp = apply(url("./files/0-hello-world-on-chain/demo-app"), [
         applyTemplates({}),
-        move(normalize(`/${options.sourceRoot}/app/dapp/`)),
+        move(normalize(`/${options.sourceRoot}/app/dapp/demos/`)),
       ]);
       templateRules.push(mergeWith(templateApp, MergeStrategy.Overwrite));
   
@@ -56,7 +56,7 @@ export const  createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
 
         const templateApp = apply(url("./files/1-contract-debug/demo-app"), [
         applyTemplates({}),
-        move(normalize(`/${options.sourceRoot}/app/dapp/`)),
+        move(normalize(`/${options.sourceRoot}/app/dapp/demos/`)),
       ]);
       templateRules.push(mergeWith(templateApp, MergeStrategy.Overwrite));
   
