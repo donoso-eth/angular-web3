@@ -1,6 +1,6 @@
 import { Rule, SchematicContext, Tree } from "@angular-devkit/schematics";
 import { ngadd_scritps } from "./data/scripts";
-import { IOPTIONS_EXTENDED } from "./schema";
+import { IOPTIONS_EXTENDED } from "./schema/schema";
 
 const scripts:any = ngadd_scritps;
 

@@ -8,7 +8,7 @@ import {
   url,
 } from "@angular-devkit/schematics";
 
-import { IOPTIONS, IOPTIONS_EXTENDED } from "./schema";
+import { IOPTIONS, IOPTIONS_EXTENDED } from "./schema/schema";
 import { createFiles } from "./createFiles";
 import { addAndinstallDependencies } from "./addAndInstallDependencies";
 import { adScriptsToPackageJson } from "./addScriptsToPackageJson";

@@ -15,7 +15,7 @@
       "description": "description",
       "uniqueItems": true,
       "default":"helloWorld",
-      "enum": ["hello","debugContract"],
+      "enum": ["helloWorld","debugContract"],
       "x-prompt": {
         "message": "Which dapp would you like to start with?",
         "type": "list",

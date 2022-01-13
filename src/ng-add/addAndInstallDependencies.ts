@@ -1,7 +1,7 @@
 import { Rule, Tree, SchematicContext } from "@angular-devkit/schematics";
 import { NodePackageInstallTask } from "@angular-devkit/schematics/tasks";
 import { devDeps, devs } from "./data/dep";
-import { IOPTIONS_EXTENDED } from "./schema";
+import { IOPTIONS_EXTENDED } from "./schema/schema";
 
 interface PackageJson {
     dependencies: Record<string, string>;
