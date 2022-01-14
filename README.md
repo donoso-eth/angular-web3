@@ -1,4 +1,4 @@
-Thanks to  @austingriffit for crafting the awesome [Scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) project. This projects aims to reproduce with angular tooling the same experience as scaffold-sth produce for react devs
+Thanks to  @austingriffith for crafting the awesome [Scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) project. This projects aims to reproduce with angular tooling the same experience as scaffold-sth produce for react devs
 
 
 # ⛓️  AngularOnChain
@@ -37,8 +37,15 @@ Superpower the angular superdevs with the best and easy to use tools for get up 
 
 # 🏄‍♂️ Quick Start
 
-Prerequisites an **Angular project** to install the schematics
-
+Prerequisites: 
+To be in an **Angular project** and have installed angular material  
+  
+   ```bash
+  ng new my-awesome-angular-dapp  
+  ng add @angular/material
+``` 
+Angualar material is only required dor the demo-apps embedded achieveing fast mock up.   
+  &nbsp;  
 ### 1) Add the angularonchain schematics package to your project  
 
 ```bash
