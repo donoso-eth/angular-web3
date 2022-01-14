@@ -2,7 +2,9 @@ Thanks to  @austingriffith for crafting the awesome [Scaffold-eth](https://githu
 
 
 # ⛓️  AngularOnChain
-[![CircleCI branch](https://img.shields.io/circleci/project/github/jdonosocoding/angularonchain/main.svg?label=build)](https://circleci.com/gh/jdonosocoding/angularonchain) [![CircleCI branch](https://img.shields.io/circleci/project/github/jdonosocoding/angularonchain/main.svg?label=test)](https://circleci.com/gh/jdonosocoding/angularonchain) [![latest](https://img.shields.io/npm/v/angularonchain/latest.svg)](https://npmjs.com/package/angularonchain) 
+
+
+[![CircleCI branch](https://img.shields.io/circleci/project/github/jdonosocoding/angularonchain/release.svg?label=build)](https://circleci.com/gh/jdonosocoding/angularonchain) [![CircleCI branch](https://img.shields.io/circleci/project/github/jdonosocoding/angularonchain/release.svg?label=test)](https://circleci.com/gh/jdonosocoding/angularonchain) [![latest](https://img.shields.io/npm/v/angularonchain/latest.svg)](https://npmjs.com/package/angularonchain) 
 [![License](https://img.shields.io/npm/l/@ampgular/cli.svg)](/LICENSE) 
 <p align="center">
   <img src="docs/images/angular_on_chain.png"  alt="[Angular On Chain" width="350" title="[Angular On Chaint">
@@ -54,7 +56,7 @@ ng add angularonchain
   &nbsp;  
 ### 2) chose installation Options:
 The package will prompt the options for configuration  
-- Project name: if not provided, the angular,json default project will be taken
+- Project name: if not provided, the angular.json default project will be taken
 - Demo Dapp to be installed. The roadmap shows the plan to add additional demo Dapps, for the time being only "Hello on Chan
   - Hello On Chain Dapp
   - Debug Contract  
@@ -122,17 +124,21 @@ npm run contracts:test
 npm run contracts:coverage
 // Contracts solidity test coverage analysis
 ```
+<p align="center">
+  <img src="docs/images/solidity_coverage.png"  alt="[Angular On Chain" width="350" title="Angular On Chaint">
+</p>
 
+Out of the box testing infrastructure prepared 🧪🧪🧪🧪
 
 &nbsp;
 
 ### 4) Your demo App:  
 Our target is to upload every two weeks a new Demo App till we have around 10 dapps showcasing major use cases.
 
-For the time being, we have the first two: **Hello World On Chain** and **Debug Contrat**
+For the time being, we have the first two: **Hello World On Chain** and **Debug Contrat**  
 &nbsp; 
-;
- - **Dapp Demo Feature module**.
+
+**Dapp Demo Feature module**.
  It will also scaffold a angular module with the use case chosen. In our case the the "hello world on chain module"
 <p align="center">
   <img src="docs/images/feature_dapp.png"  alt="Feature Dapp Module" width="350" title="Feature Dapp Module">
