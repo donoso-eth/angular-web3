@@ -19,7 +19,7 @@ const appOptions: any = {
 let appTree: UnitTestTree;
 const schematicRunner = new SchematicTestRunner("ng-add", collectionPath);
 
-describe("Initilization", () => {
+describe("already Installed", () => {
   beforeEach(async () => {
     appTree = await schematicRunner
       .runExternalSchematicAsync(
