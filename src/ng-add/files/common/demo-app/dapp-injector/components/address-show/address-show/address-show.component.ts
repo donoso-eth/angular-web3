@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { createIcon } from '@download/blockies';
-import { IBALANCE } from '../../../shared/models';
+import { IBALANCE } from '../../../models/models';
 
 @Component({
   selector: 'address-show',

@@ -1,40 +1,76 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { ethers} from 'ethers'
-import { Subscription } from 'rxjs';
-import { DappInjectorService } from '../../../dapp-injector.service';
-import { BlockWithTransactions } from '../../../shared/models';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+
+import { BlockWithTransactions } from '../../../models/models';
 
 @Component({
   selector: 'blockchain',
   templateUrl: './blockchain.component.html',
-  styleUrls: ['./blockchain.component.css']
+  styleUrls: ['./blockchain.component.css'],
 })
-export class BlockchainComponent implements OnInit, OnDestroy {
-  blocks: Array<BlockWithTransactions> = [];
-  blocksSubscription: Subscription;
+export class BlockchainComponent implements OnInit, OnChanges {
   show_more_blocks = false;
+  display_blocks: Array<{
+    display: string;
+    number: number;
+    hash: string;
+    transactions: Array<{ hash: string; display: string }>;
+  }>;
 
-  constructor(private dappInjectorService: DappInjectorService) { }
+  constructor() {}
+  @Input() blocks: Array<BlockWithTransactions> = [];
+  @Output() private addBlock: EventEmitter<number> = new EventEmitter();
 
-  ngOnDestroy(): void {
-    this.blocksSubscription.unsubscribe();
+  async addOneBlock() {
+    this.addBlock.emit(this.blocks[this.blocks.length - 1].number - 1);
   }
 
-  addOneBlock(){
-    this.dappInjectorService.getOneMoreBlock(this.blocks[this.blocks.length-1].number -1)
-    
-  }
+  ngOnChanges() {
+    if (
+      this.blocks.length == 0 ||
+      this.blocks[this.blocks.length - 1].number <= 1
+    ) {
+      this.show_more_blocks = false;
+    } else {
+      this.show_more_blocks = true;
+    }
 
-  ngOnInit(): void {
-    this.blocksSubscription = this.dappInjectorService.blocks.subscribe(blocks=> { 
-      this.blocks = blocks
-  
-      if (this.blocks[this.blocks.length-1].number >1){
-        this.show_more_blocks = true;
-      } else {
-        this.show_more_blocks = false;
+    this.display_blocks = [];
+    for (const block of this.blocks) {
+      const block_object = Object.assign({}, block);
+
+      const hashes = [];
+      const transactions = [];
+      for (const transaction of block.transactions) {
+        hashes.push(transaction.hash);
+        transaction.data = transaction.data.substring(0,10) + '....'
+        const newTransaction =  {
+          hash: transaction.hash,
+          display: JSON.stringify(transaction, undefined, 4),
+        }
+        transactions.push(newTransaction);
       }
-    })
+      
+      delete block_object.transactions;
+
+      this.display_blocks.push({
+        number: block.number,
+        hash: block.hash,
+        display: JSON.stringify(block_object, undefined, 4),
+        transactions: transactions,
+      });
+    }
+
+
   }
 
+  ngOnInit(): void {}
 }

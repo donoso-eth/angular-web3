@@ -62,8 +62,8 @@
 
 
     </mat-tab>
-    <mat-tab style="height: fit-content" label="BlockChain">
-      <blockchain></blockchain>
+    <mat-tab style="height: fit-content;text-align: left;" label="BlockChain">
+      <blockchain [blocks]="blocks" (addBlock)="addBlock($event)" ></blockchain>
       <br />
       <br />
     </mat-tab>

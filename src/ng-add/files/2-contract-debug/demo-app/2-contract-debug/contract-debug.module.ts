@@ -6,10 +6,11 @@ import { MatButtonModule } from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import { DappInjectorModule } from '../../dapp-injector/dapp-injector.module';
+
 import { ContractDebugComponent } from './contract-debug/contract-debug.component';
 import {MatTabsModule} from '@angular/material/tabs';
+import { blockchain_imports, blockchain_providers } from './blockchain_wiring';
+import {OnChainService } from './contract-debug.service';
 
 @NgModule({
   declarations: [ContractDebugComponent,
@@ -25,10 +26,10 @@ import {MatTabsModule} from '@angular/material/tabs';
     MatFormFieldModule,
     MatIconModule,
     MatTabsModule,
-    DappInjectorModule
+    blockchain_imports
 
   ],
-  providers:[],
+  providers:[...blockchain_providers,OnChainService],
   exports: [
     ContractDebugComponent
   ]

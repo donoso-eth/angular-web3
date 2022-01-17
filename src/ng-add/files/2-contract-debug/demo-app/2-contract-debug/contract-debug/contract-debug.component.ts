@@ -13,9 +13,9 @@ import DebugContractMetadata from '../../../../../assets/contracts/debug_contrac
 import { ContractInputComponent } from '../contract-input/contract-input.component';
 
 import { ethers } from 'ethers';
-import { DialogService } from 'src/app/dapp/dapp-injector/components/dialog/dialog.service';
-import { DappInjectorService } from 'src/app/dapp/dapp-injector/dapp-injector.service';
-import { IABI_OBJECT, IBALANCE, ICONTRACT, IINPUT_EVENT } from 'src/app/dapp/dapp-injector/shared/models';
+import { BlockWithTransactions, convertEtherToWei, convertUSDtoEther, convertWeiToEther, DialogService, displayEther, displayUsd, IABI_OBJECT, IBALANCE, ICONTRACT, IINPUT_EVENT } from 'angularonchain';
+import { OnChainService } from '../contract-debug.service';
+
 
 
 
@@ -26,6 +26,7 @@ import { IABI_OBJECT, IBALANCE, ICONTRACT, IINPUT_EVENT } from 'src/app/dapp/dap
   styleUrls: ['./contract-debug.component.css'],
 })
 export class ContractDebugComponent implements AfterViewInit {
+  blocks: Array<BlockWithTransactions> = [];
   contract_abi: Array<IABI_OBJECT>;
   walletBalance: IBALANCE;
   contractBalance: IBALANCE;
@@ -52,8 +53,8 @@ export class ContractDebugComponent implements AfterViewInit {
   balanceDollar: number;
   constructor(
     private dialogService:DialogService,
-    private cd: ChangeDetectorRef,
-    private dappInjectorService: DappInjectorService,
+    private onChainService:OnChainService,
+
     private componentFactoryResolver: ComponentFactoryResolver
   ) {
     this.contract_abi = DebugContractMetadata.abi;
@@ -103,10 +104,8 @@ export class ContractDebugComponent implements AfterViewInit {
     componentRef.instance.newEventFunction.subscribe(
       async (value: IINPUT_EVENT) => {
  
-
-        const myFucntion = this.myContract.functions[value.function];
-        const myResult = await this.dappInjectorService.dispatchContractFunction(
-          myFucntion,
+        const myResult = await this.onChainService.contractService.runFunction(
+          value.function,
           value.args,
           value.state
         );
@@ -117,7 +116,7 @@ export class ContractDebugComponent implements AfterViewInit {
         }
 
         if (value.outputs.length > 0) {
-          componentRef.instance.refreshUi(myResult);
+          componentRef.instance.refreshUi(value.outputs);
         }
       }
     );
@@ -125,9 +124,7 @@ export class ContractDebugComponent implements AfterViewInit {
 
   async updateState() {
     for (const stateCompo of this.stateInstances) {
-      const result =await  this.dappInjectorService.runContractFunction(this.myContract.functions[
-        stateCompo.abi_input.name
-      ],{})
+      const result = await this.onChainService.contractService.runContractFunction( stateCompo.abi_input.name,{})
 
       stateCompo.refreshUi(result);
     }
@@ -135,47 +132,60 @@ export class ContractDebugComponent implements AfterViewInit {
 
   async onChainStuff() {
 
-    this.dappInjectorService.metaContract = DebugContractMetadata
-
-    await this.dappInjectorService.initDapp()
+ 
 
     try {
-      // First we create a provider instance
-      // If we want to create a specific clockchain provider, we must pass the url.
-      //this.provider = new ethers.providers.JsonRpcProvider();
 
-      // Once the provider instance is created, we can request the signer (in localhost node is the first account)
-      // In the Blockchain the signer is passed through the hardhat config or metamask
-     // this.signer = this.provider.getSigner();
+      await this.onChainService.init();
 
-     // const userWallet = await getWallet();
-
+      this.deployer_address =
+        await this.onChainService.localProvider.Signer.getAddress();
   
-      this.newWallet = await this.dappInjectorService.getMyWallet()
-   
-  
-
-      // Signer Address
-      this.deployer_address = await (await this.dappInjectorService.getSigner()).getAddress()
-
-      // Contract Address (created while deploying)
-      this.contractHeader = { name: DebugContractMetadata.name, address: DebugContractMetadata.address};
-
-      // Contract instance passing the address, the abi(contract interface) and the signer
-      this.myContract = await this.dappInjectorService.getContract()
-
-      // let lastBalance = ethers.constants.Zero;
-      // this.provider.on('block', () => {
-      //   this.provider.getBalance(this.newWallet.address).then((balance) => {
-      //     if (!balance.eq(lastBalance)) {
-      //       lastBalance = balance;
-
-      //       // convert a currency unit from wei to ether
-      //       const balanceInEth = ethers.utils.formatEther(balance);
-      //       this.formatBalance(+balanceInEth);
-      //     }
-      //   });
-      // });
+        this.onChainService.localProvider.blockEventSubscription.subscribe(
+          async (blockNr) => {
+      
+            this.onChainService.contractService.refreshBalance();
+            this.onChainService.walletService.refreshWalletBalance();
+            this.blockchain_is_busy = false;
+            const block =
+              await this.onChainService.localProvider.Provider.getBlockWithTransactions(
+                blockNr
+              );
+           this.blocks = [block].concat(this.blocks);
+          }
+        );
+    
+          this.newWallet = await this.onChainService.walletService.wallet;
+          this.myContract = this.onChainService.contractService.Contract;
+    
+          this.onChainService.contractService.contractBalanceSubscription.subscribe(
+            async (balance) => {
+              const ehterbalance = convertWeiToEther(balance);
+              const dollar =
+                ehterbalance * (await this.onChainService.getDollarEther());
+              this.contractBalance = {
+                ether: displayEther(ehterbalance),
+                usd: displayUsd(dollar),
+              };
+            }
+          );
+    
+          this.onChainService.walletService.walletBalanceSubscription.subscribe(
+            async (balance) => {
+              const ehterbalance = convertWeiToEther(balance);
+              const dollar =
+                ehterbalance * (await this.onChainService.getDollarEther());
+              this.walletBalance = {
+                ether: displayEther(ehterbalance),
+                usd: displayUsd(dollar),
+              };
+            }
+          );
+    
+          this.contractHeader = {
+            name: this.onChainService.contractService.metadata.name,
+            address: this.onChainService.contractService.metadata.address,
+          };
 
       this.eventsAbiArray = this.contract_abi.filter(
         (fil) => fil.type == 'event'
@@ -200,19 +210,6 @@ export class ContractDebugComponent implements AfterViewInit {
         });
       });
 
-      this.dappInjectorService.contractBalance.subscribe(balance=> {
-        this.contractBalance = balance
-      })
-
-
-      this.dappInjectorService.walletBalance.subscribe(wallet=> {
-        this.walletBalance = wallet
-      })
-     
-
-     this.dappInjectorService.blockchain_busy.subscribe(loading=> {
-       this.blockchain_is_busy = loading
-     })
 
       this.contract_abi
         .filter((fil) => fil.type !== 'constructor')
@@ -228,10 +225,17 @@ export class ContractDebugComponent implements AfterViewInit {
     }
   }
 
-
+  async addBlock(blockNr) {
+    const block =
+      await this.onChainService.localProvider.Provider.getBlockWithTransactions(
+        blockNr
+      );
+      this.blocks = this.blocks.concat(block);
+ 
+  }
 
   async doFaucet() {
-   
+    this.blockchain_is_busy = true;
     let amountInEther = '0.01';
     // Create a transaction object
     let tx = {
@@ -240,28 +244,31 @@ export class ContractDebugComponent implements AfterViewInit {
       value: ethers.utils.parseEther(amountInEther),
     };
     // Send a transaction
-    await this.dappInjectorService.doTransaction(tx,'signer')
-  
+    await this.onChainService.localProvider.doTransaction(tx);
   }
 
-  async openTransaction(){
-    const res = await  this.dialogService.openDialog()
-    if (res.type == 'transaction'){
-      const usd = res.amount
-      const amountInEther = this.dappInjectorService.convertUSDtoEther(res.amount)
-      const amountinWei = (this.dappInjectorService.convertEtherToWei(amountInEther))
-  
+  async openTransaction() {
+    this.blockchain_is_busy = true;
+    const res = await this.dialogService.openDialog();
+    if (res.type == 'transaction') {
+      const usd = res.amount;
+      const amountInEther = convertUSDtoEther(
+        res.amount,
+        await this.onChainService.getDollarEther()
+      );
+      const amountinWei = convertEtherToWei(amountInEther);
+
       let tx = {
         to: res.to,
         // Convert currency unit from ether to wei
-        value: amountinWei
+        value: amountinWei,
       };
+      const transaction_result =
+        await this.onChainService.walletService.doTransaction(tx);
 
-       await this.dappInjectorService.doTransaction(tx,'wallet')
-       
+      console.log(transaction_result);
     }
   }
-
 
 
   ngAfterViewInit(): void {

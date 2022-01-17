@@ -1,4 +1,4 @@
-<div *ngIf="blocks.length > 0">
+<div *ngIf="display_blocks.length > 0">
   <div
     style="
       border: 1px solid greenyellow;
@@ -9,62 +9,81 @@
     "
   >
     <h3 style="width: 100%; margin: unset">
-      Current Block, nr: {{ blocks[0].number }}
+      Current Block, nr: {{ display_blocks[0].number }}
     </h3>
-    <div style="">
-      <p style="word-break: break-all">
-        <span font-style="bold">HASH:</span>{{ blocks[0].hash }}
-      </p>
-
-      <p style="word-break: break-all">
-        <span font-style="bold">PrevHASH:</span>{{ blocks[0].parentHash }}
-      </p>
-      <p>
-        <span font-style="bold">Transactions:</span>
-      </p>
-      <p *ngFor="let transaction of  blocks[0].transactions">
-        <span  font-style="bold">TX:</span>{{transaction.hash }}
-      </p>
-      
+    <div style="padding-top: 15px">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ display_blocks[0].hash }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <pre style="text-align: left;">{{ display_blocks[0].display }}</pre>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <mat-accordion>
+        <h4>Transactions Detail</h4>
+        <mat-expansion-panel
+          *ngFor="let transaction of display_blocks[0].transactions"
+        >
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ transaction.hash }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <pre style="text-align: left;">{{ transaction.display }}</pre>
+        </mat-expansion-panel>
+      </mat-accordion>
     </div>
   </div>
 </div>
 
-<div *ngIf="blocks.length > 1">
-    <div *ngFor="let block of blocks.slice(1,blocks.length)"
-      style="
-        border: 1px solid rgb(148, 100, 10);
-        padding: 15px;
-        margin: 5px 10px;
-        position: relative;
-        top: 10px;
-      "
-    >
-      <h3 style="width: 100%; margin: unset">
-      Block  Nr: {{ block.number }}
-      </h3>
-      <div style="">
-        <p style="word-break: break-all">
-          <span font-style="bold">HASH:</span>{{ block.hash }}
-        </p>
-        <p style="word-break: break-all">
-          <span font-style="bold">PrevHASH:</span>{{ block.parentHash }}
-        </p>
-        <p>
-          <span font-style="bold">Transactions:</span>
-        </p>
-        <p *ngFor="let transaction of  block.transactions ">
-          <span  font-style="bold">TX:</span>{{transaction.hash }}
-        </p>
-        
-      </div>
+<div *ngIf="display_blocks.length > 1">
+  <div
+    *ngFor="let block of display_blocks.slice(1, display_blocks.length)"
+    style="
+      border: 1px solid rgb(148, 100, 10);
+      padding: 15px;
+      margin: 5px 10px;
+      position: relative;
+      top: 10px;
+    "
+  >
+    <h3 style="width: 100%; margin: unset">Block Nr: {{ block.number }}</h3>
+    <div style="padding-top: 15px">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ block.hash }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <pre>{{ block.display }}</pre>
+        </mat-expansion-panel>
+      </mat-accordion>
+       <mat-accordion>
+        <h4>Transactions Detail</h4>
+        <mat-expansion-panel *ngFor="let transaction of block.transactions">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ transaction.hash }}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <pre>{{ transaction.display }}</pre>
+        </mat-expansion-panel>
+      </mat-accordion> 
     </div>
   </div>
+</div>
 
-<div style="text-align: center;margin-top:20px;" *ngIf="show_more_blocks == true">
+<div
+  style="text-align: center; margin-top: 20px"
+  *ngIf="show_more_blocks == true"
+>
   <button (click)="addOneBlock()" mat-button>Load 1 more block</button>
 </div>
 
-<div *ngIf="blocks.length == 0">
+<div *ngIf="display_blocks.length == 0">
   <p>Waiting for the First Block</p>
 </div>

@@ -8,7 +8,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IABI_OBJECT, IINPUT_EVENT } from '../../../dapp-injector/shared/models';
+import { IABI_OBJECT, IINPUT_EVENT } from 'angularonchain';
 
 
 @Component({

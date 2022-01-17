@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { IBALANCE, ICONTRACT } from '../../../shared/models';
+import { IBALANCE, ICONTRACT } from '../../../models/models';
 
 @Component({
   selector: 'contract-show',

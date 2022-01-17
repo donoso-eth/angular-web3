@@ -59,7 +59,7 @@
     </div>
   </mat-tab>
   <mat-tab style="height: fit-content;" label="BlockChain">
-    <blockchain></blockchain>
+    <blockchain *ngIf="blocks!== undefined" [blocks]="blocks" (addBlock)="addBlock($event)" ></blockchain>
     <br>
     <br>
   </mat-tab>

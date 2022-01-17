@@ -1,5 +1,5 @@
 import { Rule, Tree, SchematicContext } from "@angular-devkit/schematics";
-import { NodePackageInstallTask } from "@angular-devkit/schematics/tasks";
+import { NodePackageInstallTask,RepositoryInitializerTask } from "@angular-devkit/schematics/tasks";
 import { devDeps, devs } from "./data/dep";
 import { IOPTIONS_EXTENDED } from "./schema";
 

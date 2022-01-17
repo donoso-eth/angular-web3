@@ -2,7 +2,6 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from "@angular-devkit/schematics/testing";
-import { create } from "domain";
 import * as path from "path";
 
 const collectionPath = path.join(__dirname, "../../collection.json");

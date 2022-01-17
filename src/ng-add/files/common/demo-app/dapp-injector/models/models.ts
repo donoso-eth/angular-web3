@@ -10,11 +10,13 @@ export interface IABI_OBJECT {
 
 export interface BlockWithTransactions extends Omit<ethers.providers.Block , 'transactions'> {
   transactions: Array<ethers.providers.TransactionResponse>;
+
 }
 
 export interface ICONTRACT {
   address:string,
   name:string
+  abi?:any;
 }
 
 export interface IBALANCE {
