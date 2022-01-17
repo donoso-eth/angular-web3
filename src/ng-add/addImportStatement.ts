@@ -28,10 +28,10 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   } else if (_options.configuration == "helloWorld") {
     importName = "HelloWorldOnChainModule";
     importPath =
-      "/demo-app/1-hello-world-on-chain/hello-world-on-chain.module.ts";
+      "./dapp/demos/1-hello-world-on-chain/hello-world-on-chain.module";
   } else if (_options.configuration == "debugContract") {
     importName = "ContractDebugModule";
-    importPath = "/demo-app/2-contract-debug/contract-debug.module.ts";
+    importPath = "./dapp/demos/2-contract-debug/contract-debug.module";
   } else {
     return tree;
   }

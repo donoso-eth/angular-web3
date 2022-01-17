@@ -14,6 +14,7 @@ import { addAndinstallDependencies } from "./addAndInstallDependencies";
 import { adScriptsToPackageJson } from "./addScriptsToPackageJson";
 import { contract_config } from "./data/contract.config.";
 import { addImport } from "./addImportStatement";
+import { updateTsConfig } from "./updateTsConfig";
 
 /** Adds a package to the package.json in the given host tree. */
 const setupOptions = (host: Tree, _options: IOPTIONS_EXTENDED): Tree => {

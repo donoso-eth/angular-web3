@@ -37,6 +37,8 @@ describe("Initilization", () => {
         appTree
       )
       .toPromise();
+
+
   });
 
   it("Should not be already installed", async () => {

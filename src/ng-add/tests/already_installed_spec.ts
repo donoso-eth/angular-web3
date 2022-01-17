@@ -52,13 +52,16 @@ describe("already Installed", () => {
           "jsonName":"hello_world_on_chain"
         }}`
     );
-    appTree.create("hardhat/config_contrant.json",`{
+    appTree.create(
+      "hardhat/config_contrant.json",
+      `{
       "helloWorld": {
           "artifactsPath": "0-HelloWorldOnChain.sol/HelloWorldOnChain.json",
           "name":"HelloWorldOnChain",
           "ctor":"Hello Angular Chained",
           "jsonName":"hello_world_on_chain"
-        }}`)
+        }}`
+    );
   });
 
   it("Is already installed", async () => {
@@ -66,8 +69,12 @@ describe("already Installed", () => {
   });
 
   it("changes Deploy Contract", async () => {
-    const existing_deploy_file = appTree.readContent("hardhat/scripts/deploy.ts");
-    expect(existing_deploy_file).toContain(`const deployContracts=["helloWorld"]`);
+    const existing_deploy_file = appTree.readContent(
+      "hardhat/scripts/deploy.ts"
+    );
+    expect(existing_deploy_file).toContain(
+      `const deployContracts=["helloWorld"]`
+    );
     const tree = await schematicRunner
       .runSchematicAsync(
         "ng-add",
@@ -75,19 +82,26 @@ describe("already Installed", () => {
         appTree
       )
       .toPromise();
-   
-      const new_deploy_file = tree.readContent("hardhat/scripts/deploy.ts");
-      expect(new_deploy_file).toContain(`const deployContracts=["debugContract"]`);
+
+    const new_deploy_file = tree.readContent("hardhat/scripts/deploy.ts");
+    expect(new_deploy_file).toContain(
+      `const deployContracts=["debugContract"]`
+    );
   });
 
   it("Creates Contract JSON Config File", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", configuration: "debugContract" }, appTree)
+      .runSchematicAsync(
+        "ng-add",
+        { project: "default", configuration: "debugContract" },
+        appTree
+      )
       .toPromise();
-    const config_contract =  JSON.parse(tree.read("hardhat/contract.config.json")!.toString("utf-8"));
-    expect(Object.keys(config_contract).length==2).toBeTrue();
+    const config_contract = JSON.parse(
+      tree.read("hardhat/contract.config.json")!.toString("utf-8")
+    );
+    expect(Object.keys(config_contract).length == 2).toBeTrue();
   });
-
 
   it("Should not add dependencies if already installed", async () => {
     const tree = await schematicRunner

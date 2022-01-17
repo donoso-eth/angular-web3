@@ -164,7 +164,7 @@ declare module "*.json" {
 In the case that no typings.d.ts file is available, the schematics package will create it.
  &nbsp;
  ```
-ng serve
+ng serve 'angularonchain'] = ["src/app/dapp/dapp-injector/index.ts"]
 ```
  &nbsp;
 # 📚 Documentation
