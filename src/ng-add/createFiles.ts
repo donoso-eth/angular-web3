@@ -31,15 +31,19 @@ export const  createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
     );
 
     }
-
-    if (!host.exists("src/typings.d.ts")) {
-      const templateTypings = apply(url("./files/typings"), [
+    if (options.configuration == "minimalContract") {
+      const templateApp = apply(url("./files/1-hello-world-on-chain/demo-app"), [
         applyTemplates({}),
-        move(normalize(`/src/`)),
+        move(normalize(`/${options.sourceRoot}/app/dapp/demos/`)),
       ]);
-      templateRules.push(mergeWith(templateTypings));
-    }
+      templateRules.push(mergeWith(templateApp, MergeStrategy.Overwrite));
   
+      const templateHardhat = apply(
+        url("./files/1-hello-world-on-chain/hardhat"),
+        [applyTemplates({ sourceRoot:options.sourceRoot }), move(normalize(`/hardhat/`))]
+      );
+      templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
+    } else 
     if (options.configuration == "helloWorld") {
       const templateApp = apply(url("./files/1-hello-world-on-chain/demo-app"), [
         applyTemplates({}),
@@ -67,5 +71,14 @@ export const  createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
       templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
     } 
     
+    if (!host.exists("src/typings.d.ts")) {
+      const templateTypings = apply(url("./files/typings"), [
+        applyTemplates({}),
+        move(normalize(`/src/`)),
+      ]);
+      templateRules.push(mergeWith(templateTypings));
+    }
+  
+
     return chain(templateRules);
   }
