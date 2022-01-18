@@ -2,7 +2,6 @@ import {
   SchematicTestRunner,
   UnitTestTree,
 } from "@angular-devkit/schematics/testing";
-import { create } from "domain";
 import * as path from "path";
 
 const collectionPath = path.join(__dirname, "../../collection.json");
@@ -20,7 +19,7 @@ const appOptions: any = {
 let appTree: UnitTestTree;
 const schematicRunner = new SchematicTestRunner("ng-add", collectionPath);
 
-describe("Initilization", () => {
+describe("already Installed", () => {
   beforeEach(async () => {
     appTree = await schematicRunner
       .runExternalSchematicAsync(
@@ -40,26 +39,29 @@ describe("Initilization", () => {
 
     appTree.create(
       "/hardhat/scripts/deploy.ts",
-      `const deployContracts=["helloWorld"]`
+      `const deployContracts=["helloWorldContract"]`
     );
     appTree.create("/hardhat/hardhat.config.ts", "I am already there");
     appTree.create(
       "/hardhat/contract.config.json",
       `{
-      "helloWorld": {
-          "artifactsPath": "0-HelloWorldOnChain.sol/HelloWorldOnChain.json",
-          "name":"HelloWorldOnChain",
+      "helloWorldContract": {
+          "artifactsPath": "0-HelloWorldContract.sol/HelloWorldContract.json",
+          "name":"HelloWorldContract",
           "ctor":"Hello Angular Chained",
           "jsonName":"hello_world_on_chain"
         }}`
     );
-    appTree.create("hardhat/config_contrant.json",`{
-      "helloWorld": {
-          "artifactsPath": "0-HelloWorldOnChain.sol/HelloWorldOnChain.json",
-          "name":"HelloWorldOnChain",
+    appTree.create(
+      "hardhat/config_contrant.json",
+      `{
+      "helloWorldContract": {
+          "artifactsPath": "0-HelloWorldContract.sol/HelloWorldContract.json",
+          "name":"HelloWorldContract",
           "ctor":"Hello Angular Chained",
           "jsonName":"hello_world_on_chain"
-        }}`)
+        }}`
+    );
   });
 
   it("Is already installed", async () => {
@@ -67,8 +69,12 @@ describe("Initilization", () => {
   });
 
   it("changes Deploy Contract", async () => {
-    const existing_deploy_file = appTree.readContent("hardhat/scripts/deploy.ts");
-    expect(existing_deploy_file).toContain(`const deployContracts=["helloWorld"]`);
+    const existing_deploy_file = appTree.readContent(
+      "hardhat/scripts/deploy.ts"
+    );
+    expect(existing_deploy_file).toContain(
+      `const deployContracts=["helloWorldContract"]`
+    );
     const tree = await schematicRunner
       .runSchematicAsync(
         "ng-add",
@@ -76,19 +82,26 @@ describe("Initilization", () => {
         appTree
       )
       .toPromise();
-   
-      const new_deploy_file = tree.readContent("hardhat/scripts/deploy.ts");
-      expect(new_deploy_file).toContain(`const deployContracts=["debugContract"]`);
+
+    const new_deploy_file = tree.readContent("hardhat/scripts/deploy.ts");
+    expect(new_deploy_file).toContain(
+      `const deployContracts=["debugContract"]`
+    );
   });
 
   it("Creates Contract JSON Config File", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", configuration: "debugContract" }, appTree)
+      .runSchematicAsync(
+        "ng-add",
+        { project: "default", configuration: "debugContract" },
+        appTree
+      )
       .toPromise();
-    const config_contract =  JSON.parse(tree.read("hardhat/contract.config.json")!.toString("utf-8"));
-    expect(Object.keys(config_contract).length==2).toBeTrue();
+    const config_contract = JSON.parse(
+      tree.read("hardhat/contract.config.json")!.toString("utf-8")
+    );
+    expect(Object.keys(config_contract).length == 2).toBeTrue();
   });
-
 
   it("Should not add dependencies if already installed", async () => {
     const tree = await schematicRunner
@@ -102,6 +115,6 @@ describe("Initilization", () => {
   //   const tree = await schematicRunner
   //     .runSchematicAsync("ng-add", {}, appTree)
   //     .toPromise();
-  //     expect(tree.exists("/projects/schematest/src/app/hello-world-on-chain/hello-world-on-chain.module.ts")).toBeTrue();
+  //     expect(tree.exists("/projects/schematest/src/app/hello-world-contract/hello-world-contract.module.ts")).toBeTrue();
   // });
 });

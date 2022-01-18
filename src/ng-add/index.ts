@@ -13,6 +13,8 @@ import { createFiles } from "./createFiles";
 import { addAndinstallDependencies } from "./addAndInstallDependencies";
 import { adScriptsToPackageJson } from "./addScriptsToPackageJson";
 import { contract_config } from "./data/contract.config.";
+import { addImport } from "./addImportStatement";
+import { updateTsConfig } from "./updateTsConfig";
 
 /** Adds a package to the package.json in the given host tree. */
 const setupOptions = (host: Tree, _options: IOPTIONS_EXTENDED): Tree => {
@@ -88,6 +90,7 @@ const changeContractConfig = (host: Tree, _options: IOPTIONS_EXTENDED): Tree =>{
   return host;
 }
 
+
 export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
   return chain([
     (tree: Tree, _context: SchematicContext) => {
@@ -99,7 +102,12 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
     (tree: Tree, _context: SchematicContext) => {
       return createFiles(tree, _options);
     },
+    (tree: Tree, _context: SchematicContext) => {
+      return  addImport(tree, _options);
+    },
     adScriptsToPackageJson(_options),
     addAndinstallDependencies(_options),
   ]);
 }
+
+
