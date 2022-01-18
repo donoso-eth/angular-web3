@@ -11,7 +11,7 @@ export class OnChainService {
   private _dollarExchange: number;
 
   constructor(@Inject('localNodeProvider') public localProvider: NetworkProviderService,
-  @Inject('helloWorldContract') public contractService:ContractService, public walletService: WalletService
+  @Inject('debugContract') public contractService:ContractService, public walletService: WalletService
   ) { }
 
 

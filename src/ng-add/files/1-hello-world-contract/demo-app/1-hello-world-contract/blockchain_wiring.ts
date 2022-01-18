@@ -1,6 +1,6 @@
 
 import { InjectionToken } from '@angular/core';
-import HelloWorlOnChintMetadata from '../../../../assets/contracts/hello_world_on_chain_metadata.json';
+import HelloWorldContractMetadata from '../../../../assets/contracts/hello_world_contract_metadata.json';
 import { ContractShowModule, AddressShowModule, BlockchainModule, DialogModule, NotifierModule } from 'angularonchain';
 import { NetworkProviderService, ContractService, WalletService } from 'angularonchain';
 
@@ -9,4 +9,4 @@ export const helloWorldContract = new InjectionToken<ContractService>('helloWorl
 
 export const blockchain_imports = [ContractShowModule,AddressShowModule,BlockchainModule,DialogModule,NotifierModule]
 export const blockchain_providers = [ {provide: 'localNodeProvider', useValue: new NetworkProviderService([])},
-{provide: 'helloWorldContract', useValue: new ContractService(HelloWorlOnChintMetadata)}, WalletService]
+{provide: 'helloWorldContract', useValue: new ContractService(HelloWorldContractMetadata )}, WalletService]

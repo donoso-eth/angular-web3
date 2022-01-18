@@ -3,7 +3,7 @@ pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
 
-contract HelloWorldOnChain {
+contract HelloWorldContract {
     string private greeting;
     string public testpublic = 'ahora public';
     event SetPurpose(uint purpose,address sender);

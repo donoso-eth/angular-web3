@@ -9,7 +9,7 @@ export declare interface IOPTIONS {
     /**
      * description
      */
-    configuration: "minimalContract" | "helloWorld" | "debugContract" 
+    configuration: "minimalContract" | "helloWorldContract" | "debugContract" 
 
     skipInstall:boolean,
 

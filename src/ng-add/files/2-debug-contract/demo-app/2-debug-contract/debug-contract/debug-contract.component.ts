@@ -14,18 +14,18 @@ import { ContractInputComponent } from '../contract-input/contract-input.compone
 
 import { ethers } from 'ethers';
 import { BlockWithTransactions, convertEtherToWei, convertUSDtoEther, convertWeiToEther, DialogService, displayEther, displayUsd, IABI_OBJECT, IBALANCE, ICONTRACT, IINPUT_EVENT } from 'angularonchain';
-import { OnChainService } from '../contract-debug.service';
+import { OnChainService } from '../on-chain.service';
 
 
 
 
 
 @Component({
-  selector: 'contract-debug',
-  templateUrl: './contract-debug.component.html',
-  styleUrls: ['./contract-debug.component.css'],
+  selector: 'debug-contract',
+  templateUrl: './debug-contract.component.html',
+  styleUrls: ['./debug-contract.component.css'],
 })
-export class ContractDebugComponent implements AfterViewInit {
+export class DebugContractComponent implements AfterViewInit {
   blocks: Array<BlockWithTransactions> = [];
   contract_abi: Array<IABI_OBJECT>;
   walletBalance: IBALANCE;
@@ -103,20 +103,20 @@ export class ContractDebugComponent implements AfterViewInit {
 
     componentRef.instance.newEventFunction.subscribe(
       async (value: IINPUT_EVENT) => {
-        console.log(value)
+      
         const myResult = await this.onChainService.contractService.runFunction(
           value.function,
           value.args,
           value.state
         );
-        console.log(value,2)
+      
         if (value.function !== 'pure' && value.function !== 'view') {
        
           this.updateState();
         }
 
         if (value.outputs.length > 0) {
-          componentRef.instance.refreshUi(value.outputs);
+          componentRef.instance.refreshUi(myResult);
         }
       }
     );
@@ -265,7 +265,6 @@ export class ContractDebugComponent implements AfterViewInit {
       const transaction_result =
         await this.onChainService.walletService.doTransaction(tx);
 
-      console.log(transaction_result);
     }
   }
 

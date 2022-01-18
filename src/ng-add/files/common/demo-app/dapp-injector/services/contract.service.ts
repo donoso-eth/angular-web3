@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { BigNumber, Contract, providers } from 'ethers';
+import { Contract, providers, Wallet } from 'ethers';
 import { ReplaySubject } from 'rxjs';
 import { ICONTRACT } from '../models/models';
 
@@ -18,12 +18,12 @@ export class ContractService implements OnDestroy {
 
   constructor(public metadata: ICONTRACT) {}
 
-  async init(provider: any) {
+  async init(provider:any, wallet:Wallet) {
     this._provider = provider;
     this._contract = await new Contract(
       this.metadata.address,
       this.metadata.abi,
-      provider
+      wallet
     );
     return this._contract;
   }

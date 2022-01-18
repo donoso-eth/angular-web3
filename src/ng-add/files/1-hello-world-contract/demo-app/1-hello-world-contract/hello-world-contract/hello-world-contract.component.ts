@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 
 import { ethers } from 'ethers';
 
-import { HelloWorldOnChainService } from '../hello-world-service.service';
+import { OnChainService } from '../on-chain.service';
 
 import {
   DialogService,
@@ -17,11 +17,11 @@ import {
 } from 'angularonchain';
 
 @Component({
-  selector: 'hello-world-on-chain',
-  templateUrl: './hello-world-on-chain.component.html',
-  styleUrls: ['./hello-world-on-chain.component.css'],
+  selector: 'hello-world-contract',
+  templateUrl: './hello-world-contract.component.html',
+  styleUrls: ['./hello-world-contract.component.css'],
 })
-export class HelloWorldOnChainComponent implements OnInit {
+export class HelloWorldContractComponent implements OnInit {
   blocks: Array<BlockWithTransactions> = [];
   deployer_address;
   contract_address;
@@ -38,7 +38,7 @@ export class HelloWorldOnChainComponent implements OnInit {
   contractHeader: ICONTRACT;
   constructor(
     private dialogService: DialogService,
-    private onChainService: HelloWorldOnChainService
+    private onChainService: OnChainService
   ) {}
 
   async onChainStuff() {

@@ -3,7 +3,7 @@ import { ethers } from "hardhat";
 
 describe("Hello World", function () {
   it("Should return the new greeting once it's changed", async function () {
-    const HelloWorld = await ethers.getContractFactory("HelloWorldOnChain");
+    const HelloWorld = await ethers.getContractFactory("HelloWorldContract");
     const helloWorld = await HelloWorld.deploy("Hello, world!");
     await helloWorld.deployed();
 

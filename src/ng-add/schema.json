@@ -14,16 +14,16 @@
       "type": "string",
       "description": "description",
       "uniqueItems": true,
-      "default":"helloWorld",
-      "enum": ["minimalContract","helloWorld","debugContract"],
+      "default":"minimalContract",
+      "enum": ["minimalContract","helloWorldContract","debugContract"],
       "x-prompt": {
         "message": "Which dapp would you like to start with?",
         "type": "list",
         "multiselect": false,
         "items": [
-          {"value":"minimalContract","label":"Only Wiring Infrastructure"},
-          {"value":"helloWorld","label":"Hello Dapp World"},
-          {"value":"debugContract","label":"Debug and Contract"}
+          {"value":"minimalContract","label":"Minimal Contract"},
+          {"value":"helloWorldContract","label":"Demo Hello World Contract"},
+          {"value":"debugContract","label":"Demo Debug Contract"}
         ]
       }
   },

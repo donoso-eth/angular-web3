@@ -7,7 +7,7 @@ import { uniswap_abi } from './uniswap_abi';
 @Injectable({
   providedIn: 'root'
 })
-export class HelloWorldOnChainService {
+export class OnChainService {
   private _dollarExchange: number;
 
   constructor(@Inject('localNodeProvider') public localProvider: NetworkProviderService,

@@ -4,17 +4,17 @@ export const contract_config = {
     "name":"MinimalContract",
     "jsonName":"minimal_contract"
   },
-    "helloWorld": {
-        "artifactsPath": "1-HelloWorldOnChain.sol/HelloWorldOnChain.json",
-        "name":"HelloWorldOnChain",
-        "ctor":"Hello Angular Chained",
-        "jsonName":"hello_world_on_chain"
+    "helloWorldContract": {
+        "artifactsPath": "1-HelloWorldContract.sol/HelloWorldContract.json",
+        "name":"HelloWorldContract",
+        "ctor":"Hello Angular On Chain",
+        "jsonName":"hello_world_contract"
       },
       
     "debugContract": {
         "artifactsPath": "2-DebugContract.sol/DebugContract.json",
         "name":"DebugContract",
-        "ctor":"Hello Angular Chained",
+        "ctor":"Hello Debug Contract On Chain",
         "jsonName":"debug_contract"
       }
 
