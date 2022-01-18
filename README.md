@@ -40,11 +40,10 @@ Superpower the angular superdevs with the best and easy to use tools for get up 
 # 🏄‍♂️ Quick Start
 
 Prerequisites: 
-To be in an **Angular project** and have installed angular material  
+To be in an **Angular project** 
   
    ```bash
   ng new my-awesome-angular-dapp  
-  ng add @angular/material
 ``` 
 Angualar material is only required dor the demo-apps embedded achieveing fast mock up.   
   &nbsp;  
@@ -58,11 +57,15 @@ ng add angularonchain
 The package will prompt the options for configuration  
 - Project name: if not provided, the angular.json default project will be taken
 - Demo Dapp to be installed. The roadmap shows the plan to add additional demo Dapps, for the time being only "Hello on Chan
-  - Hello On Chain Dapp
-  - Debug Contract  
+  - Minimal Contract
+  - Demo Hello World Contract
+  - Demo Debug Contract  
  &nbsp;  
 
-
+If you choose a Demo app, bear in mind that we use Angular Material for fast mock up, therefore please install angular material dor Hello World and Debug Contracts
+```bash
+  ng add @angular/material
+```
  
 ### 3) Initialize your 👷‍ Hardhat chain:
 For start up and running we recommend starting learning and playing with the local node. 
@@ -71,14 +74,14 @@ For start up and running we recommend starting learning and playing with the loc
 The schematics package will scaffold the required hardhat config:  
 
 <p align="center">
-  <img src="docs/images/hardhat_files.png"  alt="[Angular On Chain" width="350" title="Angular On Chaint">
+  <img src="docs/images/hardhat_files.png"  alt="Angular On Chain" width="350" title="Angular On Chaint">
 </p>
 
 Will do the wiring with the contracts artifacts moving the required artifacts and json files to the assets folder  
 In the case that you want to deploy to a testnest or mainnet you can skip the next command
 
 ```javascript
-npm run node   
+npm run chain  
 // spin blockhain node on localhost creating 10 accounts and privatekeys
 ```
 Either deploying to localhost node or testnet/cloud the conract has to be compiled
