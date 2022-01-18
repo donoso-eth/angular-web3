@@ -42,8 +42,7 @@ async function main() {
     const Contract = await ethers.getContractFactory(toDeployContract.name);
 
     let contract
-    contract =  await Contract.deploy(toDeployContract.ctor);
-    toDeployContract.ctor == undefined ?  await Contract.deploy() : await Contract.deploy(toDeployContract.ctor);
+    toDeployContract.ctor == undefined ?  contract = await Contract.deploy() : contract = await Contract.deploy(toDeployContract.ctor);
     await contract.deployed();
 
     writeFileSync(`${contract_path}/${toDeployContract.jsonName}_metadata.json`, JSON.stringify({
