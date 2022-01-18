@@ -5,7 +5,7 @@ import "hardhat/console.sol";
 
 contract DebugContract {
     string private greeting;
-    event SetGreetingEvent(address sender,string new_greeting);
+    event ValueChangedEvent(uint256 value);
     
     constructor(string memory _greeting) {
         console.log("Deploying a Greeter with greeting:", _greeting);
@@ -24,9 +24,10 @@ contract DebugContract {
 
     function setGreeting(string memory _greeting) public {
         greeting = _greeting;
-        emit SetGreetingEvent(msg.sender,greeting);
+       
     }
 
     receive() external payable {
+    emit ValueChangedEvent(msg.value);
 }
 }

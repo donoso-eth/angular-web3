@@ -44,8 +44,9 @@ export class HelloWorldOnChainService {
   async init(){
     const myProvider = await this.localProvider.init()
     await this.localProvider.initBlockSubscription()
-    await this.contractService.init(myProvider)
-    await this.walletService.init(myProvider)
+    const mywallet =  await this.walletService.init(myProvider)
+    await this.contractService.init(myProvider,mywallet)
+   
 
   }
 }

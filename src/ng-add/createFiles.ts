@@ -32,19 +32,18 @@ export const  createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
 
     }
     if (options.configuration == "minimalContract") {
-      const templateApp = apply(url("./files/1-hello-world-on-chain/demo-app"), [
+      const templateApp = apply(url("./files/0-minimal-contract/demo-app"), [
         applyTemplates({}),
         move(normalize(`/${options.sourceRoot}/app/dapp/demos/`)),
       ]);
       templateRules.push(mergeWith(templateApp, MergeStrategy.Overwrite));
   
       const templateHardhat = apply(
-        url("./files/1-hello-world-on-chain/hardhat"),
+        url("./files/0-minimal-contract/hardhat"),
         [applyTemplates({ sourceRoot:options.sourceRoot }), move(normalize(`/hardhat/`))]
       );
       templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
-    } else 
-    if (options.configuration == "helloWorld") {
+    } else if (options.configuration == "helloWorld") {
       const templateApp = apply(url("./files/1-hello-world-on-chain/demo-app"), [
         applyTemplates({}),
         move(normalize(`/${options.sourceRoot}/app/dapp/demos/`)),
@@ -71,6 +70,16 @@ export const  createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
       templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
     } 
     
+    if (options.configuration !== "minimalContract"){
+      const templateCommonDemo = apply(url("./files/demo/demo-app"), [
+        applyTemplates({ sourceRoot:options.sourceRoot }),
+        move(normalize(normalize(`/${options.sourceRoot}/app/dapp/`))),
+      ]);
+      templateRules.push(
+        mergeWith(templateCommonDemo, MergeStrategy.Overwrite)
+      );
+    }
+
     if (!host.exists("src/typings.d.ts")) {
       const templateTypings = apply(url("./files/typings"), [
         applyTemplates({}),

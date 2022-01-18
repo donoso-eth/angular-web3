@@ -23,8 +23,10 @@ class AddToModuleContext {
 export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   let importName;
   let importPath;
-  if (_options.configuration == "minimal") {
-    return tree;
+  if (_options.configuration == "minimalContract") {
+    importName = "MinimalContractModule";
+    importPath =
+      "./dapp/demos/0-minimal-contract/minimal-contract.module";
   } else if (_options.configuration == "helloWorld") {
     importName = "HelloWorldOnChainModule";
     importPath =
@@ -37,8 +39,6 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   }
 
   const appModulePath = `/${_options.sourceRoot}/app/app.module.ts` as string;
-
-  console.log(appModulePath);
 
   const appModuleFile = (
     tree.read(normalize(appModulePath)) as Buffer

@@ -114,11 +114,11 @@ export class HelloWorldOnChainComponent implements OnInit {
   }
 
   async displayGreeting() {
-    this.greeting = await this.myContract.greet();
-    this.deployer_balance = ethers.utils.formatUnits(
-      await this.newWallet.getBalance(),
-      18
-    );
+    // this.greeting = await this.myContract.greet();
+    // this.deployer_balance = ethers.utils.formatUnits(
+    //   await this.newWallet.getBalance(),
+    //   18
+    // );
     this.loading_contract = 'found';
   }
 

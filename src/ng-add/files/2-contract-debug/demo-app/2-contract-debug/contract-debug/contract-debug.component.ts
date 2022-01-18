@@ -103,13 +103,13 @@ export class ContractDebugComponent implements AfterViewInit {
 
     componentRef.instance.newEventFunction.subscribe(
       async (value: IINPUT_EVENT) => {
- 
+        console.log(value)
         const myResult = await this.onChainService.contractService.runFunction(
           value.function,
           value.args,
           value.state
         );
-      
+        console.log(value,2)
         if (value.function !== 'pure' && value.function !== 'view') {
        
           this.updateState();
@@ -132,7 +132,6 @@ export class ContractDebugComponent implements AfterViewInit {
 
   async onChainStuff() {
 
- 
 
     try {
 
@@ -194,7 +193,7 @@ export class ContractDebugComponent implements AfterViewInit {
       this.eventsAbiArray.forEach((val) => {
       
         this.myContract.on(val.name, (args) => {
-          console.log(args)
+         
           let payload;
           if (typeof args == 'object') {
             payload = JSON.stringify(args);

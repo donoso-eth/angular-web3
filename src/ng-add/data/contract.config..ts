@@ -1,7 +1,7 @@
 export const contract_config = {
   "minimalContract": {
     "artifactsPath": "0-MinimalContract.sol/MinimalContract.json",
-    "name":"Minimal Contract",
+    "name":"MinimalContract",
     "jsonName":"minimal_contract"
   },
     "helloWorld": {
