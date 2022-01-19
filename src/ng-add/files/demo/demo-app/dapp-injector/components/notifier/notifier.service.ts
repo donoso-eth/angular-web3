@@ -26,3 +26,5 @@ export class NotifierService {
 
 
 }
+  // transaction_details.class = ["green-snackbar"];
+  // transaction_details.class = ["red-snackbar"];

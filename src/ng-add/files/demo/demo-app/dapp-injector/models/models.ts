@@ -30,3 +30,27 @@ export interface IINPUT_EVENT {
   outputs: Array<any>;
   args: any;
 }
+
+
+export interface IFUNCION_CALL_RESULT {
+  success:boolean,
+  message:string
+
+}
+
+
+export interface ITRANSACTION_RESULT {
+  success:boolean,
+  success_result?:ITRANSACTION_DETAILS,
+  error_message?:string
+
+}
+
+export interface ITRANSACTION_DETAILS  {
+    txhash: string
+    bknr: number,
+    from: string
+    gas: string
+    to: string
+    value: string
+}
