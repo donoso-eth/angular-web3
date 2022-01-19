@@ -30,12 +30,12 @@
   "skipInstall": {
     "description": "skipInstall",
     "type": "boolean",
-    "default": "false"
+    "default": false
   },
   "alreadyInstalled": {
     "description": "skipInstall",
     "type": "boolean",
-    "default": "false"
+    "default": false
   }
 }
 }
