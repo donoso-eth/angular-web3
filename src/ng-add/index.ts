@@ -18,23 +18,9 @@ import { addImport } from "./addImportStatement";
 
 /** Adds a package to the package.json in the given host tree. */
 const setupOptions = (host: Tree, _options: IOPTIONS_EXTENDED, context:SchematicContext): Tree => {
-  context.logger.warn('hola',{color:'blue'})
 
-  context.logger.error(
-    `Skipped adding 🚀🚀🚀🚀🚀🚀🚀🚀`)
 
-  context.logger.warn(`⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ `)
-  context.logger.warn(
-    `Don't forget to add the following line to your tsconfig.json`,
-  );
-  context.logger.warn(
-    `"paths":{"angularonchain":["src/app/dapp/dapp-injector/index.ts"]}`,
-  );
 
-  context.logger.warn(`⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ `)
-  context.logger.info(
-    `Skipped adding 🪵`)
-  
   let workspaceConfig;
   workspaceConfig = JSON.parse(host.read("angular.json")!.toString("utf-8"));
 
@@ -106,6 +92,23 @@ const changeContractConfig = (host: Tree, _options: IOPTIONS_EXTENDED): Tree =>{
   return host;
 }
 
+const doTheLogs = (host: Tree, _options: IOPTIONS_EXTENDED, context:SchematicContext): Tree => {
+
+context.logger.info('')
+context.logger.warn(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`)
+context.logger.warn(`Don't forget to add the following line to your tsconfig.json`);
+context.logger.warn(`"paths":{"angularonchain":["src/app/dapp/dapp-injector/index.ts"]}`)
+context.logger.warn(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`)
+context.logger.info('')
+if (_options.configuration !== 'minimalContract'){
+  context.logger.warn(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`)
+  context.logger.warn(`Plese don't forget to ng add @angular/amterial`);
+  context.logger.warn(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`)
+}
+context.logger.info('')
+
+return host
+}
 
 export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
   return chain([
@@ -121,8 +124,12 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
     (tree: Tree, _context: SchematicContext) => {
       return  addImport(tree, _options);
     },
-    adScriptsToPackageJson(_options),
     addAndinstallDependencies(_options),
+    adScriptsToPackageJson(_options),
+    (tree: Tree, _context: SchematicContext) => {
+      return  doTheLogs(tree, _options,_context);
+    },
+
   ]);
 }
 

@@ -13,12 +13,21 @@ import DebugContractMetadata from '../../../../../assets/contracts/debug_contrac
 import { ContractInputComponent } from '../contract-input/contract-input.component';
 
 import { ethers } from 'ethers';
-import { BlockWithTransactions, convertEtherToWei, convertUSDtoEther, convertWeiToEther, DialogService, displayEther, displayUsd, IABI_OBJECT, IBALANCE, ICONTRACT, IINPUT_EVENT } from 'angularonchain';
+import {
+  BlockWithTransactions,
+  convertEtherToWei,
+  convertUSDtoEther,
+  convertWeiToEther,
+  DialogService,
+  displayEther,
+  displayUsd,
+  IABI_OBJECT,
+  IBALANCE,
+  ICONTRACT,
+  IINPUT_EVENT,
+  NotifierService,
+} from 'angularonchain';
 import { OnChainService } from '../on-chain.service';
-
-
-
-
 
 @Component({
   selector: 'debug-contract',
@@ -30,7 +39,7 @@ export class DebugContractComponent implements AfterViewInit {
   contract_abi: Array<IABI_OBJECT>;
   walletBalance: IBALANCE;
   contractBalance: IBALANCE;
-  contractHeader:ICONTRACT;
+  contractHeader: ICONTRACT;
   deployer_address;
 
   myContract: ethers.Contract;
@@ -52,13 +61,14 @@ export class DebugContractComponent implements AfterViewInit {
   dollarExchange: number;
   balanceDollar: number;
   constructor(
-    private dialogService:DialogService,
-    private onChainService:OnChainService,
+    private dialogService: DialogService,
+    private notifierService: NotifierService,
+    private onChainService: OnChainService,
 
     private componentFactoryResolver: ComponentFactoryResolver
   ) {
     this.contract_abi = DebugContractMetadata.abi;
-    console.log(this.contract_abi)
+    console.log(this.contract_abi);
   }
 
   @ViewChild('inputContainer', { read: ViewContainerRef })
@@ -103,20 +113,32 @@ export class DebugContractComponent implements AfterViewInit {
 
     componentRef.instance.newEventFunction.subscribe(
       async (value: IINPUT_EVENT) => {
-      
         const myResult = await this.onChainService.contractService.runFunction(
           value.function,
           value.args,
           value.state
         );
-      
+        console.log(myResult);
+        if (myResult.msg.success == false) {
+          await this.notifierService.showNotificationTransaction(myResult.msg);
+        }
+
+        if (myResult.msg.success_result !== undefined) {
+          await this.notifierService.showNotificationTransaction(myResult.msg);
+        }
+
         if (value.function !== 'pure' && value.function !== 'view') {
-       
           this.updateState();
         }
 
         if (value.outputs.length > 0) {
-          componentRef.instance.refreshUi(myResult);
+          if (myResult.msg.success == true) {
+            componentRef.instance.refreshUi(myResult.payload);
+          } else {
+            await this.notifierService.showNotificationTransaction(
+              myResult.msg
+            );
+          }
         }
       }
     );
@@ -124,76 +146,78 @@ export class DebugContractComponent implements AfterViewInit {
 
   async updateState() {
     for (const stateCompo of this.stateInstances) {
-      const result = await this.onChainService.contractService.runContractFunction( stateCompo.abi_input.name,{})
+      const result =
+        await this.onChainService.contractService.runContractFunction(
+          stateCompo.abi_input.name,
+          {}
+        );
 
-      stateCompo.refreshUi(result);
+      if (result.msg.success == true) {
+        stateCompo.refreshUi(result.payload);
+      } else {
+        this.notifierService.showNotificationTransaction(result.msg);
+      }
     }
   }
 
   async onChainStuff() {
-
-
     try {
-
       await this.onChainService.init();
 
       this.deployer_address =
         await this.onChainService.localProvider.Signer.getAddress();
-  
-        this.onChainService.localProvider.blockEventSubscription.subscribe(
-          async (blockNr) => {
-      
-            this.onChainService.contractService.refreshBalance();
-            this.onChainService.walletService.refreshWalletBalance();
-            this.blockchain_is_busy = false;
-            const block =
-              await this.onChainService.localProvider.Provider.getBlockWithTransactions(
-                blockNr
-              );
-           this.blocks = [block].concat(this.blocks);
-          }
-        );
-    
-          this.newWallet = await this.onChainService.walletService.wallet;
-          this.myContract = this.onChainService.contractService.Contract;
-    
-          this.onChainService.contractService.contractBalanceSubscription.subscribe(
-            async (balance) => {
-              const ehterbalance = convertWeiToEther(balance);
-              const dollar =
-                ehterbalance * (await this.onChainService.getDollarEther());
-              this.contractBalance = {
-                ether: displayEther(ehterbalance),
-                usd: displayUsd(dollar),
-              };
-            }
-          );
-    
-          this.onChainService.walletService.walletBalanceSubscription.subscribe(
-            async (balance) => {
-              const ehterbalance = convertWeiToEther(balance);
-              const dollar =
-                ehterbalance * (await this.onChainService.getDollarEther());
-              this.walletBalance = {
-                ether: displayEther(ehterbalance),
-                usd: displayUsd(dollar),
-              };
-            }
-          );
-    
-          this.contractHeader = {
-            name: this.onChainService.contractService.metadata.name,
-            address: this.onChainService.contractService.metadata.address,
+
+      this.onChainService.localProvider.blockEventSubscription.subscribe(
+        async (blockNr) => {
+          this.onChainService.contractService.refreshBalance();
+          this.onChainService.walletService.refreshWalletBalance();
+          this.blockchain_is_busy = false;
+          const block =
+            await this.onChainService.localProvider.Provider.getBlockWithTransactions(
+              blockNr
+            );
+          this.blocks = [block].concat(this.blocks);
+        }
+      );
+
+      this.newWallet = await this.onChainService.walletService.wallet;
+      this.myContract = this.onChainService.contractService.Contract;
+
+      this.onChainService.contractService.contractBalanceSubscription.subscribe(
+        async (balance) => {
+          const ehterbalance = convertWeiToEther(balance);
+          const dollar =
+            ehterbalance * (await this.onChainService.getDollarEther());
+          this.contractBalance = {
+            ether: displayEther(ehterbalance),
+            usd: displayUsd(dollar),
           };
+        }
+      );
+
+      this.onChainService.walletService.walletBalanceSubscription.subscribe(
+        async (balance) => {
+          const ehterbalance = convertWeiToEther(balance);
+          const dollar =
+            ehterbalance * (await this.onChainService.getDollarEther());
+          this.walletBalance = {
+            ether: displayEther(ehterbalance),
+            usd: displayUsd(dollar),
+          };
+        }
+      );
+
+      this.contractHeader = {
+        name: this.onChainService.contractService.metadata.name,
+        address: this.onChainService.contractService.metadata.address,
+      };
 
       this.eventsAbiArray = this.contract_abi.filter(
         (fil) => fil.type == 'event'
       );
 
       this.eventsAbiArray.forEach((val) => {
-      
         this.myContract.on(val.name, (args) => {
-         
           let payload;
           if (typeof args == 'object') {
             payload = JSON.stringify(args);
@@ -208,7 +232,6 @@ export class DebugContractComponent implements AfterViewInit {
           });
         });
       });
-
 
       this.contract_abi
         .filter((fil) => fil.type !== 'constructor')
@@ -229,8 +252,7 @@ export class DebugContractComponent implements AfterViewInit {
       await this.onChainService.localProvider.Provider.getBlockWithTransactions(
         blockNr
       );
-      this.blocks = this.blocks.concat(block);
- 
+    this.blocks = this.blocks.concat(block);
   }
 
   async doFaucet() {
@@ -243,13 +265,17 @@ export class DebugContractComponent implements AfterViewInit {
       value: ethers.utils.parseEther(amountInEther),
     };
     // Send a transaction
-    await this.onChainService.localProvider.doTransaction(tx);
+    const transaction_result =
+      await this.onChainService.localProvider.doTransaction(tx);
+    this.blockchain_is_busy = false;
+    await this.notifierService.showNotificationTransaction(transaction_result);
   }
 
   async openTransaction() {
     this.blockchain_is_busy = true;
     const res = await this.dialogService.openDialog();
-    if (res.type == 'transaction') {
+
+    if (res && res.type == 'transaction') {
       const usd = res.amount;
       const amountInEther = convertUSDtoEther(
         res.amount,
@@ -262,12 +288,17 @@ export class DebugContractComponent implements AfterViewInit {
         // Convert currency unit from ether to wei
         value: amountinWei,
       };
+
       const transaction_result =
         await this.onChainService.walletService.doTransaction(tx);
-
+      this.blockchain_is_busy = false;
+      await this.notifierService.showNotificationTransaction(
+        transaction_result
+      );
+    } else {
+    this.blockchain_is_busy = false;
     }
   }
-
 
   ngAfterViewInit(): void {
     this.onChainStuff();

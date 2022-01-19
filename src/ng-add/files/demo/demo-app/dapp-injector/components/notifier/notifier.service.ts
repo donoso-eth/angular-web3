@@ -1,5 +1,6 @@
 import { AfterViewInit, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ITRANSACTION_RESULT } from '../../models';
 import { NotifierComponent } from './notifier/notifier.component';
 
 export interface INOTIF {
@@ -15,16 +16,15 @@ export class NotifierService {
   constructor(private _snackBar: MatSnackBar) {}
 
 
-  async showNotification(notification_message){
+  async showNotificationTransaction(notification_message:ITRANSACTION_RESULT){
+    console.log(notification_message)
     this._snackBar.openFromComponent(NotifierComponent, {
       data: notification_message,
       horizontalPosition: 'right',
-      verticalPosition: 'top',
-      panelClass: notification_message.class,
+      verticalPosition: notification_message.success == true ?  'top' : 'bottom',
+      panelClass: notification_message.success == true ? ["green-snackbar"]:["red-snackbar"]
     });
   }
 
 
 }
-  // transaction_details.class = ["green-snackbar"];
-  // transaction_details.class = ["red-snackbar"];

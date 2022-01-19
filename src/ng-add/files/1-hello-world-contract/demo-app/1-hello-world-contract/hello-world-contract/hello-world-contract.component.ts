@@ -14,6 +14,7 @@ import {
   displayEther,
   displayUsd,
   convertUSDtoEther,
+  NotifierService,
 } from 'angularonchain';
 
 @Component({
@@ -38,6 +39,7 @@ export class HelloWorldContractComponent implements OnInit {
   contractHeader: ICONTRACT;
   constructor(
     private dialogService: DialogService,
+    private notifierService:NotifierService,
     private onChainService: OnChainService
   ) {}
 
@@ -114,11 +116,11 @@ export class HelloWorldContractComponent implements OnInit {
   }
 
   async displayGreeting() {
-    // this.greeting = await this.myContract.greet();
-    // this.deployer_balance = ethers.utils.formatUnits(
-    //   await this.newWallet.getBalance(),
-    //   18
-    // );
+    this.greeting = await this.onChainService.contractService.Contract.greet();
+    this.deployer_balance = ethers.utils.formatUnits(
+      await this.newWallet.getBalance(),
+      18
+    );
     this.loading_contract = 'found';
   }
 
@@ -132,13 +134,17 @@ export class HelloWorldContractComponent implements OnInit {
       value: ethers.utils.parseEther(amountInEther),
     };
     // Send a transaction
-    await this.onChainService.localProvider.doTransaction(tx);
+    const transaction_result =
+      await this.onChainService.localProvider.doTransaction(tx);
+    this.blockchain_is_busy = false;
+    await this.notifierService.showNotificationTransaction(transaction_result);
   }
 
   async openTransaction() {
     this.blockchain_is_busy = true;
     const res = await this.dialogService.openDialog();
-    if (res.type == 'transaction') {
+
+    if (res && res.type == 'transaction') {
       const usd = res.amount;
       const amountInEther = convertUSDtoEther(
         res.amount,
@@ -151,10 +157,15 @@ export class HelloWorldContractComponent implements OnInit {
         // Convert currency unit from ether to wei
         value: amountinWei,
       };
+
       const transaction_result =
         await this.onChainService.walletService.doTransaction(tx);
-
-      console.log(transaction_result);
+      this.blockchain_is_busy = false;
+      await this.notifierService.showNotificationTransaction(
+        transaction_result
+      );
+    } else {
+    this.blockchain_is_busy = false;
     }
   }
 
@@ -172,11 +183,12 @@ export class HelloWorldContractComponent implements OnInit {
     //   'payable'
     // );
 
-    const result = await this.onChainService.contractService.runFunction(
+    const transaction_result = await this.onChainService.contractService.runTransactionFunction(
       'setGreeting',
-      'nonpayable'
+      [this.greeting_input]
     );
-
+    this.blockchain_is_busy = false;
+    await this.notifierService.showNotificationTransaction(transaction_result.msg);
     this.displayGreeting();
   }
 

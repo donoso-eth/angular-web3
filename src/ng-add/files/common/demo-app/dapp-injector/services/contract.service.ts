@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Contract, providers, Wallet } from 'ethers';
 import { ReplaySubject } from 'rxjs';
-import { ICONTRACT } from '../models/models';
+import { ICONTRACT, ITRANSACTION_DETAILS, ITRANSACTION_RESULT } from '../models/models';
 
 @Injectable({
   providedIn: 'root',
@@ -54,33 +54,37 @@ export class ContractService implements OnDestroy {
   // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
   async runTransactionFunction(functionName, args) {
-    let notification_message = {
-      type: 'transaction',
-      txhash: '',
-      bknr: '',
-      from: '',
-      gas: 0,
-      to: '',
-      value: '',
-      class: [],
-      message: '',
+ 
+    let notification_message:ITRANSACTION_RESULT = {
+      success: false
+    }
+
+    let transaction_details:ITRANSACTION_DETAILS = {
+      txhash: "",
+      bknr: 0,
+      from: "",
+      gas: "",
+      to: "",
+      value: "",
     };
 
     try {
       const result_tx = await this._contract.functions[functionName].apply(this, args);
       const result = await result_tx.wait();
-      notification_message.txhash = result.transactionHash;
-      notification_message.from = result.from;
-      notification_message.to = result.to;
-      notification_message.gas = result.gasUsed;
-      notification_message.bknr = result.blockNumber;
+      transaction_details.txhash = result.transactionHash;
+      transaction_details.from = result.from;
+      transaction_details.to = result.to;
+      transaction_details.gas = result.gasUsed;
+      transaction_details.bknr = result.blockNumber;
 
       result_tx.value == undefined
-        ? (notification_message.value = '0')
-        : (notification_message.value = result_tx.value.toString());
-      notification_message.class = ['green-snackbar'];
+        ? (transaction_details.value = '0')
+        : (transaction_details.value = result_tx.value.toString());
+        notification_message.success = true;
+        notification_message.success_result = transaction_details;
+   
     } catch (e) {
-      notification_message.type = 'error';
+    
       // console.log(e);
       // Accounts for Metamask and default signer on all networks
       let myMessage =
@@ -106,15 +110,27 @@ export class ContractService implements OnDestroy {
       } catch (e) {
         //ignore
       }
-      notification_message.message = myMessage;
-      notification_message.class = ['red-snackbar'];
+      notification_message.error_message = myMessage;
     }
-    return notification_message;
+  
+    return   { msg:notification_message, payload:undefined};
   }
 
   async runContractFunction(functionName, args) {
-    const result = await this._contract.functions[functionName].apply(this, args);
-    return result;
+    let notification_message:ITRANSACTION_RESULT = {
+      success: false
+    }
+
+   
+    try {
+      const result = await this._contract.functions[functionName].apply(this, args);
+      notification_message.success = true
+       return   { msg:notification_message, payload:result};
+    } catch (error) {
+      notification_message.error_message = error.toString()
+      return   { msg:notification_message};
+    }
+   
   }
 
  async  runFunction(functionName: string, args: any, state?: string) {
@@ -131,7 +147,7 @@ export class ContractService implements OnDestroy {
     if (state == 'pure' || state == 'view') {
       return await this.runContractFunction(functionName, args);
     } else {
-      await this.runTransactionFunction(functionName, args);
+      return await this.runTransactionFunction(functionName, args);
     }
 
   }

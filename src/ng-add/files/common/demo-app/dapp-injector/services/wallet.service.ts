@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Wallet } from 'ethers';
 import { ReplaySubject } from 'rxjs';
+import { ITRANSACTION_DETAILS, ITRANSACTION_RESULT } from '../models';
 
 @Injectable({
   providedIn: 'root',
@@ -22,16 +23,17 @@ export class WalletService {
   }
 
   async doTransaction(tx) {
-    let notification_message = {
-      type: 'transaction',
-      txhash: '',
-      bknr: '',
-      from: '',
-      gas: 0,
-      to: '',
-      value: '',
-      class: [],
-      message: '',
+    let notification_message:ITRANSACTION_RESULT = {
+      success: false
+    }
+
+    let transaction_details:ITRANSACTION_DETAILS = {
+      txhash: "",
+      bknr: 0,
+      from: "",
+      gas: "",
+      to: "",
+      value: "",
     };
 
     try {
@@ -41,18 +43,18 @@ export class WalletService {
       tx_result = await tx_obj.wait();
 
       const result = tx_result;
-      notification_message.txhash = result.transactionHash;
-      notification_message.from = result.from;
-      notification_message.to = result.to;
-      notification_message.gas = result.gasUsed;
-      notification_message.bknr = result.blockNumber;
+      transaction_details.txhash = result.transactionHash;
+      transaction_details.from = result.from;
+      transaction_details.to = result.to;
+      transaction_details.gas = result.gasUsed;
+      transaction_details.bknr = result.blockNumber;
 
       tx_result.value == undefined
-        ? (notification_message.value = '0')
-        : (notification_message.value = tx_result.value.toString());
-      notification_message.class = ['green-snackbar'];
+        ? (transaction_details.value = '0')
+        : (transaction_details.value = tx_result.value.toString());
+        notification_message.success = true;
+        notification_message.success_result = transaction_details;
     } catch (e) {
-      notification_message.type = 'error';
       // console.log(e);
       // Accounts for Metamask and default signer on all networks
       let myMessage =
@@ -79,8 +81,8 @@ export class WalletService {
         //ignore
       }
 
-      notification_message.message = myMessage;
-      notification_message.class = ['red-snackbar'];
+      notification_message.error_message = myMessage;
+     
     
     }
     return notification_message

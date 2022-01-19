@@ -47,7 +47,7 @@ export class NetworkProviderService {
   async doTransaction(tx) {
  
     let notification_message:ITRANSACTION_RESULT = {
-      success: false;
+      success: false
     }
 
     let transaction_details:ITRANSACTION_DETAILS = {
@@ -104,12 +104,12 @@ export class NetworkProviderService {
         //ignore
       }
 
-     // transaction_details.message = myMessage;
+    
      notification_message.error_message = myMessage;
     
     }
 
-    return transaction_details
+    return notification_message
      }
 
 

@@ -28,13 +28,15 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
       mergeWith(templateCommonHardhat, MergeStrategy.Overwrite)
     );
 
+  }
+  
     const templateCommonApp = apply(url("./files/common/demo-app"), [
       applyTemplates({ sourceRoot: options.sourceRoot }),
       move(normalize(normalize(`/${options.sourceRoot}/app/dapp/`))),
     ]);
 
     templateRules.push(mergeWith(templateCommonApp, MergeStrategy.Overwrite));
-  }
+
   if (options.configuration == "minimalContract") {
     const templateApp = apply(url("./files/0-minimal-contract/demo-app"), [
       applyTemplates({}),

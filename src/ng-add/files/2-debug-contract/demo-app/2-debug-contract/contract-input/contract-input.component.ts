@@ -49,7 +49,14 @@ export class ContractInputComponent implements OnInit {
   }
 
   refreshUi(_labels:Array<any>) {
-    this.labels = _labels
+    if (_labels.constructor === Array){
+      this.labels = _labels
+    } else if (typeof(_labels)== 'object') {
+      this.labels = [JSON.stringify(_labels)];
+    } else {
+      this.labels = [_labels]
+    }
+  
     this.cd.detectChanges();
   }
 
