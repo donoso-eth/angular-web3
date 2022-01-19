@@ -3,6 +3,8 @@
 src/**/*.js
 src/**/*.js.map
 src/**/*.d.ts
+!src/ng-add/files/**/*.js
+!src/ng-add/files/**/*.d.ts
 
 # IDEs
 .idea/
