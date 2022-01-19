@@ -46,9 +46,13 @@ Prerequisites:
 To be in an **Angular project** 
   
    ```bash
-  ng new my-awesome-angular-dapp  
+  ng new angular-scaffold-eth  
 ``` 
-Angualar material is only required dor the demo-apps embedded achieveing fast mock up.   
+cd in the directory
+   ```bash
+  cd angular-scaffold-eth  
+``` 
+ 
   &nbsp;  
 ### 1) Add the angularonchain schematics package to your project  
 
@@ -59,22 +63,25 @@ ng add angularonchain
 ### 2) chose installation Options:
 The package will prompt the options for configuration  
 - Project name: if not provided, the angular.json default project will be taken
-- Demo Dapp to be installed. The roadmap shows the plan to add additional demo Dapps, for the time being only "Hello on Chan
+- Demo Dapp to be installed. The roadmap shows the plan to add additional demo Dapps, for the time being only Hello World Contract and Debug Contract are available
   - Minimal Contract
   - Demo Hello World Contract
   - Demo Debug Contract  
  &nbsp;  
 
-If you choose a Demo app, bear in mind that we use Angular Material for fast mock up, therefore please install angular material dor Hello World and Debug Contracts
+If you choose a Demo app, bear in mind that we use Angular Material for fast mock up, therefore please install angular material for Hello World and Debug Contracts
 ```bash
   ng add @angular/material
 ```
+  &nbsp;  
+### 3) Update tsconfig.json:
 Please add following line to the paths property within the tsconfig.json file in the compilerOptions section.
  ```
 "paths":{"angularonchain":["src/app/dapp/dapp-injector/index.ts"]}
 ```
+  &nbsp;  
 
-### 3) Initialize your 👷‍ Hardhat chain:
+### 4) Initialize your 👷‍ Hardhat chain:
 For start up and running we recommend starting learning and playing with the local node. 
 
 &nbsp;**Hardhat file structure**.
@@ -84,8 +91,8 @@ The schematics package will scaffold the required hardhat config:
   <img src="docs/images/hardhat_files.png"  alt="Angular On Chain" width="350" title="Angular On Chaint">
 </p>
 
-Will do the wiring with the contracts artifacts moving the required artifacts and json files to the assets folder  
-In the case that you want to deploy to a testnest or mainnet you can skip the next command
+It will do the wiring moving the contracts and requiered artifacts as json files to the assets folder.  
+In the case that you want to deploy to a testnest or mainnet you can skip the next command.
 
 ```javascript
 npm run chain  
@@ -102,6 +109,7 @@ When compiling, the contract artifacts will be created in the angular project as
 
 🔏 You can edit your smart contract `.sol` in `/hardhat/contracts` and recompile with same command 
 
+Now is time to deploy our contract
 
 ```javascript
 npm run deploy
@@ -119,7 +127,7 @@ npm run watch
 // launch compile and deploy in watch mode.
 ```
 ☠️☠️☠️ Don't do watch mode in mainnet  
-⚠️⚠️⚠️ Take care watching in the testnet, test ether is free but you are required to hace some  
+⚠️⚠️⚠️ Take care watching in the testnet, test ether is free but you are required to have some  
  &nbsp;  
  **Testing Solidity Contracts**
  The schematics also include the hardhat test configuratio and infrastructure for solidity contract testing  
@@ -138,25 +146,26 @@ npm run contracts:coverage
   <img src="docs/images/solidity_coverage.png"  alt="[Angular On Chain" width="350" title="Angular On Chaint">
 </p>
 
-Out of the box testing infrastructure prepared 🧪🧪🧪🧪
+Out of the box testing infrastructure ready to use 🧪🧪🧪🧪
 
 &nbsp;
 
-### 4) Your demo App:  
+### 5) Your demo App:  
 Our target is to upload every two weeks a new Demo App till we have around 10 dapps showcasing major use cases.
 
-For the time being, we have the first two: **Hello World On Chain** and **Debug Contrat**  
-&nbsp; 
-
-**Dapp Demo Feature module**.
+For the time being, we have the first two: **Hello World On Chain** and **Debug Contrat**.  
+The schematics package
  It will also scaffold a angular module with the use case chosen. In our case the the "hello world on chain module"
 <p align="center">
   <img src="docs/images/feature_dapp.png"  alt="Feature Dapp Module" width="350" title="Feature Dapp Module">
 </p>
-The next steps are: 
+The next steps are:  
 
-    - Importing the feature module in the respective module (for instance AppModule)
-    - Copy the selector of the exported featuremodule component into the chosen component .html   
+- **Copy the selector** of the exported featuremodule component into the chosen component .html  
+   
+```javascript
+<hello-world-contract></hello-world-contract> 
+``` 
  &nbsp;
  - **typings.d.ts** file.  
   We The contract interface .abi file and the contract address will be directly imported through json files, we require to have following lines of code in your typings.d.ts file:  
@@ -173,6 +182,12 @@ declare module "*.json" {
 ```
 In the case that no typings.d.ts file is available, the schematics package will create it.
  &nbsp;
+
+ &nbsp;
+# 🚀🚀🚀 And Voilà
+<p align="center">
+  <img src="docs/images/hello_dapp.png"  alt="Hello World app"  title="Hello World app">
+</p>
 
  &nbsp;
 # 📚 Documentation
