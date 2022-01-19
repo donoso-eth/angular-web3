@@ -6,6 +6,7 @@ import {
   SchematicsException,
   Tree,
   url,
+  
 } from "@angular-devkit/schematics";
 
 import { IOPTIONS_EXTENDED } from "./schema";
@@ -14,12 +15,27 @@ import { addAndinstallDependencies } from "./addAndInstallDependencies";
 import { adScriptsToPackageJson } from "./addScriptsToPackageJson";
 import { contract_config } from "./data/contract.config.";
 import { addImport } from "./addImportStatement";
-import { updateTsConfig } from "./updateTsConfig";
 
 /** Adds a package to the package.json in the given host tree. */
-const setupOptions = (host: Tree, _options: IOPTIONS_EXTENDED): Tree => {
-  let workspaceConfig;
+const setupOptions = (host: Tree, _options: IOPTIONS_EXTENDED, context:SchematicContext): Tree => {
+  context.logger.warn('hola',{color:'blue'})
 
+  context.logger.error(
+    `Skipped adding 🚀🚀🚀🚀🚀🚀🚀🚀`)
+
+  context.logger.warn(`⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ `)
+  context.logger.warn(
+    `Don't forget to add the following line to your tsconfig.json`,
+  );
+  context.logger.warn(
+    `"paths":{"angularonchain":["src/app/dapp/dapp-injector/index.ts"]}`,
+  );
+
+  context.logger.warn(`⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ `)
+  context.logger.info(
+    `Skipped adding 🪵`)
+  
+  let workspaceConfig;
   workspaceConfig = JSON.parse(host.read("angular.json")!.toString("utf-8"));
 
   let project;
@@ -94,7 +110,7 @@ const changeContractConfig = (host: Tree, _options: IOPTIONS_EXTENDED): Tree =>{
 export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
   return chain([
     (tree: Tree, _context: SchematicContext) => {
-      setupOptions(tree, _options);
+      setupOptions(tree, _options, _context);
     },
     (tree: Tree, _context: SchematicContext) => {
       changeContractConfig(tree, _options);
