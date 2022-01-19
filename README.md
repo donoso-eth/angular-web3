@@ -69,7 +69,11 @@ If you choose a Demo app, bear in mind that we use Angular Material for fast moc
 ```bash
   ng add @angular/material
 ```
- 
+Please add following line to the paths property within the tsconfig.json file in the compilerOptions section.
+ ```
+"paths":{"angularonchain":["src/app/dapp/dapp-injector/index.ts"]}
+```
+
 ### 3) Initialize your 👷‍ Hardhat chain:
 For start up and running we recommend starting learning and playing with the local node. 
 
@@ -169,9 +173,7 @@ declare module "*.json" {
 ```
 In the case that no typings.d.ts file is available, the schematics package will create it.
  &nbsp;
- ```
-ng serve 'angularonchain'] = ["src/app/dapp/dapp-injector/index.ts"]
-```
+
  &nbsp;
 # 📚 Documentation
 
