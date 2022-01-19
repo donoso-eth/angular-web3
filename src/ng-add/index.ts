@@ -23,7 +23,7 @@ const setupOptions = (host: Tree, _options: IOPTIONS_EXTENDED, context:Schematic
   context.logger.error(
     `Skipped adding 🚀🚀🚀🚀🚀🚀🚀🚀`)
 
-  context.logger.warn(`⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️`)
+  context.logger.warn(`⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ `)
   context.logger.warn(
     `Don't forget to add the following line to your tsconfig.json`,
   );
@@ -31,7 +31,7 @@ const setupOptions = (host: Tree, _options: IOPTIONS_EXTENDED, context:Schematic
     `"paths":{"angularonchain":["src/app/dapp/dapp-injector/index.ts"]}`,
   );
 
-  context.logger.warn(`⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️⚠️`)
+  context.logger.warn(`⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ ⚠️ `)
   context.logger.info(
     `Skipped adding 🪵`)
   
