@@ -61,7 +61,11 @@ const setupOptions = (host: Tree, _options: IOPTIONS_EXTENDED, context:Schematic
   if (host.exists("hardhat/hardhat.config.ts")== true) {
     _options.alreadyInstalled = true;
     _options.skipInstall = true;
-  } 
+  }  else {
+    if (_options.skipInstall == undefined){
+      _options.skipInstall = false;
+    }
+  }
 
 
   return host;
@@ -102,7 +106,7 @@ context.logger.warn(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 context.logger.info('')
 if (_options.configuration !== 'minimalContract'){
   context.logger.warn(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`)
-  context.logger.warn(`Plese don't forget to ng add @angular/amterial`);
+  context.logger.warn(`Plese don't forget to ng add @angular/material`);
   context.logger.warn(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`)
 }
 context.logger.info('')
