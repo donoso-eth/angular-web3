@@ -58,15 +58,16 @@ const setupOptions = (host: Tree, _options: IOPTIONS_EXTENDED, context:Schematic
   _options.sourceRoot = project.sourceRoot;
 
   _options.alreadyInstalled = false;
+  if (_options.skipInstall == undefined){
+    _options.skipInstall = false;
+  }
   if (host.exists("hardhat/hardhat.config.ts")== true) {
     _options.alreadyInstalled = true;
     _options.skipInstall = true;
   }  else {
-    if (_options.skipInstall == undefined){
-      _options.skipInstall = false;
-    }
+ 
   }
-
+ 
 
   return host;
 }
