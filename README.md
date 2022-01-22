@@ -123,7 +123,7 @@ npm run deploy
  
 Developping in the hardhat network it may be useful to use watch hooks for compiling and deploying, if this is required you can avoid the commands 'compile' and 'deploy' and run in watch mode  
 ```javascript
-npm run watch
+npm run watch-contract
 // launch compile and deploy in watch mode.
 ```
 ☠️☠️☠️ Don't do watch mode in mainnet  
@@ -179,6 +179,8 @@ declare module "*.json" {
     const value: any;
     export default value;
 }   
+
+declare module '@download/blockies'
 ```
 In the case that no typings.d.ts file is available, the schematics package will create it.
  &nbsp;
