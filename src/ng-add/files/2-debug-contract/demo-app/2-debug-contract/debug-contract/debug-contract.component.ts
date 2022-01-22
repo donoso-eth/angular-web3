@@ -37,30 +37,30 @@ import { OnChainService } from '../on-chain.service';
 export class DebugContractComponent implements AfterViewInit {
   blocks: Array<BlockWithTransactions> = [];
   contract_abi: Array<IABI_OBJECT>;
-  walletBalance: IBALANCE;
-  contractBalance: IBALANCE;
-  contractHeader: ICONTRACT;
-  deployer_address;
-
-  myContract: ethers.Contract;
-  greeting: string;
-  greeting_input: string;
-  provider: ethers.providers.JsonRpcProvider;
+  walletBalance!: IBALANCE;
+  contractBalance!: IBALANCE;
+  contractHeader!: ICONTRACT;
+  deployer_address!:string;
+  myContract!: ethers.Contract;
+  greeting!: string;
+  greeting_input!: string;
+  provider!: ethers.providers.JsonRpcProvider;
   signer: any;
   deployer_balance: any;
   loading_contract: 'loading' | 'found' | 'error' = 'loading';
   componentInstances: Array<ContractInputComponent> = [];
   stateInstances: Array<ContractInputComponent> = [];
-  events = [];
-  eventsAbiArray = [];
+  events:Array<any> = [];
+  eventsAbiArray:Array<any> = [];
 
   blockchain_is_busy = true;
 
-  newWallet: ethers.Wallet;
+  newWallet!: ethers.Wallet;
 
-  dollarExchange: number;
-  balanceDollar: number;
+  dollarExchange!: number;
+  balanceDollar!: number;
   constructor(
+    private cd:ChangeDetectorRef,
     private dialogService: DialogService,
     private notifierService: NotifierService,
     private onChainService: OnChainService,
@@ -72,23 +72,25 @@ export class DebugContractComponent implements AfterViewInit {
   }
 
   @ViewChild('inputContainer', { read: ViewContainerRef })
-  inputContainer: ViewContainerRef;
+  inputContainer!: ViewContainerRef;
 
   @ViewChild('stateContainer', { read: ViewContainerRef })
-  stateContainer: ViewContainerRef;
+  stateContainer!: ViewContainerRef;
 
   @ViewChild('payableContainer', { read: ViewContainerRef })
-  payableContainer: ViewContainerRef;
+  payableContainer!: ViewContainerRef;
 
   add(abi: IABI_OBJECT): void {
+    this.cd.detectChanges()
     // create the compoxnent factory
     const dynamicComponentFactory =
       this.componentFactoryResolver.resolveComponentFactory(
         ContractInputComponent
       );
 
-    let componentRef;
+    let componentRef:any;
     // add the component to the view
+
 
     if (
       abi.stateMutability == 'view' &&
@@ -118,7 +120,7 @@ export class DebugContractComponent implements AfterViewInit {
           value.args,
           value.state
         );
-        console.log(myResult);
+   
         if (myResult.msg.success == false) {
           await this.notifierService.showNotificationTransaction(myResult.msg);
         }
@@ -148,7 +150,7 @@ export class DebugContractComponent implements AfterViewInit {
     for (const stateCompo of this.stateInstances) {
       const result =
         await this.onChainService.contractService.runContractFunction(
-          stateCompo.abi_input.name,
+          stateCompo.abi_input.name as string,
           {}
         );
 
@@ -243,11 +245,12 @@ export class DebugContractComponent implements AfterViewInit {
 
       this.updateState();
     } catch (error) {
+      console.log(error)
       this.loading_contract = 'error';
     }
   }
 
-  async addBlock(blockNr) {
+  async addBlock(blockNr:number) {
     const block =
       await this.onChainService.localProvider.Provider.getBlockWithTransactions(
         blockNr
@@ -299,6 +302,8 @@ export class DebugContractComponent implements AfterViewInit {
     this.blockchain_is_busy = false;
     }
   }
+
+  
 
   ngAfterViewInit(): void {
     this.onChainStuff();

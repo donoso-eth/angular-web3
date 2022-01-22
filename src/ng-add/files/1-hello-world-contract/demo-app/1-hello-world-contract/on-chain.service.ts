@@ -8,7 +8,7 @@ import { uniswap_abi } from './uniswap_abi';
   providedIn: 'root'
 })
 export class OnChainService {
-  private _dollarExchange: number;
+  private _dollarExchange!: number;
 
   constructor(@Inject('localNodeProvider') public localProvider: NetworkProviderService,
   @Inject('helloWorldContract') public contractService:ContractService, public walletService: WalletService
@@ -29,11 +29,11 @@ export class OnChainService {
 
    await uniswapService.init()
 
-  const getUniswapContract = async (address) =>
+  const getUniswapContract = async (address:string) =>
     await new Contract(address, uniswapAbi, uniswapService.Provider);
     const contract = await getUniswapContract(uniswapUsdcAddress);
-    const reserves = await contract.getReserves();
-
+    const reserves = await contract['getReserves']();
+  
     this._dollarExchange =
       (Number(reserves._reserve0) / Number(reserves._reserve1)) * 1e12;
 

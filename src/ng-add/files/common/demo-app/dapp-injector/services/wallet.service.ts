@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { JsonRpcProvider } from '@ethersproject/providers';
 import { Wallet } from 'ethers';
 import { ReplaySubject } from 'rxjs';
 import { ITRANSACTION_DETAILS, ITRANSACTION_RESULT } from '../models';
@@ -7,7 +8,7 @@ import { ITRANSACTION_DETAILS, ITRANSACTION_RESULT } from '../models';
   providedIn: 'root',
 })
 export class WalletService {
-  _myWallet: Wallet;
+  _myWallet!: Wallet;
   public walletBalanceSubscription: ReplaySubject<any> = new ReplaySubject(1);
   constructor() {}
 
@@ -22,7 +23,7 @@ export class WalletService {
     this.walletBalanceSubscription.next(weiBalance);
   }
 
-  async doTransaction(tx) {
+  async doTransaction(tx:any) {
     let notification_message:ITRANSACTION_RESULT = {
       success: false
     }
@@ -46,15 +47,15 @@ export class WalletService {
       transaction_details.txhash = result.transactionHash;
       transaction_details.from = result.from;
       transaction_details.to = result.to;
-      transaction_details.gas = result.gasUsed;
+      transaction_details.gas = (result.gasUsed).toString();
       transaction_details.bknr = result.blockNumber;
 
-      tx_result.value == undefined
+      tx_obj.value == undefined
         ? (transaction_details.value = '0')
-        : (transaction_details.value = tx_result.value.toString());
+        : (transaction_details.value = tx_obj.value.toString());
         notification_message.success = true;
         notification_message.success_result = transaction_details;
-    } catch (e) {
+    } catch (e:any) {
       // console.log(e);
       // Accounts for Metamask and default signer on all networks
       let myMessage =
@@ -88,7 +89,7 @@ export class WalletService {
     return notification_message
      }
 
-  async init(provider) {
+  async init(provider:JsonRpcProvider) {
     if (this._myWallet == undefined) {
       let wallet: Wallet;
       const currentPrivateKey = window.localStorage.getItem('metaPrivateKey');

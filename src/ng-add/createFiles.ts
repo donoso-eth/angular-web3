@@ -27,22 +27,23 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
     templateRules.push(
       mergeWith(templateCommonHardhat, MergeStrategy.Overwrite)
     );
-
   }
-  
-    const templateCommonApp = apply(url("./files/common/demo-app"), [
-      applyTemplates({ sourceRoot: options.sourceRoot }),
-      move(normalize(normalize(`/${options.sourceRoot}/app/dapp/`))),
-    ]);
 
-    templateRules.push(mergeWith(templateCommonApp, MergeStrategy.Overwrite));
+  const templateCommonApp = apply(url("./files/common/demo-app"), [
+    applyTemplates({ sourceRoot: options.sourceRoot }),
+    move(normalize(normalize(`/${options.sourceRoot}/app/dapp/`))),
+  ]);
+
+  templateRules.push(mergeWith(templateCommonApp, MergeStrategy.Overwrite));
 
   if (options.configuration == "minimalContract") {
     const templateApp = apply(url("./files/0-minimal-contract/demo-app"), [
       applyTemplates({}),
       move(normalize(`/${options.sourceRoot}/app/dapp/demos/`)),
     ]);
-    templateRules.push(mergeWith(templateApp, MergeStrategy.Overwrite));
+    templateRules.push(
+      mergeWith(templateApp, MergeStrategy.AllowCreationConflict)
+    );
 
     const templateHardhat = apply(url("./files/0-minimal-contract/hardhat"), [
       applyTemplates({ sourceRoot: options.sourceRoot }),
@@ -54,7 +55,9 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
       applyTemplates({}),
       move(normalize(`/${options.sourceRoot}/app/dapp/demos/`)),
     ]);
-    templateRules.push(mergeWith(templateApp, MergeStrategy.Overwrite));
+    templateRules.push(
+      mergeWith(templateApp, MergeStrategy.AllowCreationConflict)
+    );
 
     const templateHardhat = apply(
       url("./files/1-hello-world-contract/hardhat"),
@@ -69,7 +72,9 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
       applyTemplates({}),
       move(normalize(`/${options.sourceRoot}/app/dapp/demos/`)),
     ]);
-    templateRules.push(mergeWith(templateApp, MergeStrategy.Overwrite));
+    templateRules.push(
+      mergeWith(templateApp, MergeStrategy.AllowCreationConflict)
+    );
 
     const templateHardhat = apply(url("./files/2-debug-contract/hardhat"), [
       applyTemplates({ sourceRoot: options.sourceRoot }),
@@ -78,13 +83,7 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
     templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
   }
 
-  if (options.configuration !== "minimalContract") {
-    const templateCommonDemo = apply(url("./files/demo/demo-app"), [
-      applyTemplates({ sourceRoot: options.sourceRoot }),
-      move(normalize(normalize(`/${options.sourceRoot}/app/dapp/`))),
-    ]);
-    templateRules.push(mergeWith(templateCommonDemo, MergeStrategy.Overwrite));
-  }
+
 
   if (!host.exists("src/typings.d.ts")) {
     const templateTypings = apply(url("./files/typings"), [

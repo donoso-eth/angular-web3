@@ -35,4 +35,5 @@ export const devDeps = {  "@nomiclabs/hardhat-ethers": "^2.0.0",
 "ts-node": "^10.1.0",
 "typechain": "^5.1.2",
 "bip39": "^3.0.4",
-"ethereumjs-wallet": "^1.0.2"}
+"ethereumjs-wallet": "^1.0.2",
+"@download/blockies":"^1.0.3"}

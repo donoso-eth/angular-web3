@@ -39,7 +39,7 @@ export const adScriptsToPackageJson = (_options: IOPTIONS_EXTENDED): Rule => {
       }
     });
 
-    json.scripts = sortObjectByKeys(json.scripts);
+    //json.scripts = sortObjectByKeys(json.scripts);
     host.overwrite("package.json", JSON.stringify(json, null, 2));
   }
   };

@@ -15,6 +15,7 @@ import {
   displayUsd,
   convertUSDtoEther,
   NotifierService,
+  IABI_OBJECT,
 } from 'angularonchain';
 
 @Component({
@@ -24,19 +25,24 @@ import {
 })
 export class HelloWorldContractComponent implements OnInit {
   blocks: Array<BlockWithTransactions> = [];
-  deployer_address;
-  contract_address;
-  myContract: ethers.Contract;
-  greeting: string;
-  greeting_input: string;
-
+  contract_abi!: Array<IABI_OBJECT>;
+  walletBalance!: IBALANCE;
+  contractBalance!: IBALANCE;
+  contractHeader!: ICONTRACT;
+  deployer_address!:string;
+  myContract!: ethers.Contract;
+  greeting!: string;
+  greeting_input!: string;
+  provider!: ethers.providers.JsonRpcProvider;
+  signer: any;
   deployer_balance: any;
-  loading_contract: 'found' | 'error';
-  newWallet: ethers.Wallet;
-  contractBalance: IBALANCE;
-  walletBalance: IBALANCE;
-  blockchain_is_busy: boolean = true;
-  contractHeader: ICONTRACT;
+  loading_contract: 'loading' | 'found' | 'error' = 'loading';
+  blockchain_is_busy = true;
+
+  newWallet!: ethers.Wallet;
+
+  dollarExchange!: number;
+  balanceDollar!: number;
   constructor(
     private dialogService: DialogService,
     private notifierService:NotifierService,
@@ -106,7 +112,7 @@ export class HelloWorldContractComponent implements OnInit {
     }
   }
 
-  async addBlock(blockNr) {
+  async addBlock(blockNr:number) {
     const block =
     await this.onChainService.localProvider.Provider.getBlockWithTransactions(
       blockNr
@@ -116,7 +122,7 @@ export class HelloWorldContractComponent implements OnInit {
   }
 
   async displayGreeting() {
-    this.greeting = await this.onChainService.contractService.Contract.greet();
+    this.greeting = await this.onChainService.contractService.Contract['greet']();
     this.deployer_balance = ethers.utils.formatUnits(
       await this.newWallet.getBalance(),
       18
@@ -141,8 +147,11 @@ export class HelloWorldContractComponent implements OnInit {
   }
 
   async openTransaction() {
+    console.log( await this.onChainService.getDollarEther())
     this.blockchain_is_busy = true;
     const res = await this.dialogService.openDialog();
+
+  
 
     if (res && res.type == 'transaction') {
       const usd = res.amount;

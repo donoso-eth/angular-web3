@@ -1,4 +1,3 @@
-import { ThrowStmt } from '@angular/compiler';
 import {
   ChangeDetectorRef,
   Component,
@@ -17,10 +16,10 @@ import { IABI_OBJECT, IINPUT_EVENT } from 'angularonchain';
   styleUrls: ['./contract-input.component.css'],
 })
 export class ContractInputComponent implements OnInit {
-  abi_input: IABI_OBJECT;
+  abi_input!: IABI_OBJECT;
   input_form = new FormGroup({});
   labels:Array<any> = [];
-  payable_input: FormControl; 
+  payable_input!: FormControl; 
   constructor(private cd: ChangeDetectorRef) {
  
   }
@@ -32,7 +31,7 @@ export class ContractInputComponent implements OnInit {
     const myValue =this.abi_input.inputs.map(map=> this.input_form.controls[map.name].value)  
     
     const options:IINPUT_EVENT = {
-      function: this.abi_input.name, 
+      function: this.abi_input.name as string, 
       state: this.abi_input.stateMutability,
       outputs:this.abi_input.outputs,
       args: myValue,
@@ -60,7 +59,7 @@ export class ContractInputComponent implements OnInit {
     this.cd.detectChanges();
   }
 
-  initUi(_abi_input) {
+  initUi(_abi_input:any) {
     this.abi_input = _abi_input;
     this.abi_input.inputs.forEach((input) => {
       const newControl = new FormControl('',Validators.required);

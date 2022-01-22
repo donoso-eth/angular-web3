@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AnyARecord } from 'dns';
 import { BigNumber, providers } from 'ethers';
 import { ReplaySubject } from 'rxjs';
 import { ITRANSACTION_DETAILS, ITRANSACTION_RESULT } from '../models';
@@ -7,9 +8,9 @@ import { ITRANSACTION_DETAILS, ITRANSACTION_RESULT } from '../models';
   providedIn: 'root',
 })
 export class NetworkProviderService {
-  private _provider: providers.JsonRpcProvider;
+  private _provider!: providers.JsonRpcProvider;
 
-  private _signer: providers.JsonRpcSigner;
+  private _signer!: providers.JsonRpcSigner;
 
   public blockEventSubscription: ReplaySubject<any> = new ReplaySubject(1);
 
@@ -44,7 +45,7 @@ export class NetworkProviderService {
   }
 
   
-  async doTransaction(tx) {
+  async doTransaction(tx:any) {
  
     let notification_message:ITRANSACTION_RESULT = {
       success: false
@@ -76,7 +77,7 @@ export class NetworkProviderService {
         notification_message.success = true;
         notification_message.success_result = transaction_details;
    
-    } catch (e) {
+    } catch (e:any) {
 
       // console.log(e);
       // Accounts for Metamask and default signer on all networks

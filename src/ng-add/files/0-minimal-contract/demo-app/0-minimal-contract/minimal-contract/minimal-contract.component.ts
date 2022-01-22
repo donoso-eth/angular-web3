@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Contract, Wallet } from 'ethers';
-import { OnChainService } from './on-chain.service';
+import { OnChainService } from '../on-chain.service';
 
 @Component({
   selector: 'minimal-contract',
-  template: `<div style="text-align:center" *ngIf="!!contractHeader" ><p> Wallet created: {{myWallet?.address}}</p>
-  <p>{{contractHeader.name}} <br>deployed to {{contractHeader.address}} <br>by: {{deployer_address}}</p>
-  </div>`,
+  templateUrl:'./minimal-contract.component.html',
   styles: [
   ]
 })
 export class MinimalContractComponent implements OnInit {
-  deployer_address: string;
-  myWallet: Wallet;
-  myContract: Contract;
-  contractHeader: { name: string; address: string; };
+  deployer_address!: string;
+  myWallet!: Wallet;
+  myContract!: Contract;
+  contractHeader!: { name: string; address: string; };
+  blockchain_is_busy = false;
 
   constructor(private onChainService:OnChainService) { }
 

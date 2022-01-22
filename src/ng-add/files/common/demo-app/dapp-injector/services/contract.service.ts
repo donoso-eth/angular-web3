@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, Inject } from '@angular/core';
 import { Contract, providers, Wallet } from 'ethers';
 import { ReplaySubject } from 'rxjs';
 import { ICONTRACT, ITRANSACTION_DETAILS, ITRANSACTION_RESULT } from '../models/models';
@@ -7,8 +7,8 @@ import { ICONTRACT, ITRANSACTION_DETAILS, ITRANSACTION_RESULT } from '../models/
   providedIn: 'root',
 })
 export class ContractService implements OnDestroy {
-  private _contract: Contract;
-  private _provider: providers.JsonRpcProvider;
+  private _contract!: Contract;
+  private _provider!: providers.JsonRpcProvider;
   private _balance: any;
 
   public eventSubscriptionObject:{[key:string]: ReplaySubject<any>} = {};
@@ -16,7 +16,7 @@ export class ContractService implements OnDestroy {
   public contractBalanceSubscription: ReplaySubject<any>=
     new ReplaySubject(1);
 
-  constructor(public metadata: ICONTRACT) {}
+  constructor(@Inject('metadata') public metadata: ICONTRACT) {}
 
   async init(provider:any, wallet:Wallet) {
     this._provider = provider;
@@ -53,7 +53,7 @@ export class ContractService implements OnDestroy {
   // #region XXXXXXXXXXXX FUNCTIONS AND TRANSACTIONS XXXXXXXXXX
   // XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
-  async runTransactionFunction(functionName, args) {
+  async runTransactionFunction(functionName:string, args:any) {
  
     let notification_message:ITRANSACTION_RESULT = {
       success: false
@@ -83,7 +83,7 @@ export class ContractService implements OnDestroy {
         notification_message.success = true;
         notification_message.success_result = transaction_details;
    
-    } catch (e) {
+    } catch (e:any) {
     
       // console.log(e);
       // Accounts for Metamask and default signer on all networks
@@ -116,7 +116,7 @@ export class ContractService implements OnDestroy {
     return   { msg:notification_message, payload:undefined};
   }
 
-  async runContractFunction(functionName, args) {
+  async runContractFunction(functionName:string, args:any) {
     let notification_message:ITRANSACTION_RESULT = {
       success: false
     }
@@ -126,7 +126,7 @@ export class ContractService implements OnDestroy {
       const result = await this._contract.functions[functionName].apply(this, args);
       notification_message.success = true
        return   { msg:notification_message, payload:result};
-    } catch (error) {
+    } catch (error:any) {
       notification_message.error_message = error.toString()
       return   { msg:notification_message};
     }
@@ -136,7 +136,7 @@ export class ContractService implements OnDestroy {
  async  runFunction(functionName: string, args: any, state?: string) {
     if (state == undefined) {
       const myFunction_filter = this.Abi.filter(
-        (fil) => fil.name == functionName
+        (fil:any) => fil.name == functionName
       );
       if (myFunction_filter.length !== 1) {
         throw new Error('Function not found');

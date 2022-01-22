@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MinimalContractComponent } from './minimal-contract.component';
-import { blockchain_providers } from './blockchain_wiring';
+import { MinimalContractComponent } from './minimal-contract/minimal-contract.component';
+import { blockchain_imports, blockchain_providers } from './blockchain_wiring';
 import { OnChainService } from './on-chain.service';
 
 
@@ -11,7 +11,8 @@ import { OnChainService } from './on-chain.service';
     MinimalContractComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ...blockchain_imports
   ],
   exports: [
     MinimalContractComponent,
