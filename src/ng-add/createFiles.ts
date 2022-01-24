@@ -96,17 +96,17 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
 
     
   if (host.exists("src/app/dapp-injector/components/index.ts")) {
-    const templateTypings = apply(url("./files/common/dapp/index/component"), [
+    const templateIndex = apply(url("./files/common/dapp/index/component"), [
       applyTemplates({}),
       move(normalize(`/src/app/dapp-injector/`)),
     ]);
-    templateRules.push(mergeWith(templateTypings,MergeStrategy.Overwrite));
+    templateRules.push(mergeWith(templateIndex ,MergeStrategy.Overwrite));
   } else {
-    const templateTypings = apply(url("./files/common/dapp/index/wocomponent"), [
+    const templateIndex  = apply(url("./files/common/dapp/index/wocomponent"), [
       applyTemplates({}),
       move(normalize(`/src/app/dapp-injector/`)),
     ]);
-    templateRules.push(mergeWith(templateTypings,MergeStrategy.Overwrite));
+    templateRules.push(mergeWith(templateIndex ,MergeStrategy.Overwrite));
   }
 
 
