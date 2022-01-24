@@ -95,7 +95,7 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
 
 
     
-  if (host.exists("src/app/dapp-injector/components/index.ts")) {
+  if (options.configuration !== 'minimalContract' || host.exists("src/app/dapp-injector/components/index.ts")) {
     const templateIndex = apply(url("./files/common/dapp/index/component"), [
       applyTemplates({}),
       move(normalize(`/src/app/dapp-injector/`)),
