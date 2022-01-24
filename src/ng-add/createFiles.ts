@@ -29,17 +29,17 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
     );
   }
 
-  const templateCommonApp = apply(url("./files/common/demo-app"), [
+  const templateCommonApp = apply(url("./files/common/dapp/common"), [
     applyTemplates({ sourceRoot: options.sourceRoot }),
-    move(normalize(normalize(`/${options.sourceRoot}/app/dapp/`))),
+    move(normalize(normalize(`/${options.sourceRoot}/app/dapp-injector`))),
   ]);
 
   templateRules.push(mergeWith(templateCommonApp, MergeStrategy.Overwrite));
 
   if (options.configuration == "minimalContract") {
-    const templateApp = apply(url("./files/0-minimal-contract/demo-app"), [
+    const templateApp = apply(url("./files/0-minimal-contract/dapp"), [
       applyTemplates({}),
-      move(normalize(`/${options.sourceRoot}/app/dapp/demos/`)),
+      move(normalize(`/${options.sourceRoot}/app/dapp-demos/`)),
     ]);
     templateRules.push(
       mergeWith(templateApp, MergeStrategy.AllowCreationConflict)
@@ -51,9 +51,9 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
     ]);
     templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
   } else if (options.configuration == "helloWorldContract") {
-    const templateApp = apply(url("./files/1-hello-world-contract/demo-app"), [
+    const templateApp = apply(url("./files/1-hello-world-contract/dapp"), [
       applyTemplates({}),
-      move(normalize(`/${options.sourceRoot}/app/dapp/demos/`)),
+      move(normalize(`/${options.sourceRoot}/app/dapp-demos/`)),
     ]);
     templateRules.push(
       mergeWith(templateApp, MergeStrategy.AllowCreationConflict)
@@ -68,9 +68,9 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
     );
     templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
   } else if (options.configuration == "debugContract") {
-    const templateApp = apply(url("./files/2-debug-contract/demo-app"), [
+    const templateApp = apply(url("./files/2-debug-contract/dapp"), [
       applyTemplates({}),
-      move(normalize(`/${options.sourceRoot}/app/dapp/demos/`)),
+      move(normalize(`/${options.sourceRoot}/app/dapp-demos/`)),
     ]);
     templateRules.push(
       mergeWith(templateApp, MergeStrategy.AllowCreationConflict)
@@ -81,6 +81,32 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
       move(normalize(`/hardhat/`)),
     ]);
     templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
+  }
+
+  if(options.configuration !== 'minimalContract'){
+    const templateApp = apply(url("./files/common-demo/dapp"), [
+      applyTemplates({}),
+      move(normalize(`/${options.sourceRoot}/app/dapp-injector/`)),
+    ]);
+    templateRules.push(
+      mergeWith(templateApp, MergeStrategy.AllowCreationConflict)
+    );
+  }
+
+
+    
+  if (host.exists("src/app/dapp-injector/components/index.ts")) {
+    const templateTypings = apply(url("./files/common/dapp/index/component"), [
+      applyTemplates({}),
+      move(normalize(`/src/app/dapp-injector/`)),
+    ]);
+    templateRules.push(mergeWith(templateTypings,MergeStrategy.Overwrite));
+  } else {
+    const templateTypings = apply(url("./files/common/dapp/index/wocomponent"), [
+      applyTemplates({}),
+      move(normalize(`/src/app/dapp-injector/`)),
+    ]);
+    templateRules.push(mergeWith(templateTypings,MergeStrategy.Overwrite));
   }
 
 

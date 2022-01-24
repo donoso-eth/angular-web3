@@ -77,7 +77,7 @@ If you choose a Demo app, bear in mind that we use Angular Material for fast moc
 ### 3) Update tsconfig.json:
 Please add following line to the paths property within the tsconfig.json file in the compilerOptions section.
  ```
-"paths":{"angularonchain":["src/app/dapp/dapp-injector/index.ts"]}
+"paths":{"angularonchain":["src/app/dapp-injector/index.ts"]}
 ```
   &nbsp;  
 
