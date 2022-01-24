@@ -80,6 +80,7 @@ export const addAndinstallDependencies = (_options:IOPTIONS_EXTENDED): Rule => {
         if (_options.skipInstall == false) {
             _context.addTask(new NodePackageInstallTask());
             _context.logger.debug("✅️ Dependencies installed");
+            
         }
       return tree;
     };

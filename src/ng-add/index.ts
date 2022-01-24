@@ -102,7 +102,7 @@ const doTheLogs = (host: Tree, _options: IOPTIONS_EXTENDED, context:SchematicCon
 context.logger.info('')
 context.logger.warn(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`)
 context.logger.warn(`Don't forget to add the following line to your tsconfig.json`);
-context.logger.warn(`"paths":{"angularonchain":["src/app/dapp/dapp-injector/index.ts"]}`)
+context.logger.warn(`"paths":{"angularonchain":["src/app/dapp-injector/index.ts"]}`)
 context.logger.warn(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`)
 context.logger.info('')
 if (_options.configuration !== 'minimalContract'){

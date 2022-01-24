@@ -26,14 +26,14 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   if (_options.configuration == "minimalContract") {
     importName = "MinimalContractModule";
     importPath =
-      "./dapp/demos/0-minimal-contract/minimal-contract.module";
+      "./dapp-demos/0-minimal-contract/minimal-contract.module";
   } else if (_options.configuration == "helloWorldContract") {
     importName = "HelloWorldContractModule";
     importPath =
-      "./dapp/demos/1-hello-world-contract/hello-world-contract.module";
+      "./dapp-demos/1-hello-world-contract/hello-world-contract.module";
   } else if (_options.configuration == "debugContract") {
     importName = "DebugContractModule";
-    importPath = "./dapp/demos/2-debug-contract/debug-contract.module";
+    importPath = "./dapp-demos/2-debug-contract/debug-contract.module";
   } else {
     return tree;
   }
