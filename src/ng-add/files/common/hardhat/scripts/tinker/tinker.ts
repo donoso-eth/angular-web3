@@ -1,2 +1,2 @@
 console.log('perfect score');
-console.log('perfect mas')
+console.log('perfect masccc')
