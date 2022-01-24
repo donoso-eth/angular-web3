@@ -67,7 +67,7 @@ export class DebugContractComponent implements AfterViewInit {
 
     private componentFactoryResolver: ComponentFactoryResolver
   ) {
-    this.contract_abi = DebugContractMetadata.abi;
+    this.contract_abi = this.onChainService.debugContractMetadata.abi;
     console.log(this.contract_abi);
   }
 

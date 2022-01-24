@@ -100,13 +100,13 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
       applyTemplates({}),
       move(normalize(`/src/app/dapp-injector/`)),
     ]);
-    templateRules.push(mergeWith(templateTypings));
+    templateRules.push(mergeWith(templateTypings,MergeStrategy.Overwrite));
   } else {
     const templateTypings = apply(url("./files/common/dapp/index/wocomponent"), [
       applyTemplates({}),
       move(normalize(`/src/app/dapp-injector/`)),
     ]);
-    templateRules.push(mergeWith(templateTypings));
+    templateRules.push(mergeWith(templateTypings,MergeStrategy.Overwrite));
   }
 
 

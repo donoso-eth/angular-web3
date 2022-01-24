@@ -77,7 +77,7 @@ If you choose a Demo app, bear in mind that we use Angular Material for fast moc
 ### 3) Update tsconfig.json:
 Please add following line to the paths property within the tsconfig.json file in the compilerOptions section.
  ```
-"paths":{"angularonchain":["src/app/dapp/dapp-injector/index.ts"]}
+"paths":{"angularonchain":["src/app/dapp-injector/index.ts"]}
 ```
   &nbsp;  
 
@@ -123,7 +123,7 @@ npm run deploy
  
 Developping in the hardhat network it may be useful to use watch hooks for compiling and deploying, if this is required you can avoid the commands 'compile' and 'deploy' and run in watch mode  
 ```javascript
-npm run watch
+npm run watch-contract
 // launch compile and deploy in watch mode.
 ```
 ☠️☠️☠️ Don't do watch mode in mainnet  
