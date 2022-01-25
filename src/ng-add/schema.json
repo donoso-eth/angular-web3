@@ -33,7 +33,7 @@
     "default": false
   },
   "alreadyInstalled": {
-    "description": "skipInstall",
+    "description": "alreadyInstalled",
     "type": "boolean",
     "default": false
   }

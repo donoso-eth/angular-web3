@@ -8,5 +8,6 @@ export const ngadd_scritps = {
     "contracts:test": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json test",
     "contracts:coverage": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json coverage",
     "watch-contract": "cd hardhat && node scripts/watch.js",
-    "watch-tinker": "cd hardhat && node scripts/tinker/tinker-watch.js"
+    "watch-tinker": "cd hardhat && node scripts/tinker/tinker-watch.js",
+    "wire": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run ./scripts/wire.ts"
 }

@@ -1,12 +1,9 @@
-
 import {
   chain,
   Rule,
   SchematicContext,
   SchematicsException,
-  Tree,
-  url,
-  
+  Tree
 } from "@angular-devkit/schematics";
 
 import { IOPTIONS_EXTENDED } from "./schema";
@@ -17,10 +14,11 @@ import { contract_config } from "./data/contract.config.";
 import { addImport } from "./addImportStatement";
 
 /** Adds a package to the package.json in the given host tree. */
-const setupOptions = (host: Tree, _options: IOPTIONS_EXTENDED, context:SchematicContext): Tree => {
-
-
-
+const setupOptions = (
+  host: Tree,
+  _options: IOPTIONS_EXTENDED,
+  context: SchematicContext
+): Tree => {
   let workspaceConfig;
   workspaceConfig = JSON.parse(host.read("angular.json")!.toString("utf-8"));
 
@@ -58,62 +56,83 @@ const setupOptions = (host: Tree, _options: IOPTIONS_EXTENDED, context:Schematic
   _options.sourceRoot = project.sourceRoot;
 
   _options.alreadyInstalled = false;
-  if (_options.skipInstall == undefined){
+  if (_options.skipInstall == undefined) {
     _options.skipInstall = false;
   }
-  if (host.exists("hardhat/hardhat.config.ts")== true) {
+  if (host.exists("hardhat/hardhat.config.ts") == true) {
     _options.alreadyInstalled = true;
     _options.skipInstall = true;
-  }  else {
- 
-  }
- 
-
-  return host;
-}
-
-const changeContractConfig = (host: Tree, _options: IOPTIONS_EXTENDED): Tree =>{
-  
-  const contractConfig:any =  contract_config;
-  if (_options.alreadyInstalled == false) {
-    const contractConfigString = JSON.stringify({[_options.configuration]:contractConfig[_options.configuration]})
-    host.create("hardhat/contract.config.json", contractConfigString)
-
   } else {
-  let alreadyConfig;
-  alreadyConfig = JSON.parse(host.read("hardhat/contract.config.json")!.toString("utf-8"));
+  }
 
-  let project;
-
-  if (!alreadyConfig) {
-    throw new SchematicsException("If project does exist, I should not be here");
-  } 
-
-  alreadyConfig[_options.configuration] =contractConfig[_options.configuration]
-  const contractConfigString = JSON.stringify(alreadyConfig)
-  
-  host.overwrite("hardhat/contract.config.json", contractConfigString)
-  } 
   return host;
-}
+};
 
-const doTheLogs = (host: Tree, _options: IOPTIONS_EXTENDED, context:SchematicContext): Tree => {
+const changeContractConfig = (
+  host: Tree,
+  _options: IOPTIONS_EXTENDED
+): Tree => {
+  const contractConfig: any = contract_config;
+  if (_options.alreadyInstalled == false) {
+    const contractConfigString = JSON.stringify({
+      [_options.configuration]: contractConfig[_options.configuration],
+    });
+    host.create("hardhat/contract.config.json", contractConfigString);
+  } else {
+    let alreadyConfig;
+    alreadyConfig = JSON.parse(
+      host.read("hardhat/contract.config.json")!.toString("utf-8")
+    );
 
-context.logger.info('')
-context.logger.warn(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`)
-context.logger.warn(`Don't forget to add the following line to your tsconfig.json`);
-context.logger.warn(`"paths":{"angularonchain":["src/app/dapp-injector/index.ts"]}`)
-context.logger.warn(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`)
-context.logger.info('')
-if (_options.configuration !== 'minimalContract'){
-  context.logger.warn(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`)
-  context.logger.warn(`Plese don't forget to ng add @angular/material`);
-  context.logger.warn(`XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`)
-}
-context.logger.info('')
+    let project;
 
-return host
-}
+    if (!alreadyConfig) {
+      throw new SchematicsException(
+        "If project does exist, I should not be here"
+      );
+    }
+
+    alreadyConfig[_options.configuration] =
+      contractConfig[_options.configuration];
+    const contractConfigString = JSON.stringify(alreadyConfig);
+
+    host.overwrite("hardhat/contract.config.json", contractConfigString);
+  }
+  return host;
+};
+
+const doTheLogs = (
+  host: Tree,
+  _options: IOPTIONS_EXTENDED,
+  context: SchematicContext
+): Tree => {
+  context.logger.info("");
+  context.logger.warn(
+    `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
+  );
+  context.logger.warn(
+    `Don't forget to add the following line to your tsconfig.json`
+  );
+  context.logger.warn(
+    `"paths":{"angularonchain":["src/app/dapp-injector/index.ts"]}`
+  );
+  context.logger.warn(
+    `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
+  );
+  context.logger.info("");
+  if (_options.configuration !== "minimalContract") {
+    context.logger.warn(
+      `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
+    );
+    context.logger.warn(`Plese don't forget to ng add @angular/material`);
+    context.logger.warn(
+      `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
+    );
+  }
+  context.logger.info("");
+
+  return host;
+};
 
 export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
   return chain([
@@ -127,15 +146,12 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
       return createFiles(tree, _options);
     },
     (tree: Tree, _context: SchematicContext) => {
-      return  addImport(tree, _options);
+      return addImport(tree, _options);
     },
     addAndinstallDependencies(_options),
     adScriptsToPackageJson(_options),
     (tree: Tree, _context: SchematicContext) => {
-      return  doTheLogs(tree, _options,_context);
-    },
-
+      return doTheLogs(tree, _options, _context);
+    }
   ]);
 }
-
-
