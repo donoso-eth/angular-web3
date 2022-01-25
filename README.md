@@ -12,13 +12,19 @@ Thanks to  @austingriffith for crafting the awesome [Scaffold-eth](https://githu
 
 
 
-### Mision
-&nbsp; 
+### Mision  
 Superpower the angular superdevs with the best and easy to use tools for get up and running instantly creating wonderfull dapps on Ethereum/polygon's blockchains
 
 > everything you need to build on Ethereum and Polygon! 🚀.
 
-🧪 Quickly experiment with Solidity using 
+🧪 Quickly experiment changing contracts and seen result on the frontend.
+&nbsp; 
+&nbsp;   
+### Main knowledge pillars:
+- Hardhat
+- Solidity
+- Ether.js  
+- Of course Angular
 
 &nbsp; 
 # ROADMAP
