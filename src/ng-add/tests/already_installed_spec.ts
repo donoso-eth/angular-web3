@@ -48,7 +48,7 @@ describe("already Installed", () => {
       "helloWorldContract": {
           "artifactsPath": "0-HelloWorldContract.sol/HelloWorldContract.json",
           "name":"HelloWorldContract",
-          "ctor":"Hello Angular Chained",
+          "ctor":["Hello Angular Chained"],
           "jsonName":"hello_world_on_chain"
         }}`
     );
@@ -97,8 +97,8 @@ describe("already Installed", () => {
     const tree = await schematicRunner
       .runSchematicAsync("ng-add", {}, appTree)
       .toPromise();
-    const packageJson = tree.read("package.json")!.toString("utf-8");
-    expect(packageJson.includes("hardhat")).toBeFalse();
+    const packageJson = tree.read("package.json")!.toString("utf-8")
+    expect(packageJson.includes("\"hardhat\":")).toBeFalse();
   });
 
   // it("Hello app creates Hello world chain module", async () => {

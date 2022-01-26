@@ -89,8 +89,7 @@ describe("Initilization", () => {
       .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorldContract" }, appTree)
       .toPromise();
     const packageJson = tree.read("package.json")!.toString("utf-8");
-
-    expect(packageJson).toContain("hardhat");
+    expect(packageJson).toContain("\"hardhat\":");
   });
 
   it("Add scripts", async () => {
