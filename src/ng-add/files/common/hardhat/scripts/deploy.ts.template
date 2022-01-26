@@ -25,7 +25,7 @@ ensureDir(contract_path)
 async function main() {
   const contract_config = JSON.parse(readFileSync( join(processDir,'contract.config.json'),'utf-8')) as {[key:string]: ICONTRACT_DEPLOY}
   
-  const deployContracts=["debugContract"]
+  const deployContracts=["<%= contractCode %>"]
  
   // Hardhat always runs the compile task when running scripts with its command
   // line interface.
@@ -37,6 +37,12 @@ async function main() {
   for (const toDeployName of deployContracts) {
 
     const toDeployContract = contract_config[toDeployName]
+    if (toDeployContract == undefined){
+      console.error("Your contract is not yet configured")
+      console.error('Please add the configuration to /hardhat/contract.config.json')
+      return
+      
+    }
     const artifactsPath = join(processDir,`../src/assets/artifacts/contracts/${toDeployContract.artifactsPath}`);
     const Metadata = JSON.parse(readFileSync( artifactsPath,'utf-8'))
     const Contract = await ethers.getContractFactory(toDeployContract.name);

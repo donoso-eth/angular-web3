@@ -2,7 +2,7 @@ const watch = require("node-watch");
 const { exec } = require("child_process");
 
 const runTinker = () => {
-  console.log("🛠  Running Tinker..");
+  console.log("🛠 Watching Tinker..");
     exec("npm run tinker", function (error, stdout, stderr) {
       console.log(stdout);
       if (error) console.log(error);
@@ -13,9 +13,9 @@ const runTinker = () => {
 
 
 
-watch("../scripts/tinker/tinker.ts", { recursive: true }, function (evt, name) {
+watch("./scripts/tinker.ts", { recursive: true }, function (evt, name) {
   console.log("%s changed.", name);
   runTinker();
 });
 
-runDeployTinker();
+runTinker()

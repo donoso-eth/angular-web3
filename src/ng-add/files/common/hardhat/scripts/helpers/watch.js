@@ -11,7 +11,7 @@ const run = () => {
 };
 
 console.log("🔬 Watching Contracts...");
-watch("./contracts", { recursive: true }, function (evt, name) {
+watch(["./contracts","contract.config.json"], { recursive: true }, function (evt, name) {
   console.log("%s changed.", name);
   run();
 });

@@ -18,16 +18,16 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
   ///////////////////////////////////////////////////////////
   //////////////////// COMMON FILES /////////////////////////
   ///////////////////////////////////////////////////////////
-  if (options.alreadyInstalled == false) {
+
     const templateCommonHardhat = apply(url("./files/common/hardhat"), [
-      applyTemplates({ sourceRoot: options.sourceRoot }),
+      applyTemplates({ sourceRoot: options.sourceRoot , contractCode:options.configuration }),
       move(normalize(`/hardhat/`)),
     ]);
 
     templateRules.push(
       mergeWith(templateCommonHardhat, MergeStrategy.Overwrite)
     );
-  }
+
 
   const templateCommonApp = apply(url("./files/common/dapp/common"), [
     applyTemplates({ sourceRoot: options.sourceRoot }),

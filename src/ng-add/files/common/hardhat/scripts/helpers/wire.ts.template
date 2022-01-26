@@ -29,14 +29,14 @@ function toUnder(camel: string) {
 }
 
 
-const artifactsPath = '../../<%= sourceRoot %>/assets/artifacts/contracts/';
+const artifactsPath = '../<%= sourceRoot %>/assets/artifacts/contracts/';
 
  async function wire() {
 
 
 
 
-  const contracts = readdirSync('../../contracts/');
+  const contracts = readdirSync('./contracts/');
 
 
 
