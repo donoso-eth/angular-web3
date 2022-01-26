@@ -1,6 +1,6 @@
 {
   "name": "angularonchain",
-  "version": "0.0.3-beta8",
+  "version": "0.0.3-beta9",
   "description": "A schematics developping Angular Dapps",
   "scripts": {
     "build": "tsc -p tsconfig.json",

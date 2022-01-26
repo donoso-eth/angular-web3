@@ -46,10 +46,8 @@ async function main() {
     const artifactsPath = join(processDir,`../src/assets/artifacts/contracts/${toDeployContract.artifactsPath}`);
     const Metadata = JSON.parse(readFileSync( artifactsPath,'utf-8'))
     const Contract = await ethers.getContractFactory(toDeployContract.name);
+    const contract  =  await Contract.deploy.apply(Contract,toDeployContract.ctor);
 
-    let contract
-    toDeployContract.ctor == undefined ?  contract = await Contract.deploy() : contract = await Contract.deploy(toDeployContract.ctor);
-    await contract.deployed();
 
     writeFileSync(`${contract_path}/${toDeployContract.jsonName}_metadata.json`, JSON.stringify({
       abi:Metadata.abi,
