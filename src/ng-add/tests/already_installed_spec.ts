@@ -52,16 +52,6 @@ describe("already Installed", () => {
           "jsonName":"hello_world_on_chain"
         }}`
     );
-    appTree.create(
-      "hardhat/config_contrant.json",
-      `{
-      "helloWorldContract": {
-          "artifactsPath": "0-HelloWorldContract.sol/HelloWorldContract.json",
-          "name":"HelloWorldContract",
-          "ctor":"Hello Angular Chained",
-          "jsonName":"hello_world_on_chain"
-        }}`
-    );
   });
 
   it("Is already installed", async () => {

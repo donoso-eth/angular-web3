@@ -9,10 +9,9 @@ interface ICONTRACT_DEPLOY {
   jsonName: string;
 }
 
-const contract_path_relative = '../src/assets/contracts/';
+
 const processDir = process.cwd();
-const contract_path = join(processDir, contract_path_relative);
-ensureDir(contract_path);
+
 const contract_config = JSON.parse(
   readFileSync(join(processDir, 'contract.config.json'), 'utf-8')
 ) as { [key: string]: ICONTRACT_DEPLOY };
@@ -29,12 +28,15 @@ function toUnder(camel: string) {
   return dash;
 }
 
-async function main() {
+
+const artifactsPath = '../../<%= sourceRoot %>/assets/artifacts/contracts/';
+
+ async function wire() {
 
 
-  const artifactsPath = '../<%= sourceRoot %>/assets/artifacts/contracts/';
 
-  const contracts = readdirSync('./contracts/');
+
+  const contracts = readdirSync('../../contracts/');
 
 
 
@@ -57,6 +59,7 @@ async function main() {
           name: name,
           artifactsPath: contractArtifact,
           jsonName,
+          ctor:[]
         });
       }
     }
@@ -76,11 +79,13 @@ async function main() {
     if (constructorFilter.length == 1) {
       const inputs = constructorFilter[0].inputs;
       if (inputs.length > 0) {
-        let paramString = 'param1';
-        for (let i = 2; i < inputs.length + 1; i++) {
-          paramString = paramString + ', param' + i;
+    
+        for (let i = 0; i < inputs.length ; i++) {
+      
+          contract.ctor.push(`${inputs[i].name}:${inputs[i].type}`)
+    
         }
-        contract.ctor = paramString;
+       
       }
     }
 
@@ -115,7 +120,7 @@ async function main() {
   console.log('');
 }
 
-main().catch((error) => {
+wire().catch((error) => {
   console.error(error);
   process.exitCode = 1;
 });
