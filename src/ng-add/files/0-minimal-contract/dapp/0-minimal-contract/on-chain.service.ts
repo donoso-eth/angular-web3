@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 
 import { Contract} from 'ethers'
-import { AngularNetworkProvider, AngularContract, AngularWallet, ICONTRACT } from 'angularonchain';
+import { AngularNetworkProvider, AngularContract, AngularWallet, ICONTRACT } from 'angullar-web3';
 
 
 

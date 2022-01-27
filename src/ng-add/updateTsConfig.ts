@@ -26,7 +26,7 @@ export const updateTsConfig = (
 //   if (tsconfig_path == undefined) {
 //     compilerOptions["paths"] = {}
 //   }
-//   compilerOptions["paths"]['angularonchain'] = ["src/app/dapp/dapp-injector/index.ts"]
+//   compilerOptions["paths"]['angullar-web3'] = ["src/app/dapp/dapp-injector/index.ts"]
 //   console.log(tsconfig)
 //   const tsConfigString = JSON.stringify(tsconfig)
   

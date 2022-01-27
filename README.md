@@ -1,10 +1,10 @@
 Thanks to  @austingriffith for crafting the awesome [Scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) project. This projects aims to reproduce with angular tooling the same experience as scaffold-sth produce for react devs
 
 
-# ⛓️  AngularOnChain
+# ⛓️  Angullar-Web3
 
 
-[![CircleCI branch](https://img.shields.io/circleci/project/github/jdonosocoding/angularonchain/release.svg?label=build)](https://circleci.com/gh/jdonosocoding/angularonchain) [![CircleCI branch](https://img.shields.io/circleci/project/github/jdonosocoding/angularonchain/release.svg?label=test)](https://circleci.com/gh/jdonosocoding/angularonchain) [![latest](https://img.shields.io/npm/v/angularonchain/latest.svg)](https://npmjs.com/package/angularonchain) 
+[![CircleCI branch](https://img.shields.io/circleci/project/github/jdonosocoding/angullar-web3/release.svg?label=build)](https://circleci.com/gh/jdonosocoding/angullar-web3) [![CircleCI branch](https://img.shields.io/circleci/project/github/jdonosocoding/angullar-web3/release.svg?label=test)](https://circleci.com/gh/jdonosocoding/angullar-web3) [![latest](https://img.shields.io/npm/v/angullar-web3/latest.svg)](https://npmjs.com/package/angullar-web3) 
 [![License](https://img.shields.io/npm/l/@ampgular/cli.svg)](/LICENSE) 
 <p align="center">
   <img src="docs/images/angular_on_chain.png"  alt="[Angular On Chain" width="350" title="[Angular On Chaint">
@@ -60,10 +60,10 @@ cd in the directory
 ``` 
  
   &nbsp;  
-### 1) Add the angularonchain schematics package to your project  
+### 1) Add the angullar-web3 schematics package to your project  
 
 ```bash
-ng add angularonchain
+ng add angullar-web3
 ```
   &nbsp;  
 ### 2) chose installation Options:
@@ -83,7 +83,7 @@ If you choose a Demo app, bear in mind that we use Angular Material for fast moc
 ### 3) Update tsconfig.json:
 Please add following line to the paths property within the tsconfig.json file in the compilerOptions section.
  ```
-"paths":{"angularonchain":["src/app/dapp-injector/index.ts"]}
+"paths":{"angullar-web3":["src/app/dapp-injector/index.ts"]}
 ```
   &nbsp;  
 

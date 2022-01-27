@@ -1,6 +1,6 @@
 
 import { InjectionToken } from '@angular/core';
-import { ICONTRACT } from 'angularonchain';
+import { ICONTRACT } from 'angullar-web3';
 import MinimalContractMetadata from '../../../assets/contracts/minimal_contract_metadata.json';
 
 

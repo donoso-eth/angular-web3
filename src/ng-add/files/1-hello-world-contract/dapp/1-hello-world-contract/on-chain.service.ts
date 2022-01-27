@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { AngularContract, AngularNetworkProvider,AngularWallet, ICONTRACT } from 'angularonchain';
+import { AngularContract, AngularNetworkProvider,AngularWallet, ICONTRACT } from 'angullar-web3';
 import { Contract} from 'ethers'
 import { uniswap_abi } from './uniswap_abi';
 
