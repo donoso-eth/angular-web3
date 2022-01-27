@@ -1,7 +1,7 @@
 {
-  "name": "angularonchain",
-  "version": "0.0.3-beta9",
-  "description": "A schematics developping Angular Dapps",
+  "name": "angular-web3",
+  "version": "0.0.3-beta10",
+  "description": "A schematics packages providing tools for developping Angular Dapps",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "npm run build && jasmine src//ng-add/tests/**/*_spec.js",
@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jdonosocoding/angularonchain"
+    "url": "https://github.com/jdonosocoding/angular-web3"
   },
   "author": "@jdonoso_coding",
   "license": "MIT",
