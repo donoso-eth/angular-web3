@@ -1,8 +1,8 @@
 
 import { InjectionToken } from '@angular/core';
 import DebugContractMetadata from '../../../assets/contracts/debug_contract_metadata.json';
-import { ContractShowModule, AddressShowModule, BlockchainModule, DialogModule, NotifierModule, HomeModule } from 'angullar-web3';
-import {ICONTRACT } from 'angullar-web3';
+import { ContractShowModule, AddressShowModule, BlockchainModule, DialogModule, NotifierModule, HomeModule } from 'angular-web3';
+import {ICONTRACT } from 'angular-web3';
 
 
 export const debugContractMetadata = new InjectionToken<ICONTRACT>('debugContractMetadata')

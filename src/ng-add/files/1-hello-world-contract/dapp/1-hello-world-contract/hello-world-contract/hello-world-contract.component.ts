@@ -16,7 +16,7 @@ import {
   convertUSDtoEther,
   NotifierService,
   IABI_OBJECT,
-} from 'angullar-web3';
+} from 'angular-web3';
 
 @Component({
   selector: 'hello-world-contract',

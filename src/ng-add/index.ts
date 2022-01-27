@@ -114,7 +114,7 @@ const doTheLogs = (
     `Don't forget to add the following line to your tsconfig.json`
   );
   context.logger.warn(
-    `"paths":{"angullar-web3":["src/app/dapp-injector/index.ts"]}`
+    `"paths":{"angular-web3":["src/app/dapp-injector/index.ts"]}`
   );
   context.logger.warn(
     `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`

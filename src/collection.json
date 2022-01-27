@@ -2,7 +2,7 @@
   "$schema": "../node_modules/@angular-devkit/schematics/collection-schema.json",
   "schematics": {
     "ng-add": {
-      "description": "Initialization Angullar-Web3 schematicss",
+      "description": "Initialization Angular-Web3 schematicss",
       "factory": "./ng-add/index#ngAdd",
       "aliases": ["init"],
       "schema": "./ng-add/schema.json"

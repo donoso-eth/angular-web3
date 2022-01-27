@@ -26,7 +26,7 @@ import {
   ICONTRACT,
   IINPUT_EVENT,
   NotifierService,
-} from 'angullar-web3';
+} from 'angular-web3';
 import { OnChainService } from '../on-chain.service';
 
 @Component({
