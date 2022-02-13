@@ -15,6 +15,7 @@ import { contract_config } from "./data/contract.config.";
 import { addImport } from "./addImportStatement";
 import { addFontsToIndex } from "./addFonts";
 import { updateTsConfig } from "./updateTsConfig";
+import { runExternal } from "./runExternal";
 
 /** Adds a package to the package.json in the given host tree. */
 const setupOptions = (
@@ -41,12 +42,15 @@ const setupOptions = (
 
     if (workspaceConfig.default == undefined) {
       project = workspaceConfig.projects[project_keys[0]];
+      _options.project = project_keys[0];
     } else {
       project = workspaceConfig.projects[workspaceConfig.default];
 
       if (project == undefined) {
         throw new SchematicsException("Default project Not Available");
       }
+      _options.project = workspaceConfig.default;
+
     }
   } else {
     project = workspaceConfig.projects[_options.project];
@@ -141,6 +145,7 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
   return chain([
     (tree: Tree, _context: SchematicContext) => {
       setupOptions(tree, _options, _context);
+      console.log(_options)
     },
     (tree: Tree, _context: SchematicContext) => {
       changeContractConfig(tree, _options);
@@ -158,14 +163,10 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
   
     adScriptsToPackageJson(_options),
     addFontsToIndex(_options),
+    runExternal(_options),
     externalSchematic("@ng-bootstrap/ng-bootstrap", "ng-add", { }),
-    externalSchematic("@angular/material", "ng-add", {
-      project: _options.project,animations: true, theme: "indigo-pink",  typography: false}
-      // | 'deeppurple-amber' | 'pink-bluegrey' | 'purple-green' | 'custom';
-    
-    
-     ),
-     addAndinstallDependencies(_options),
+
+    addAndinstallDependencies(_options),
     (tree: Tree, _context: SchematicContext) => {
       return doTheLogs(tree, _options, _context);
     }
