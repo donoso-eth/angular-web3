@@ -11,13 +11,10 @@
     <mat-tab label="Smart Contract">
   
         <p style="text-align: center; font-size: 20px">
-          <address-show
-            (doFaucetEvent)="doFaucet()"
-            (openTransactionEvent)="openTransaction()"
-            *ngIf="!!newWallet"
-            [balance]="walletBalance"
-            [address_to_show]="newWallet.address"
-          ></address-show>
+
+          <wallet-display [signer]="signer" (doFaucetEvent)="doFaucet()"
+          (openTransactionEvent)="openTransaction()" ></wallet-display>
+
         </p>
 
         <div
