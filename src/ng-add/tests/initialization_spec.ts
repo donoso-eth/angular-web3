@@ -84,6 +84,17 @@ describe("Initilization", () => {
     expect(hardhat_config_file).toContain("src/assets");
   });
 
+  it("Should add Injector module ", async () => {
+
+    const tree = await schematicRunner
+      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorldContract" }, appTree)
+      .toPromise();
+    const app_module_file = tree.readContent("/projects/schematest/src/app/app.module.ts");
+
+    expect(app_module_file).toContain("DappInjectorModule");
+  });
+
+
   it("Add dependencies", async () => {
     const tree = await schematicRunner
       .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorldContract" }, appTree)
@@ -101,12 +112,12 @@ describe("Initilization", () => {
     expect(packageJson).toContain(`"compile": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json compile"`);
   });
 
-  // it("Hello app creates Hello world chain module", async () => {
-  //   const tree = await schematicRunner
-  //     .runSchematicAsync("ng-add", {}, appTree)
-  //     .toPromise();
-  //     expect(tree.exists("/projects/schematest/src/app/hello-world-contract/hello-world-contract.module.ts")).toBeTrue();
-  // });
+  it("Hello app creates Hello world chain module", async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync("ng-add", {}, appTree)
+      .toPromise();
+      expect(tree.exists("/projects/schematest/src/app/dapp-demos/1-hello-world-contract/hello-world-contract.module.ts")).toBeTrue();
+  });
 
 
 });

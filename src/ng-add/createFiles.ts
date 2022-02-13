@@ -83,31 +83,31 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
     templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
   }
 
-  if(options.configuration !== 'minimalContract'){
-    const templateApp = apply(url("./files/common-demo/dapp"), [
-      applyTemplates({}),
-      move(normalize(`/${options.sourceRoot}/app/dapp-injector/`)),
-    ]);
-    templateRules.push(
-      mergeWith(templateApp, MergeStrategy.AllowCreationConflict)
-    );
-  }
+  // if(options.configuration !== 'minimalContract'){
+  //   const templateApp = apply(url("./files/common-demo/dapp"), [
+  //     applyTemplates({}),
+  //     move(normalize(`/${options.sourceRoot}/app/dapp-injector/`)),
+  //   ]);
+  //   templateRules.push(
+  //     mergeWith(templateApp, MergeStrategy.AllowCreationConflict)
+  //   );
+  // }
 
 
     
-  if (options.configuration !== 'minimalContract' || host.exists("src/app/dapp-injector/components/index.ts")) {
-    const templateIndex = apply(url("./files/common/dapp/index/component"), [
-      applyTemplates({}),
-      move(normalize(`/src/app/dapp-injector/`)),
-    ]);
-    templateRules.push(mergeWith(templateIndex ,MergeStrategy.Overwrite));
-  } else {
-    const templateIndex  = apply(url("./files/common/dapp/index/wocomponent"), [
-      applyTemplates({}),
-      move(normalize(`/src/app/dapp-injector/`)),
-    ]);
-    templateRules.push(mergeWith(templateIndex ,MergeStrategy.Overwrite));
-  }
+  // if (options.configuration !== 'minimalContract' || host.exists("src/app/dapp-injector/components/index.ts")) {
+  //   const templateIndex = apply(url("./files/common/dapp/index/component"), [
+  //     applyTemplates({}),
+  //     move(normalize(`/src/app/dapp-injector/`)),
+  //   ]);
+  //   templateRules.push(mergeWith(templateIndex ,MergeStrategy.Overwrite));
+  // } else {
+  //   const templateIndex  = apply(url("./files/common/dapp/index/wocomponent"), [
+  //     applyTemplates({}),
+  //     move(normalize(`/src/app/dapp-injector/`)),
+  //   ]);
+  //   templateRules.push(mergeWith(templateIndex ,MergeStrategy.Overwrite));
+  // }
 
 
 

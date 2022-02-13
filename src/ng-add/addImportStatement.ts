@@ -6,7 +6,7 @@ import {
   addImportToModule,
   insertImport,
 } from "@schematics/angular/utility/ast-utils";
-import { InsertChange } from "@schematics/angular/utility/change";
+import { Change, InsertChange } from "@schematics/angular/utility/change";
 
 class AddToModuleContext {
   // source of the module file
@@ -21,6 +21,11 @@ class AddToModuleContext {
 }
 
 export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
+  
+  const injectorModuleName = 'DappInjectorModule'
+  const injectorModulePath =  "./dapp-injector/dapp-injector.module"
+  
+  //// Importing Feature module
   let importName;
   let importPath;
   if (_options.configuration == "minimalContract") {
@@ -56,18 +61,29 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   );
   result.relativePath = importPath;
   result.classifiedName = importName;
-  const importsChanges = addImportToModule(
+  const importsChanges:Change[] =  addImportToModule(
     result.source,
     appModulePath,
     result.classifiedName,
     result.relativePath
-  );
+  )
+
+  result.relativePath = injectorModuleName;
+  result.classifiedName = injectorModuleName;
+  const injectorChanges:Change[] =  addImportToModule(
+    result.source,
+    appModulePath,
+    result.classifiedName,
+    result.relativePath
+  )
+
   const importRecorder = tree.beginUpdate(appModulePath);
-  for (const change of importsChanges) {
+  for (const change of importsChanges.concat(injectorChanges)) {
     if (change instanceof InsertChange) {
       importRecorder.insertLeft(change.pos, change.toAdd);
     }
   }
   tree.commitUpdate(importRecorder);
+
   return tree;
 };
