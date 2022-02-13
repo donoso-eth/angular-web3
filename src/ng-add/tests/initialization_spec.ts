@@ -1,4 +1,5 @@
 
+import { normalize } from "@angular-devkit/core";
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -112,11 +113,21 @@ describe("Initilization", () => {
     expect(packageJson).toContain(`"compile": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json compile"`);
   });
 
+  
+  it("It adds fonts to index.html", async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorldContract" }, appTree)
+      .toPromise();
+      const indexHtml = tree.read(normalize("/projects/schematest/src/index.html"))!.toString("utf-8");
+      expect(indexHtml).toContain(`<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`);
+  });
+
+
   it("Hello app creates Hello world chain module", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add", {}, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorldContract" }, appTree)
       .toPromise();
-      expect(tree.exists("/projects/schematest/src/app/dapp-demos/1-hello-world-contract/hello-world-contract.module.ts")).toBeTrue();
+      expect(tree.exists(normalize("/projects/schematest/src/app/dapp-demos/1-hello-world-contract/hello-world-contract.module.ts"))).toBeTrue();
   });
 
 

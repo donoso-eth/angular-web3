@@ -22,23 +22,21 @@ class AddToModuleContext {
 
 export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   
-  const injectorModuleName = 'DappInjectorModule'
-  const injectorModulePath =  "./dapp-injector/dapp-injector.module"
   
   //// Importing Feature module
-  let importName;
-  let importPath;
+  let featureName;
+  let featurePath;
   if (_options.configuration == "minimalContract") {
-    importName = "MinimalContractModule";
-    importPath =
+    featureName = "MinimalContractModule";
+    featurePath =
       "./dapp-demos/0-minimal-contract/minimal-contract.module";
   } else if (_options.configuration == "helloWorldContract") {
-    importName = "HelloWorldContractModule";
-    importPath =
+    featureName = "HelloWorldContractModule";
+    featurePath =
       "./dapp-demos/1-hello-world-contract/hello-world-contract.module";
   } else if (_options.configuration == "debugContract") {
-    importName = "DebugContractModule";
-    importPath = "./dapp-demos/2-debug-contract/debug-contract.module";
+    featureName = "DebugContractModule";
+    featurePath = "./dapp-demos/2-debug-contract/debug-contract.module";
   } else {
     return tree;
   }
@@ -52,33 +50,48 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   if (!appModuleFile) {
     throw new SchematicsException("app.module.ts not found");
   }
-  const result = new AddToModuleContext();
-  result.source = ts.createSourceFile(
+ // const result = new AddToModuleContext();
+
+  const source_app = ts.createSourceFile(
     appModulePath,
     appModuleFile,
     ts.ScriptTarget.Latest,
     true
   );
-  result.relativePath = importPath;
-  result.classifiedName = importName;
-  const importsChanges:Change[] =  addImportToModule(
-    result.source,
+
+
+
+  const importsFeature:Change[] =  addImportToModule(
+    source_app,
     appModulePath,
-    result.classifiedName,
-    result.relativePath
+    featureName,
+    featurePath,
   )
 
-  result.relativePath = injectorModuleName;
-  result.classifiedName = injectorModuleName;
-  const injectorChanges:Change[] =  addImportToModule(
-    result.source,
+  const importReducer  = insertImport(
+    source_app,
     appModulePath,
-    result.classifiedName,
-    result.relativePath
+    "we3ReducerFunction",
+    "angular-web3"
+  )
+
+  const importStore:Change[] =  addImportToModule(
+    source_app,
+    appModulePath,
+    'StoreModule.forRoot({web3: we3ReducerFunction}),',
+    '@ngrx/store',
+  )
+
+
+  const importDappInjector:Change[] =  addImportToModule(
+    source_app,
+    appModulePath,
+    'DappInjectorModule',
+    "./dapp-injector/dapp-injector.module",
   )
 
   const importRecorder = tree.beginUpdate(appModulePath);
-  for (const change of importsChanges.concat(injectorChanges)) {
+  for (const change of importsFeature.concat(importDappInjector,importStore,[importReducer])) {
     if (change instanceof InsertChange) {
       importRecorder.insertLeft(change.pos, change.toAdd);
     }

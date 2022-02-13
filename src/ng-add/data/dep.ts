@@ -1,6 +1,11 @@
 export const devs = {
     "@download/blockies": "^1.0.3",
     "ethers": "^5.0.0",
+    "@ngrx/effects": "^13.0.2",
+    "@ngrx/store": "^13.0.2",
+    "@ng-bootstrap/ng-bootstrap": "^11.0.0",
+    "@angular/material": "^13.2.2",
+    "@angular/cdk": "^13.2.2",
 }
 
 export const devDeps = {  "@nomiclabs/hardhat-ethers": "^2.0.0",

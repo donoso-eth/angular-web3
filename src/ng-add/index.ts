@@ -13,6 +13,8 @@ import { addAndinstallDependencies } from "./addAndInstallDependencies";
 import { adScriptsToPackageJson } from "./addScriptsToPackageJson";
 import { contract_config } from "./data/contract.config.";
 import { addImport } from "./addImportStatement";
+import { addFontsToIndex } from "./addFonts";
+import { updateTsConfig } from "./updateTsConfig";
 
 /** Adds a package to the package.json in the given host tree. */
 const setupOptions = (
@@ -149,9 +151,21 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
     (tree: Tree, _context: SchematicContext) => {
       return addImport(tree, _options);
     },
-    addAndinstallDependencies(_options),
+    (tree: Tree, _context: SchematicContext) => {
+      return   updateTsConfig(tree,_options);
+    },
+
+  
     adScriptsToPackageJson(_options),
+    addFontsToIndex(_options),
     externalSchematic("@ng-bootstrap/ng-bootstrap", "ng-add", { }),
+    externalSchematic("@angular/material", "ng-add", {
+      project: _options.project,animations: true, theme: "indigo-pink",  typography: false}
+      // | 'deeppurple-amber' | 'pink-bluegrey' | 'purple-green' | 'custom';
+    
+    
+     ),
+     addAndinstallDependencies(_options),
     (tree: Tree, _context: SchematicContext) => {
       return doTheLogs(tree, _options, _context);
     }
