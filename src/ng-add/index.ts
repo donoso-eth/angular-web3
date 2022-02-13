@@ -164,7 +164,7 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
     adScriptsToPackageJson(_options),
     addFontsToIndex(_options),
     runExternal(_options),
-    externalSchematic("@ng-bootstrap/ng-bootstrap", "ng-add", { }),
+    externalSchematic("@ng-bootstrap/ng-bootstrap", "ng-add", { project:_options.project}),
 
     addAndinstallDependencies(_options),
     (tree: Tree, _context: SchematicContext) => {
