@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { Contract, ethers } from "ethers";
 
 export interface IABI_OBJECT {
   inputs: Array<{ internalType: string; name: string; type: string }>;
@@ -11,6 +11,13 @@ export interface IABI_OBJECT {
 export interface BlockWithTransactions extends Omit<ethers.providers.Block , 'transactions'> {
   transactions: Array<ethers.providers.TransactionResponse>;
 
+}
+
+export interface IMETA_CONTRACT {
+  address:string,
+  name:string
+  abi:Array<IABI_OBJECT>,
+  contract:Contract
 }
 
 export interface ICONTRACT {

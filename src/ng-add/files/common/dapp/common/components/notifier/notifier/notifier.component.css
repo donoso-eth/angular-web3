@@ -1,0 +1,13 @@
+:host {
+    background: green;
+}
+
+.content-style{
+    background: white;
+    color: black;
+    border-radius: 4px;
+    padding: 5px;
+    font-size:20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

@@ -1,5 +1,6 @@
 import {
   chain,
+  externalSchematic,
   Rule,
   SchematicContext,
   SchematicsException,
@@ -150,6 +151,7 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
     },
     addAndinstallDependencies(_options),
     adScriptsToPackageJson(_options),
+    externalSchematic('@ng-bootstrap/ng-bootstrap', 'ng-add',{}),
     (tree: Tree, _context: SchematicContext) => {
       return doTheLogs(tree, _options, _context);
     }
