@@ -19,5 +19,6 @@ export declare interface IOPTIONS {
 }
 
 export interface IOPTIONS_EXTENDED extends IOPTIONS{
-    sourceRoot?:string
+    sourceRoot?:string,
+    projectFound?:string
   }

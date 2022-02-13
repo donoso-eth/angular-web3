@@ -42,19 +42,19 @@ const setupOptions = (
 
     if (workspaceConfig.default == undefined) {
       project = workspaceConfig.projects[project_keys[0]];
-      _options.project = project_keys[0];
+      _options.projectFound = project_keys[0];
     } else {
       project = workspaceConfig.projects[workspaceConfig.default];
 
       if (project == undefined) {
         throw new SchematicsException("Default project Not Available");
       }
-      _options.project = workspaceConfig.default;
+      _options.projectFound = workspaceConfig.default;
 
     }
   } else {
     project = workspaceConfig.projects[_options.project];
-
+    _options.projectFound = _options.project
     if (project == undefined) {
       throw new SchematicsException("Default project Not Available");
     }
@@ -145,7 +145,6 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
   return chain([
     (tree: Tree, _context: SchematicContext) => {
       setupOptions(tree, _options, _context);
-      console.log(_options)
     },
     (tree: Tree, _context: SchematicContext) => {
       changeContractConfig(tree, _options);
@@ -163,9 +162,10 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
   
     adScriptsToPackageJson(_options),
     addFontsToIndex(_options),
-    runExternal(_options),
-    externalSchematic("@ng-bootstrap/ng-bootstrap", "ng-add", { project:_options.project}),
-
+    // runExternal(_options),
+    externalSchematic("@angular/material", "ng-add", { project:_options.projectFound,
+      animations: true, theme: "indigo-pink",  typography: false}),
+    externalSchematic("@ng-bootstrap/ng-bootstrap", "ng-add", { project:_options.projectFound}),
     addAndinstallDependencies(_options),
     (tree: Tree, _context: SchematicContext) => {
       return doTheLogs(tree, _options, _context);
