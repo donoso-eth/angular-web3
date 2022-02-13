@@ -16,7 +16,7 @@ export class DappInjectorService {
 ;
   config!: ISTARTUP_CONFIG;
   constructor(
-    @Inject('contractMetadata') public contractMetadata: ICONTRACT,
+    @Inject('<%= metadata %>') public contractMetadata: ICONTRACT,
     private store: Store
   ) {
     this.initChain();

@@ -26,7 +26,7 @@ export const startUpConfig:ISTARTUP_CONFIG = {
 }
 
 
-export const contractMetadata = new InjectionToken<ICONTRACT>('contractMetadata')
+export const contractMetadata = new InjectionToken<ICONTRACT>('helloWorldcontractMetadata')
 
 export const blockchain_providers = [ {provide:'contractMetadata', useValue:HelloWorldContractMetadata}]
 

@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DebugContractComponent } from './debug-contract/debug-contract.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import { blockchain_imports, blockchain_providers } from './blockchain_wiring';
-import {OnChainService } from './on-chain.service';
+
 
 @NgModule({
   declarations: [DebugContractComponent,
@@ -29,7 +29,7 @@ import {OnChainService } from './on-chain.service';
     blockchain_imports
 
   ],
-  providers:[...blockchain_providers,OnChainService],
+  providers:[...blockchain_providers],
   exports: [
     DebugContractComponent
   ]

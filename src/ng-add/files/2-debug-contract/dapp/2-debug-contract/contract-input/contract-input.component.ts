@@ -55,7 +55,7 @@ export class ContractInputComponent implements OnInit {
     } else {
       this.labels = [_labels]
     }
-  
+   
     this.cd.detectChanges();
   }
 

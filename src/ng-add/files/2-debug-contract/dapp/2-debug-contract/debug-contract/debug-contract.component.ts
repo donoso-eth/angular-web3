@@ -9,15 +9,15 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 
-
 import { ContractInputComponent } from '../contract-input/contract-input.component';
 
-import { ethers } from 'ethers';
+import { ethers, Signer } from 'ethers';
 import {
   BlockWithTransactions,
   convertEtherToWei,
   convertUSDtoEther,
   convertWeiToEther,
+  DappInjectorService,
   DialogService,
   displayEther,
   displayUsd,
@@ -26,8 +26,10 @@ import {
   ICONTRACT,
   IINPUT_EVENT,
   NotifierService,
+  web3Selectors,
+  Web3State,
 } from 'angular-web3';
-import { OnChainService } from '../on-chain.service';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'debug-contract',
@@ -36,12 +38,12 @@ import { OnChainService } from '../on-chain.service';
 })
 export class DebugContractComponent implements AfterViewInit {
   blocks: Array<BlockWithTransactions> = [];
-  contract_abi: Array<IABI_OBJECT>;
+  contract_abi!: Array<IABI_OBJECT>;
   walletBalance!: IBALANCE;
   contractBalance!: IBALANCE;
   contractHeader!: ICONTRACT;
-  deployer_address!:string;
-  myContract!: ethers.Contract;
+  deployer_address!: string;
+
   greeting!: string;
   greeting_input!: string;
   provider!: ethers.providers.JsonRpcProvider;
@@ -50,8 +52,8 @@ export class DebugContractComponent implements AfterViewInit {
   loading_contract: 'loading' | 'found' | 'error' = 'loading';
   componentInstances: Array<ContractInputComponent> = [];
   stateInstances: Array<ContractInputComponent> = [];
-  events:Array<any> = [];
-  eventsAbiArray:Array<any> = [];
+  events: Array<any> = [];
+  eventsAbiArray: Array<any> = [];
 
   blockchain_is_busy = true;
 
@@ -59,17 +61,20 @@ export class DebugContractComponent implements AfterViewInit {
 
   dollarExchange!: number;
   balanceDollar!: number;
+  myContract!: {
+    name: string;
+    address: string;
+    contract: ethers.Contract;
+    abi: IABI_OBJECT[];
+  };
   constructor(
-    private cd:ChangeDetectorRef,
+    private cd: ChangeDetectorRef,
     private dialogService: DialogService,
     private notifierService: NotifierService,
-    private onChainService: OnChainService,
-
+    private dappInjectorService: DappInjectorService,
+    private store: Store<Web3State>,
     private componentFactoryResolver: ComponentFactoryResolver
-  ) {
-    this.contract_abi = this.onChainService.debugContractMetadata.abi;
-    console.log(this.contract_abi);
-  }
+  ) {}
 
   @ViewChild('inputContainer', { read: ViewContainerRef })
   inputContainer!: ViewContainerRef;
@@ -81,16 +86,15 @@ export class DebugContractComponent implements AfterViewInit {
   payableContainer!: ViewContainerRef;
 
   add(abi: IABI_OBJECT): void {
-    this.cd.detectChanges()
+    this.cd.detectChanges();
     // create the compoxnent factory
     const dynamicComponentFactory =
       this.componentFactoryResolver.resolveComponentFactory(
         ContractInputComponent
       );
 
-    let componentRef:any;
+    let componentRef: any;
     // add the component to the view
-
 
     if (
       abi.stateMutability == 'view' &&
@@ -115,12 +119,12 @@ export class DebugContractComponent implements AfterViewInit {
 
     componentRef.instance.newEventFunction.subscribe(
       async (value: IINPUT_EVENT) => {
-        const myResult = await this.onChainService.debugContract.runFunction(
-          value.function,
-          value.args,
-          value.state
-        );
-   
+        const myResult = await this.dappInjectorService.runfunction({
+          method: value.function,
+          contractKey: 'myContract',
+          args: value.args,
+        });
+
         if (myResult.msg.success == false) {
           await this.notifierService.showNotificationTransaction(myResult.msg);
         }
@@ -135,7 +139,8 @@ export class DebugContractComponent implements AfterViewInit {
 
         if (value.outputs.length > 0) {
           if (myResult.msg.success == true) {
-            componentRef.instance.refreshUi(myResult.payload);
+            console.log(myResult.payload)
+            componentRef.instance.refreshUi(myResult.payload.toString());
           } else {
             await this.notifierService.showNotificationTransaction(
               myResult.msg
@@ -147,12 +152,18 @@ export class DebugContractComponent implements AfterViewInit {
   }
 
   async updateState() {
+    console.log(this.stateInstances)
     for (const stateCompo of this.stateInstances) {
-      const result =
-        await this.onChainService.debugContract.runContractFunction(
-          stateCompo.abi_input.name as string,
-          {}
-        );
+      const method = stateCompo.abi_input.name as string;
+      console.log(method)
+      const result = await this.dappInjectorService.runfunction({
+        method,
+        contractKey: 'myContract',
+        args: [],
+      });
+
+      console.log(result.payload);
+      // const outputArray = result.payload.map( (map:any)=> map.toString())
 
       if (result.msg.success == true) {
         stateCompo.refreshUi(result.payload);
@@ -162,56 +173,39 @@ export class DebugContractComponent implements AfterViewInit {
     }
   }
 
+  async refreshContractBalance() {
+    const balance = await this.dappInjectorService.config.providers[
+      'main'
+    ].getBalance(this.contractHeader.address);
+    const ehterbalance = convertWeiToEther(balance);
+    const dollar =
+      ehterbalance * (await this.dappInjectorService.getDollarEther());
+    this.contractBalance = {
+      ether: displayEther(ehterbalance),
+      usd: displayUsd(dollar),
+    };
+  }
   async onChainStuff() {
     try {
-      await this.onChainService.init();
+      this.deployer_address = await (
+        await this.dappInjectorService.config.providers['main'].getSigner()
+      ).getAddress();
 
-      this.deployer_address =
-        await this.onChainService.myProvider.Signer.getAddress();
+      this.dappInjectorService.config.providers['main'].on(
+        'block',
+        async (log: any, event: any) => {
+          this.refreshContractBalance();
 
-      this.onChainService.myProvider.blockEventSubscription.subscribe(
-        async (blockNr) => {
-          this.onChainService.debugContract.refreshBalance();
-          this.onChainService.newWallet.refreshWalletBalance();
-          this.blockchain_is_busy = false;
-          const block =
-            await this.onChainService.myProvider.Provider.getBlockWithTransactions(
-              blockNr
-            );
+          const block = await this.dappInjectorService.config.providers[
+            'main'
+          ].getBlockWithTransactions(log);
           this.blocks = [block].concat(this.blocks);
         }
       );
 
-      this.newWallet = await this.onChainService.newWallet.wallet;
-      this.myContract = this.onChainService.debugContract.Contract;
-
-      this.onChainService.debugContract.contractBalanceSubscription.subscribe(
-        async (balance) => {
-          const ehterbalance = convertWeiToEther(balance);
-          const dollar =
-            ehterbalance * (await this.onChainService.getDollarEther());
-          this.contractBalance = {
-            ether: displayEther(ehterbalance),
-            usd: displayUsd(dollar),
-          };
-        }
-      );
-
-      this.onChainService.newWallet.walletBalanceSubscription.subscribe(
-        async (balance) => {
-          const ehterbalance = convertWeiToEther(balance);
-          const dollar =
-            ehterbalance * (await this.onChainService.getDollarEther());
-          this.walletBalance = {
-            ether: displayEther(ehterbalance),
-            usd: displayUsd(dollar),
-          };
-        }
-      );
-
       this.contractHeader = {
-        name: this.onChainService.debugContract.metadata.name,
-        address: this.onChainService.debugContract.metadata.address,
+        name: this.myContract.name,
+        address: this.myContract.address,
       };
 
       this.eventsAbiArray = this.contract_abi.filter(
@@ -219,7 +213,7 @@ export class DebugContractComponent implements AfterViewInit {
       );
 
       this.eventsAbiArray.forEach((val) => {
-        this.myContract.on(val.name, (args) => {
+        this.myContract.contract.on(val.name, (args) => {
           let payload;
           if (typeof args == 'object') {
             payload = JSON.stringify(args);
@@ -245,36 +239,40 @@ export class DebugContractComponent implements AfterViewInit {
 
       this.updateState();
     } catch (error) {
-      console.log(error)
+      console.log(error);
       this.loading_contract = 'error';
     }
   }
 
-  async addBlock(blockNr:number) {
-    const block =
-      await this.onChainService.myProvider.Provider.getBlockWithTransactions(
-        blockNr
-      );
+  async addBlock(blockNr: number) {
+    const block = await this.dappInjectorService.config.providers[
+      'main'
+    ].getBlockWithTransactions(blockNr);
     this.blocks = this.blocks.concat(block);
   }
 
   async doFaucet() {
     this.blockchain_is_busy = true;
-    let amountInEther = '0.01';
+    let amountInEther = '0.1';
     // Create a transaction object
+
     let tx = {
-      to: this.newWallet.address,
+      to: await this.dappInjectorService.config.signer?.getAddress(),
       // Convert currency unit from ether to wei
       value: ethers.utils.parseEther(amountInEther),
     };
+
     // Send a transaction
-    const transaction_result =
-      await this.onChainService.myProvider.doTransaction(tx);
+    const transaction_result = await this.dappInjectorService.doTransaction(
+      tx,
+      true
+    );
     this.blockchain_is_busy = false;
     await this.notifierService.showNotificationTransaction(transaction_result);
   }
 
   async openTransaction() {
+    console.log(await this.dappInjectorService.getDollarEther());
     this.blockchain_is_busy = true;
     const res = await this.dialogService.openDialog();
 
@@ -282,7 +280,7 @@ export class DebugContractComponent implements AfterViewInit {
       const usd = res.amount;
       const amountInEther = convertUSDtoEther(
         res.amount,
-        await this.onChainService.getDollarEther()
+        await this.dappInjectorService.getDollarEther()
       );
       const amountinWei = convertEtherToWei(amountInEther);
 
@@ -292,20 +290,33 @@ export class DebugContractComponent implements AfterViewInit {
         value: amountinWei,
       };
 
-      const transaction_result =
-        await this.onChainService.newWallet.doTransaction(tx);
+      const transaction_result = await this.dappInjectorService.doTransaction(
+        tx
+      );
       this.blockchain_is_busy = false;
       await this.notifierService.showNotificationTransaction(
         transaction_result
       );
     } else {
-    this.blockchain_is_busy = false;
+      this.blockchain_is_busy = false;
     }
   }
 
-  
-
   ngAfterViewInit(): void {
-    this.onChainStuff();
+    this.store.pipe(web3Selectors.selectChainReady).subscribe(async (value) => {
+      console.log(value);
+      this.myContract = this.dappInjectorService.config.contracts['myContract'];
+      this.contract_abi = this.myContract.abi;
+      console.log(this.contract_abi);
+      this.signer = this.dappInjectorService.config.signer as Signer;
+      this.onChainStuff();
+    });
+
+    this.store
+      .select(web3Selectors.isNetworkBusy)
+      .subscribe((isBusy: boolean) => {
+        console.log(isBusy);
+        this.blockchain_is_busy = isBusy;
+      });
   }
 }
