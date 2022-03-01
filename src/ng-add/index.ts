@@ -13,7 +13,7 @@ import { addAndinstallDependencies } from "./addAndInstallDependencies";
 import { adScriptsToPackageJson } from "./addScriptsToPackageJson";
 import { contract_config } from "./data/contract.config.";
 import { addImport } from "./addImportStatement";
-import { addFontsToIndex } from "./addFonts";
+
 import { updateTsConfig } from "./updateTsConfig";
 import { runExternal } from "./runExternal";
 
@@ -61,6 +61,16 @@ const setupOptions = (
   }
 
   _options.sourceRoot = project.sourceRoot;
+
+
+  /// CHANGING TO CUSTOM WEBPACK BUILD
+  if (_options.configuration == 'nftContract'){
+    workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["builder"] = "@angular-builders/custom-webpack:browser";
+    workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["builder"]["options"]["customWebpackConfig"] =  {"path": "./extra-webpack.config.js"} 
+    workspaceConfig.projects[_options.projectFound as string]["architect"]["serve"]["builder"] = "@angular-builders/custom-webpack:browser";
+  } 
+
+  host.overwrite("angular.json", JSON.stringify(workspaceConfig));
 
   _options.alreadyInstalled = false;
   if (_options.skipInstall == undefined) {
@@ -161,7 +171,7 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
 
   
     adScriptsToPackageJson(_options),
-    addFontsToIndex(_options),
+    // addFontsToIndex(_options),
     // runExternal(_options),
     externalSchematic("@angular/material", "ng-add", { project:_options.projectFound,
       animations: true, theme: "indigo-pink",  typography: false}),

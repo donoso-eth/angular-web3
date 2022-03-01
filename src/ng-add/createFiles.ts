@@ -89,6 +89,12 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
       mergeWith(templateApp, MergeStrategy.AllowCreationConflict)
     );
 
+    const templateWebpack = apply(url("./files/3-nft-contract/custom-webpack"), [
+      applyTemplates({ sourceRoot: options.sourceRoot }),
+      move(normalize(`/`)),
+    ]);
+    templateRules.push(mergeWith(templateWebpack, MergeStrategy.Overwrite));
+
     const templateHardhat = apply(url("./files/3-nft-contract/hardhat"), [
       applyTemplates({ sourceRoot: options.sourceRoot }),
       move(normalize(`/hardhat/`)),

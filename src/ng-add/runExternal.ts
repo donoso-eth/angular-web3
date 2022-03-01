@@ -8,11 +8,6 @@
 
  import { normalize } from '@angular-devkit/core';
 import {externalSchematic, Rule, SchematicsException, Tree} from '@angular-devkit/schematics';
- import {
-   appendHtmlElementToHead,
-   getProjectFromWorkspace,
-   getProjectIndexFiles,
- } from '@angular/cdk/schematics';
 import { IOPTIONS_EXTENDED } from './schema';
 
  /** Adds the Material Design fonts to the index HTML file. */

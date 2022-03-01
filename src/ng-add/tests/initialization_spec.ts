@@ -114,13 +114,13 @@ describe("Initilization", () => {
   });
 
   
-  it("It adds fonts to index.html", async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorldContract" }, appTree)
-      .toPromise();
-      const indexHtml = tree.read(normalize("/projects/schematest/src/index.html"))!.toString("utf-8");
-      expect(indexHtml).toContain(`<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`);
-  });
+  // it("It adds fonts to index.html", async () => {
+  //   const tree = await schematicRunner
+  //     .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorldContract" }, appTree)
+  //     .toPromise();
+  //     const indexHtml = tree.read(normalize("/projects/schematest/src/index.html"))!.toString("utf-8");
+  //     expect(indexHtml).toContain(`<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`);
+  // });
 
 
   it("Hello app creates Hello world chain module", async () => {
