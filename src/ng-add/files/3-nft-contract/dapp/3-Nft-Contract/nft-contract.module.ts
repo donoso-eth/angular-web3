@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SimpleNftExampleComponent } from './simple-nft-example/simple-nft-example.component';
+import { NftContractComponent } from './nft-contract/nft-contract.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,7 +14,7 @@ import { IpfsModule } from './ipfs/ipfs.module';
 
 @NgModule({
   declarations: [
-    SimpleNftExampleComponent,
+    NftContractComponent,
 
   ],
   imports: [
@@ -31,7 +31,7 @@ import { IpfsModule } from './ipfs/ipfs.module';
   ],
   providers:[...blockchain_providers] ,
   exports: [
-    SimpleNftExampleComponent
+    NftContractComponent
   ]
 })
-export class SimpleNftExampleModule { }
+export class NftContractModule { }

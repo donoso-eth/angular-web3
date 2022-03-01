@@ -66,7 +66,7 @@ const setupOptions = (
   /// CHANGING TO CUSTOM WEBPACK BUILD
   if (_options.configuration == 'nftContract'){
     workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["builder"] = "@angular-builders/custom-webpack:browser";
-    workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["builder"]["options"]["customWebpackConfig"] =  {"path": "./extra-webpack.config.js"} 
+    workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["options"]["customWebpackConfig"] =  {"path": "./extra-webpack.config.js"} 
     workspaceConfig.projects[_options.projectFound as string]["architect"]["serve"]["builder"] = "@angular-builders/custom-webpack:browser";
   } 
 

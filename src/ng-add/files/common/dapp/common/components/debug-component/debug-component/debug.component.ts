@@ -83,7 +83,7 @@ export class DebugComponent implements AfterViewInit {
 
     let componentRef:any;
     // add the component to the view
-
+    
 
     if (
       abi.stateMutability == 'view' &&
@@ -157,12 +157,7 @@ export class DebugComponent implements AfterViewInit {
 
   async onChainStuff() {
     try {
-   
-
       console.log(this.contract_abi)
-
-
-
       this.eventsAbiArray = this.contract_abi.filter(
         (fil:any) => fil.type == 'event'
       );
