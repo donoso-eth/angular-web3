@@ -14,9 +14,6 @@ import { WalletDisplayComponent } from './wallet-display.component';
   ],
   imports: [
     CommonModule,
-
-    MatIconModule,
-    MatButtonModule,
     ClipboardModule
 
 
@@ -25,4 +22,4 @@ import { WalletDisplayComponent } from './wallet-display.component';
   exports: [WalletDisplayComponent
   ]
 })
-export class WalletdisplaytModule { }
+export class WalletDisplayModule { }

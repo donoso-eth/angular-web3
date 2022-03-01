@@ -15,7 +15,7 @@
       "description": "description",
       "uniqueItems": true,
       "default":"minimalContract",
-      "enum": ["minimalContract","helloWorldContract","debugContract"],
+      "enum": ["minimalContract","helloWorldContract","debugContract", "nftContract"],
       "x-prompt": {
         "message": "Which dapp would you like to start with?",
         "type": "list",
@@ -23,7 +23,8 @@
         "items": [
           {"value":"minimalContract","label":"Minimal Contract"},
           {"value":"helloWorldContract","label":"Demo Hello World Contract"},
-          {"value":"debugContract","label":"Demo Debug Contract"}
+          {"value":"debugContract","label":"Demo Debug Contract"},
+          {"value":"nftContract","label":"Demo Nft Contract"}
         ]
       }
   },

@@ -80,6 +80,20 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
       move(normalize(`/hardhat/`)),
     ]);
     templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
+  } if (options.configuration == "nftContract") {
+    const templateApp = apply(url("./files/3-nft-contract/dapp"), [
+      applyTemplates({}),
+      move(normalize(`/${options.sourceRoot}/app/dapp-demos/`)),
+    ]);
+    templateRules.push(
+      mergeWith(templateApp, MergeStrategy.AllowCreationConflict)
+    );
+
+    const templateHardhat = apply(url("./files/3-nft-contract/hardhat"), [
+      applyTemplates({ sourceRoot: options.sourceRoot }),
+      move(normalize(`/hardhat/`)),
+    ]);
+    templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
   }
 
   // if(options.configuration !== 'minimalContract'){

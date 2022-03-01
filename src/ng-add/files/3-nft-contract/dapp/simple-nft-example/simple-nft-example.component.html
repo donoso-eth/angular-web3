@@ -1,0 +1,24 @@
+<onchain-home  [contractHeader]="contractHeader"
+  [blockchain_is_busy]="blockchain_is_busy">
+
+
+  <mat-tab-group mat-align-tabs="center">
+    <mat-tab label="My NFT's">
+    </mat-tab>
+    <mat-tab label="Download Ipfs">
+      <ipfs-download></ipfs-download>
+    </mat-tab>
+    <mat-tab label="Upload Ipfs">
+      <ipfs-upload></ipfs-upload>
+    </mat-tab>
+    <mat-tab label="minimal">
+      <div style="text-align: center" *ngIf="!!contractHeader">
+        <p>Wallet created: {{ myWallet?.address }}</p>
+        <p>
+          {{ contractHeader?.name }} <br />deployed to
+          {{ contractHeader?.address }} <br />by: {{ deployer_address }}
+        </p>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</onchain-home>

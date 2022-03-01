@@ -18,4 +18,10 @@ export const contract_config = {
     ctor: ["Hello Debug Contract On Chain"],
     jsonName: "debug_contract",
   },
+  nftContract: {
+    artifactsPath: "3-NftContract.sol/NftContract.json",
+    name: "NftContract",
+    ctor: [],
+    jsonName: "nft_contract",
+  },
 };

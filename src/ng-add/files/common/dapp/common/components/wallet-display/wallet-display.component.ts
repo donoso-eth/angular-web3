@@ -1,12 +1,11 @@
-import { AfterViewInit, Component, ElementRef,  EventEmitter,  Input,  Output,  Renderer2, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef,  EventEmitter,  Input,  Output,  Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { createIcon } from '@download/blockies';
 import { Store } from '@ngrx/store';
 import { Signer } from 'ethers';
-import { first, firstValueFrom } from 'rxjs';
-
-import { DappInjectorService } from  '../../dapp-injector.service';
+import {  firstValueFrom } from 'rxjs';
+import { netWorkByName, NETWORK_TYPE } from '../../constants/constants';
 import { convertWeiToEther, displayEther, displayUsd } from '../../helpers';
-import { web3Selectors, Web3State } from '../../store';
+import { Web3Actions, web3Selectors, Web3State } from '../../store';
 
 
 
@@ -20,9 +19,12 @@ export class WalletDisplayComponent implements AfterViewInit {
   address_to_show!:string;
   balance!: { ether: any; usd: any; };
   dollarExhange!: number;
+  network!: string;
 
 
-  constructor(private renderer:Renderer2, private store: Store<Web3State>) {
+  constructor(
+    private cd: ChangeDetectorRef,
+    private renderer:Renderer2, private store: Store<Web3State>) {
 
    }
 
@@ -51,11 +53,37 @@ export class WalletDisplayComponent implements AfterViewInit {
     this.doFaucetEvent.emit()
   }
 
+
+  doDisconnect() {
+    this.store.dispatch(Web3Actions.chainStatus({status: 'disconnected'}))
+  }
+
+  async doScan(){
+    if (this.network == 'localhost') { 
+      alert("No scan provider for localhost, please embed the blockchain component")
+  
+    } else {
+      
+      const href = netWorkByName(this.network as NETWORK_TYPE);
+  
+      if (href.blockExplorer) { 
+        window.open(
+          href.blockExplorer +`/address/${this.address_to_show}` ,
+          '_blank' // <- This is what makes it open in a new window.
+        );
+      }
+  
+    }
+  }
+
+
   ngAfterViewInit(): void {
 
+    
     this.store.pipe(web3Selectors.selectChainReady).subscribe(async (value) => {
 
-    
+      console.log(value)
+
       this.address_to_show = await this.signer.getAddress()
       const balance = await this.signer.getBalance();
 
@@ -73,9 +101,14 @@ export class WalletDisplayComponent implements AfterViewInit {
       }
      // await this.myWallet.refreshWalletBalance()
      this.convertWeitoDisplay(balance)
+     
     });
 
-    this.store.pipe(web3Selectors.selectWalletBalance).subscribe(balance=>   this.convertWeitoDisplay(balance))
+    this.store.pipe(web3Selectors.selectWalletBalance).subscribe(balance=>   { 
+      this.convertWeitoDisplay(balance)
+      this.cd.detectChanges();})
+
+    this.store.select(web3Selectors.selectSignerNetwork).subscribe(network=> this.network = network)
 
     const icon = createIcon(this.blockiesOptions);
     
