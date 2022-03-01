@@ -3,6 +3,8 @@ export const devs = {
     "ethers": "^5.0.0",
     "@ngrx/effects": "^13.0.2",
     "@ngrx/store": "^13.0.2",
+    "@openzeppelin/contracts": "^4.5.0",
+    "ang-jsoneditor": "^1.10.5",
     // "@ng-bootstrap/ng-bootstrap": "^11.0.0"
     // "@angular/material": "^13.2.2",
     // "@angular/cdk": "^13.2.2",
