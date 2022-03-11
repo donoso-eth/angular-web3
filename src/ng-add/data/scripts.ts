@@ -19,6 +19,6 @@ export const ngadd_scritps = {
     "subgraph-deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ GITHUB_USERNAME/your-contract",
     "subgraph-create-local": "graph create --node http://localhost:4200/ GITHUB_USERNAME/your-contractt",
     "subgraph-remove-local": "graph remove --node http://localhost:4200/ GITHUB_USERNAME/your-contract",
-    "subgraph-deploy-local": "graph deploy --node http://localhost:4200/ --ipfs http://localhost:5001  GITHUB_USERNAME/your-contract
+    "subgraph-deploy-local": "graph deploy --node http://localhost:4200/ --ipfs http://localhost:5001  GITHUB_USERNAME/your-contract"
 
 }

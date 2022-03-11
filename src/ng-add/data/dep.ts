@@ -6,6 +6,8 @@ export const devs = {
     "@openzeppelin/contracts": "^4.5.0",
     "ang-jsoneditor": "^1.10.5",
     "json-editor":"^9.7.2",
+    "@graphprotocol/graph-cli": "^0.22.1",
+    "@graphprotocol/graph-ts": "^0.22.1"
     // "@ng-bootstrap/ng-bootstrap": "^11.0.0"
     // "@angular/material": "^13.2.2",
     // "@angular/cdk": "^13.2.2",
@@ -44,4 +46,5 @@ export const devDeps = {  "@nomiclabs/hardhat-ethers": "^2.0.0",
 "typechain": "^5.1.2",
 "bip39": "^3.0.4",
 "ethereumjs-wallet": "^1.0.2",
-"@download/blockies":"^1.0.3"}
+"@download/blockies":"^1.0.3",
+"mustache": "^3.1.0"}

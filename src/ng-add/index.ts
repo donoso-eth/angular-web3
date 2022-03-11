@@ -7,6 +7,8 @@ import {
   Tree
 } from "@angular-devkit/schematics";
 
+import { prompt} from 'inquirer'
+
 import { IOPTIONS_EXTENDED } from "./schema";
 import { createFiles } from "./createFiles";
 import { addAndinstallDependencies } from "./addAndInstallDependencies";
@@ -18,11 +20,21 @@ import { updateTsConfig } from "./updateTsConfig";
 import { runExternal } from "./runExternal";
 
 /** Adds a package to the package.json in the given host tree. */
-const setupOptions = (
+const setupOptions = async (
   host: Tree,
   _options: IOPTIONS_EXTENDED,
   context: SchematicContext
-): Tree => {
+): Promise<Tree> => {
+
+const answer =  await prompt([
+    {
+      name: 'faveReptile',
+      message: 'What is your favorite reptile?'
+    },
+  ])
+
+  console.log(answer)
+
   let workspaceConfig;
   workspaceConfig = JSON.parse(host.read("angular.json")!.toString("utf-8"));
 
@@ -89,6 +101,9 @@ const changeContractConfig = (
   host: Tree,
   _options: IOPTIONS_EXTENDED
 ): Tree => {
+
+  console.log('HAY CANDEKA')
+
   const contractConfig: any = contract_config;
   if (_options.alreadyInstalled == false) {
     const contractConfigString = JSON.stringify({
@@ -151,10 +166,10 @@ const doTheLogs = (
   return host;
 };
 
-export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
+export function  ngAdd(_options: IOPTIONS_EXTENDED): Rule {
   return chain([
-    (tree: Tree, _context: SchematicContext) => {
-      setupOptions(tree, _options, _context);
+    async (tree: Tree, _context: SchematicContext) => {
+     await setupOptions(tree, _options, _context);
     },
     (tree: Tree, _context: SchematicContext) => {
       changeContractConfig(tree, _options);
