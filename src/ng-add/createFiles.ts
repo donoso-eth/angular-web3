@@ -28,7 +28,7 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
       mergeWith(templateCommonHardhat, MergeStrategy.Overwrite)
     );
 
-  const templateCommonApp = apply(url("./files/common/dapp/common"), [
+  const templateCommonApp = apply(url("./files/common/dapp/dapp-injector"), [
     applyTemplates({ sourceRoot: options.sourceRoot, metadata:options.configuration + 'Metadata' }),
     move(normalize(normalize(`/${options.sourceRoot}/app/dapp-injector`))),
   ]);
