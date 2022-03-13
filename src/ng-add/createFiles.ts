@@ -28,12 +28,20 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
       mergeWith(templateCommonHardhat, MergeStrategy.Overwrite)
     );
 
-  const templateCommonApp = apply(url("./files/common/dapp/dapp-injector"), [
+  const templateInjector = apply(url("./files/common/dapp/dapp-injector"), [
     applyTemplates({ sourceRoot: options.sourceRoot, metadata:options.configuration + 'Metadata' }),
     move(normalize(normalize(`/${options.sourceRoot}/app/dapp-injector`))),
   ]);
 
+  templateRules.push(mergeWith(templateInjector, MergeStrategy.Overwrite));
+
+  const templateCommonApp = apply(url("./files/common/dapp/app"), [
+    applyTemplates({ contractCode:options.configuration }),
+    move(normalize(normalize(`/${options.sourceRoot}/app/`))),
+  ]);
+
   templateRules.push(mergeWith(templateCommonApp, MergeStrategy.Overwrite));
+
 
   if (options.configuration == "minimalContract") {
     const templateApp = apply(url("./files/0-minimal-contract/dapp"), [
