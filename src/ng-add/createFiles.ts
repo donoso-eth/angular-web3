@@ -130,10 +130,10 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
 
 
 
-  if (!host.exists("src/typings.d.ts")) {
+  if (!host.exists(`${options.sourceRoot}/typings.d.ts`)) {
     const templateTypings = apply(url("./files/typings"), [
       applyTemplates({}),
-      move(normalize(`/src/`)),
+      move(normalize(`/${options.sourceRoot}/`)),
     ]);
     templateRules.push(mergeWith(templateTypings));
   }
