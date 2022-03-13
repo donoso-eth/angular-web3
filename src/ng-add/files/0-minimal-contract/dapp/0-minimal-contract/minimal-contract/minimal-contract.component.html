@@ -1,8 +1,9 @@
 
   <div style="text-align: center" *ngIf="!!contractHeader">
-    <p>Wallet created: {{ myWallet?.address }}</p>
+    <p>Wallet created: {{ myWallet_address }}</p>
     <p>
-      {{ contractHeader.name }} <br />deployed to {{ contractHeader.address }}
+      {{ contractHeader.name }} <br />deployed to {{ contractHeader.address }} <br>
+      on {{netWork}}
       <br />by: {{ deployer_address }}
     </p>
   </div>
