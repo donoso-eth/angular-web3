@@ -1,13 +1,10 @@
 export const devs = {
     "@download/blockies": "^1.0.3",
     "ethers": "^5.0.0",
-    "@ngrx/effects": "^13.0.2",
     "@ngrx/store": "^13.0.2",
-    "@openzeppelin/contracts": "^4.5.0",
     "ang-jsoneditor": "^1.10.5",
-    "json-editor":"^9.7.2",
-    "@graphprotocol/graph-cli": "^0.22.1",
-    "@graphprotocol/graph-ts": "^0.22.1"
+    // "json-editor":"^9.7.2",
+
     // "@ng-bootstrap/ng-bootstrap": "^11.0.0"
     // "@angular/material": "^13.2.2",
     // "@angular/cdk": "^13.2.2",
@@ -35,6 +32,9 @@ export const devDeps = {  "@nomiclabs/hardhat-ethers": "^2.0.0",
 "eslint-plugin-prettier": "^3.4.0",
 "eslint-plugin-promise": "^5.1.0",
 "ethereum-waffle": "^3.0.0",
+"@openzeppelin/contracts": "^4.5.0",
+"@graphprotocol/graph-cli": "^0.22.1",
+"@graphprotocol/graph-ts": "^0.22.1",
 "hardhat": "^2.8.0",
 "hardhat-gas-reporter": "^1.0.4",
 "prettier": "^2.3.2",

@@ -26,18 +26,10 @@ const setupOptions = async (
   context: SchematicContext
 ): Promise<Tree> => {
 
-const answer =  await prompt([
-    {
-      name: 'faveReptile',
-      message: 'What is your favorite reptile?'
-    },
-  ])
 
-  console.log(answer)
 
   let workspaceConfig;
   workspaceConfig = JSON.parse(host.read("angular.json")!.toString("utf-8"));
-
   let project;
 
   if (!workspaceConfig) {
@@ -49,29 +41,49 @@ const answer =  await prompt([
     throw new SchematicsException("Not Angualar Projects Available");
   }
 
-  if (_options.project == "default") {
-    const project_keys = Object.keys(workspaceConfig.projects);
+const project_keys = Object.keys(workspaceConfig.projects);
 
-    if (workspaceConfig.default == undefined) {
-      project = workspaceConfig.projects[project_keys[0]];
-      _options.projectFound = project_keys[0];
-    } else {
-      project = workspaceConfig.projects[workspaceConfig.default];
+if (project_keys.length == 1) {
+  _options.projectFound = project_keys[0];
+} else {
+  const questions = [{
+    type: 'list',
+    name: 'project',
+    message: 'In which Project would you like to add angular-web3?',
+    choices: project_keys
+  }];
+  const answer =  await prompt(questions)
+  _options.projectFound = answer['project']
 
-      if (project == undefined) {
-        throw new SchematicsException("Default project Not Available");
-      }
-      _options.projectFound = workspaceConfig.default;
+}
 
-    }
-  } else {
-    project = workspaceConfig.projects[_options.project];
-    _options.projectFound = _options.project
-    if (project == undefined) {
-      throw new SchematicsException("Default project Not Available");
-    }
-  }
 
+
+
+  // if (_options.project == "default") {
+
+  //   if (workspaceConfig.default == undefined) {
+  //     project = workspaceConfig.projects[project_keys[0]];
+  //     _options.projectFound = project_keys[0];
+  //   } else {
+  //     project = workspaceConfig.projects[workspaceConfig.default];
+
+  //     if (project == undefined) {
+  //       throw new SchematicsException("Default project Not Available");
+  //     }
+  //     _options.projectFound = workspaceConfig.default;
+
+  //   }
+  // } else {
+  //   project = workspaceConfig.projects[_options.project];
+  //   _options.projectFound = _options.project
+  //   if (project == undefined) {
+  //     throw new SchematicsException("Default project Not Available");
+  //   }
+  // }
+
+
+  project = workspaceConfig.projects[_options.projectFound as string];
   _options.sourceRoot = project.sourceRoot;
 
 
@@ -102,8 +114,7 @@ const changeContractConfig = (
   _options: IOPTIONS_EXTENDED
 ): Tree => {
 
-  console.log('HAY CANDEKA')
-
+ 
   const contractConfig: any = contract_config;
   if (_options.alreadyInstalled == false) {
     const contractConfigString = JSON.stringify({

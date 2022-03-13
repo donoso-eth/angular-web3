@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "options",
+  "title": "Angualr on Chain",
+  "type": "object",
+  "properties": {
+    "project": {
+      "description": "Project Path",
+      "type": "string",
+      "default": "default",
+      "x-prompt": "What is your Project name"
+    },
+    "configuration": {
+      "type": "string",
+      "description": "description",
+      "uniqueItems": true,
+      "default":"minimalContract",
+      "enum": ["minimalContract","helloWorldContract","debugContract", "nftContract"],
+      "x-prompt": {
+        "message": "Which dapp would you like to start with?",
+        "type": "list",
+        "multiselect": false,
+        "items": [
+          {"value":"minimalContract","label":"Minimal Contract"},
+          {"value":"helloWorldContract","label":"Demo Hello World Contract"},
+          {"value":"debugContract","label":"Demo Debug Contract"},
+          {"value":"nftContract","label":"Demo Nft Contract"}
+        ]
+      }
+  },
+  "skipInstall": {
+    "description": "skipInstall",
+    "type": "boolean",
+    "default": false
+  },
+  "alreadyInstalled": {
+    "description": "alreadyInstalled",
+    "type": "boolean",
+    "default": false
+  }
+}
+}
