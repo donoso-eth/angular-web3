@@ -59,30 +59,6 @@ if (project_keys.length == 1) {
 
 
 
-
-  // if (_options.project == "default") {
-
-  //   if (workspaceConfig.default == undefined) {
-  //     project = workspaceConfig.projects[project_keys[0]];
-  //     _options.projectFound = project_keys[0];
-  //   } else {
-  //     project = workspaceConfig.projects[workspaceConfig.default];
-
-  //     if (project == undefined) {
-  //       throw new SchematicsException("Default project Not Available");
-  //     }
-  //     _options.projectFound = workspaceConfig.default;
-
-  //   }
-  // } else {
-  //   project = workspaceConfig.projects[_options.project];
-  //   _options.projectFound = _options.project
-  //   if (project == undefined) {
-  //     throw new SchematicsException("Default project Not Available");
-  //   }
-  // }
-
-
   project = workspaceConfig.projects[_options.projectFound as string];
   _options.sourceRoot = project.sourceRoot;
 

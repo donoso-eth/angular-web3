@@ -1,16 +1,22 @@
 export const devs = {
-    "@download/blockies": "^1.0.3",
+    initial: {
     "ethers": "^5.0.0",
-    "@ngrx/store": "^13.0.2",
+    "@ngrx/store": "^13.0.2"
+    },
+    debugcontract: {
+     "@download/blockies": "^1.0.3",   
+    },
+    nftContract: {
+    "@download/blockies": "^1.0.3",
     "ang-jsoneditor": "^1.10.5",
     "json-editor": "^0.7.28",
-    "@angular-builders/custom-webpack": "^13.1.0",
-    // "@ng-bootstrap/ng-bootstrap": "^11.0.0"
-    // "@angular/material": "^13.2.2",
-    // "@angular/cdk": "^13.2.2",
+    "@angular-builders/custom-webpack": "^13.1.0"}
+ 
+
 }
 
-export const devDeps = {  "@nomiclabs/hardhat-ethers": "^2.0.0",
+export const devDeps = { 
+"@nomiclabs/hardhat-ethers": "^2.0.0",
 "@nomiclabs/hardhat-etherscan": "^2.1.3",
 "@nomiclabs/hardhat-waffle": "^2.0.0",
 "@typechain/ethers-v5": "^7.0.1",
@@ -46,5 +52,4 @@ export const devDeps = {  "@nomiclabs/hardhat-ethers": "^2.0.0",
 "typechain": "^5.1.2",
 "bip39": "^3.0.4",
 "ethereumjs-wallet": "^1.0.2",
-"@download/blockies":"^1.0.3",
 "mustache": "^3.1.0"}

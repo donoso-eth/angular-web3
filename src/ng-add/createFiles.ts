@@ -15,9 +15,15 @@ import { IOPTIONS_EXTENDED } from "./schema";
 export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
   const templateRules = [];
 
+
+  
+
   ///////////////////////////////////////////////////////////
   //////////////////// COMMON FILES /////////////////////////
   ///////////////////////////////////////////////////////////
+  if (options.alreadyInstalled == false || options.reset == true){
+
+  }
 
     const templateCommonHardhat = apply(url("./files/common/hardhat"), [
       applyTemplates({ sourceRoot: options.sourceRoot , contractCode:options.configuration }),
