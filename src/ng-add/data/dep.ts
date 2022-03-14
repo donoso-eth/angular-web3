@@ -5,7 +5,8 @@ export const devs = {
     "@ngrx/store": "^13.0.2",
     "@openzeppelin/contracts": "^4.5.0",
     "ang-jsoneditor": "^1.10.5",
-    "json-editor":"^9.7.2",
+    "json-editor": "^0.7.28",
+    "@angular-builders/custom-webpack": "^13.1.0",
     // "@ng-bootstrap/ng-bootstrap": "^11.0.0"
     // "@angular/material": "^13.2.2",
     // "@angular/cdk": "^13.2.2",

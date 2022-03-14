@@ -35,7 +35,7 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
     featurePath =
       "./dapp-demos/1-hello-world-contract/hello-world-contract.module";
   } else if (_options.configuration == "nftContract") {
-    featureName = "NFTContractModule";
+    featureName = "NftContractModule";
     featurePath = "./dapp-demos/3-nft-contract/nft-contract.module";
   } else {
     return tree;
