@@ -16,8 +16,6 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
   const templateRules = [];
 
 
-  
-
   ///////////////////////////////////////////////////////////
   //////////////////// COMMON FILES /////////////////////////
   ///////////////////////////////////////////////////////////
@@ -26,7 +24,7 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
   }
 
     const templateCommonHardhat = apply(url("./files/common/hardhat"), [
-      applyTemplates({ sourceRoot: options.sourceRoot , contractCode:options.configuration }),
+      applyTemplates({ sourceRoot: options.sourceRoot , contractCode:options.dappDemo }),
       move(normalize(`/hardhat/`)),
     ]);
 
@@ -35,21 +33,21 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
     );
 
   const templateInjector = apply(url("./files/common/dapp/dapp-injector"), [
-    applyTemplates({ sourceRoot: options.sourceRoot, metadata:options.configuration + 'Metadata' }),
+    applyTemplates({ sourceRoot: options.sourceRoot, metadata:options.dappDemo + 'Metadata' }),
     move(normalize(normalize(`/${options.sourceRoot}/app/dapp-injector`))),
   ]);
 
   templateRules.push(mergeWith(templateInjector, MergeStrategy.Overwrite));
 
   const templateCommonApp = apply(url("./files/common/dapp/app"), [
-    applyTemplates({ contractCode:options.configuration }),
+    applyTemplates({ contractCode:options.dappDemo }),
     move(normalize(normalize(`/${options.sourceRoot}/app/`))),
   ]);
 
   templateRules.push(mergeWith(templateCommonApp, MergeStrategy.Overwrite));
 
 
-  if (options.configuration == "minimalContract") {
+  if (options.dappDemo == "minimalContract") {
     const templateApp = apply(url("./files/0-minimal-contract/dapp"), [
       applyTemplates({}),
       move(normalize(`/${options.sourceRoot}/app/dapp-demos/`)),
@@ -63,7 +61,7 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
       move(normalize(`/hardhat/`)),
     ]);
     templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
-  } else if (options.configuration == "helloWorldContract") {
+  } else if (options.dappDemo == "helloWorldContract") {
     const templateApp = apply(url("./files/1-hello-world-contract/dapp"), [
       applyTemplates({}),
       move(normalize(`/${options.sourceRoot}/app/dapp-demos/`)),
@@ -80,7 +78,7 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
       ]
     );
     templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
-  } else if (options.configuration == "debugContract") {
+  } else if (options.dappDemo == "debugContract") {
     const templateApp = apply(url("./files/2-debug-contract/dapp"), [
       applyTemplates({}),
       move(normalize(`/${options.sourceRoot}/app/dapp-demos/`)),
@@ -94,7 +92,7 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
       move(normalize(`/hardhat/`)),
     ]);
     templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
-  } if (options.configuration == "nftContract") {
+  } if (options.dappDemo == "nftContract") {
     const templateApp = apply(url("./files/3-nft-contract/dapp"), [
       applyTemplates({}),
       move(normalize(`/${options.sourceRoot}/app/dapp-demos/`)),
@@ -116,7 +114,7 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
     templateRules.push(mergeWith(templateHardhat, MergeStrategy.Overwrite));
   }
 
-  // if(options.configuration !== 'minimalContract'){
+  // if(options.dappDemo !== 'minimalContract'){
   //   const templateApp = apply(url("./files/common-demo/dapp"), [
   //     applyTemplates({}),
   //     move(normalize(`/${options.sourceRoot}/app/dapp-injector/`)),
@@ -128,7 +126,7 @@ export const createFiles = (host: Tree, options: IOPTIONS_EXTENDED): Rule => {
 
 
     
-  // if (options.configuration !== 'minimalContract' || host.exists("src/app/dapp-injector/components/index.ts")) {
+  // if (options.dappDemo !== 'minimalContract' || host.exists("src/app/dapp-injector/components/index.ts")) {
   //   const templateIndex = apply(url("./files/common/dapp/index/component"), [
   //     applyTemplates({}),
   //     move(normalize(`/src/app/dapp-injector/`)),

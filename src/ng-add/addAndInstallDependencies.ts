@@ -73,7 +73,7 @@ export const addAndinstallDependencies = (_options:IOPTIONS_EXTENDED): Rule => {
     
       if (_options.alreadyInstalled == false) {
         addPackageToDevPackageJson(tree, devDeps);
-        addPackageToPackageJson(tree, devs)
+        addPackageToPackageJson(tree, devs.initial)
       }
 
 

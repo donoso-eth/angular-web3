@@ -16,7 +16,7 @@ import { IOPTIONS_EXTENDED } from './schema';
  export const  runExternal = (_options:IOPTIONS_EXTENDED): Rule => {
   return (tree: Tree) => {
     console.log(_options.projectFound)
-    externalSchematic("@angular/material", "ng-add", { project:_options.project,
+    externalSchematic("@angular/material", "ng-add", { project:_options.projectFound,
       animations: true, theme: "indigo-pink",  typography: false});
     return tree;
   };

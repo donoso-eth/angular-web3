@@ -46,11 +46,13 @@ describe("Initilization", () => {
     expect(appTree.exists("hardhat/hardhat.config.ts")).toBeFalse();
   });
 
+
+
   it("works", async () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         "ng-add",
-        { project: "default", configuration: "helloWorldContract" },
+        { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" },
         appTree
       )
       .toPromise();
@@ -58,9 +60,11 @@ describe("Initilization", () => {
     expect(tree.files.length).toBeGreaterThan(2);
   });
 
+
+
   it("Creates Hardhat Config File", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorldContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
       .toPromise();
 
     expect(tree.exists("hardhat/hardhat.config.ts")).toBeTrue();
@@ -69,7 +73,7 @@ describe("Initilization", () => {
 
   it("Creates Contract JSON Config File", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorldContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
       .toPromise();
 
     expect(tree.exists("hardhat/contract.config.json")).toBeTrue();
@@ -78,7 +82,7 @@ describe("Initilization", () => {
 
   it("Hardhat Config File contains assets path", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorldContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
       .toPromise();
     const hardhat_config_file = tree.readContent("hardhat/hardhat.config.ts");
 
@@ -88,7 +92,7 @@ describe("Initilization", () => {
   it("Should add Injector module ", async () => {
 
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorldContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
       .toPromise();
     const app_module_file = tree.readContent("/projects/schematest/src/app/app.module.ts");
 
@@ -98,7 +102,7 @@ describe("Initilization", () => {
 
   it("Add dependencies", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorldContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
       .toPromise();
     const packageJson = tree.read("package.json")!.toString("utf-8");
     expect(packageJson).toContain("\"hardhat\":");
@@ -106,7 +110,7 @@ describe("Initilization", () => {
 
   it("Add scripts", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorldContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
       .toPromise();
     const packageJson = tree.read("package.json")!.toString("utf-8");
 
@@ -116,7 +120,7 @@ describe("Initilization", () => {
   
   // it("It adds fonts to index.html", async () => {
   //   const tree = await schematicRunner
-  //     .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorldContract" }, appTree)
+  //     .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
   //     .toPromise();
   //     const indexHtml = tree.read(normalize("/projects/schematest/src/index.html"))!.toString("utf-8");
   //     expect(indexHtml).toContain(`<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`);
@@ -125,7 +129,7 @@ describe("Initilization", () => {
 
   it("Hello app creates Hello world chain module", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", configuration: "helloWorldContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
       .toPromise();
       expect(tree.exists(normalize("/projects/schematest/src/app/dapp-demos/1-hello-world-contract/hello-world-contract.module.ts"))).toBeTrue();
   });

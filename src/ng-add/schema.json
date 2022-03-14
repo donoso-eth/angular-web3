@@ -1,15 +1,39 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "options",
-  "title": "Angualr on Chain",
+  "title": "Angular Web3",
   "type": "object",
   "properties": {
-    "configuration": {
+
+  "demoToInstall": {
+    "description": "Demo App",
+    "type": "boolean",
+    "default": false
+  },
+  "dappDemo": {
       "type": "string",
       "description": "description",
       "uniqueItems": true,
       "default":"minimalContract",
-      "enum": ["minimalContract","helloWorldContract","debugContract", "nftContract"]
+      "enum": ["minimalContract", "helloWorldContract","debugContract", "nftContract"]
+  },
+  "dappServices": {
+    "description": "Dapp Services to be included",
+    "type":"array",
+    "items": {
+      "type":"string",
+      "enum": ["subgraph","ipfs"]
+    },
+    "default": []
+  },
+  "services": {
+    "description": "Services Infrastructrue to install",
+    "type":"array",
+    "items": {
+      "type":"string",
+      "enum": ["graph-node"]
+    },
+    "default": []
   },
   "skipInstall": {
     "description": "skipInstall",

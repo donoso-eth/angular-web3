@@ -7,7 +7,7 @@ import {
   Tree
 } from "@angular-devkit/schematics";
 
-import { prompt} from 'inquirer'
+
 
 import { IOPTIONS_EXTENDED } from "./schema";
 import { createFiles } from "./createFiles";
@@ -18,72 +18,9 @@ import { addImport } from "./addImportStatement";
 
 import { updateTsConfig } from "./updateTsConfig";
 import { runExternal } from "./runExternal";
+import { setupOptions } from "./0-setupOptions";
 
 /** Adds a package to the package.json in the given host tree. */
-const setupOptions = async (
-  host: Tree,
-  _options: IOPTIONS_EXTENDED,
-  context: SchematicContext
-): Promise<Tree> => {
-
-
-
-  let workspaceConfig;
-  workspaceConfig = JSON.parse(host.read("angular.json")!.toString("utf-8"));
-  let project;
-
-  if (!workspaceConfig) {
-    throw new SchematicsException("Not an Angular CLI workspace");
-  } else if (
-    workspaceConfig.projects == undefined ||
-    Object.keys(workspaceConfig.projects).length == 0
-  ) {
-    throw new SchematicsException("Not Angualar Projects Available");
-  }
-
-const project_keys = Object.keys(workspaceConfig.projects);
-
-if (project_keys.length == 1) {
-  _options.projectFound = project_keys[0];
-} else {
-  const questions = [{
-    type: 'list',
-    name: 'project',
-    message: 'In which Project would you like to add angular-web3?',
-    choices: project_keys
-  }];
-  const answer =  await prompt(questions)
-  _options.projectFound = answer['project']
-
-}
-
-
-
-  project = workspaceConfig.projects[_options.projectFound as string];
-  _options.sourceRoot = project.sourceRoot;
-
-
-  /// CHANGING TO CUSTOM WEBPACK BUILD
-  if (_options.configuration == 'nftContract'){
-    workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["builder"] = "@angular-builders/custom-webpack:browser";
-    workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["options"]["customWebpackConfig"] =  {"path": "./extra-webpack.config.js"} 
-    workspaceConfig.projects[_options.projectFound as string]["architect"]["serve"]["builder"] = "@angular-builders/custom-webpack:browser";
-  } 
-
-  host.overwrite("angular.json", JSON.stringify(workspaceConfig));
-
-  _options.alreadyInstalled = false;
-  if (_options.skipInstall == undefined) {
-    _options.skipInstall = false;
-  }
-  if (host.exists("hardhat/hardhat.config.ts") == true) {
-    _options.alreadyInstalled = true;
-    _options.skipInstall = true;
-  } else {
-  }
-
-  return host;
-};
 
 const changeContractConfig = (
   host: Tree,
@@ -94,7 +31,7 @@ const changeContractConfig = (
   const contractConfig: any = contract_config;
   if (_options.alreadyInstalled == false) {
     const contractConfigString = JSON.stringify({
-      [_options.configuration]: contractConfig[_options.configuration],
+      [_options.dappDemo]: contractConfig[_options.dappDemo],
     });
     host.create("hardhat/contract.config.json", contractConfigString);
   } else {
@@ -111,8 +48,8 @@ const changeContractConfig = (
       );
     }
 
-    alreadyConfig[_options.configuration] =
-      contractConfig[_options.configuration];
+    alreadyConfig[_options.dappDemo] =
+      contractConfig[_options.dappDemo];
     const contractConfigString = JSON.stringify(alreadyConfig);
 
     host.overwrite("hardhat/contract.config.json", contractConfigString);
@@ -130,30 +67,19 @@ const doTheLogs = (
     `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
   );
   context.logger.warn(
-    `Don't forget to add the following line to your tsconfig.json`
+    `Don't forget to add TO BLBLBLBL`
   );
-  context.logger.warn(
-    `"paths":{"angular-web3":["src/app/dapp-injector/index.ts"]}`
-  );
+
   context.logger.warn(
     `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
   );
   context.logger.info("");
-  if (_options.configuration !== "minimalContract") {
-    context.logger.warn(
-      `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
-    );
-    context.logger.warn(`Plese don't forget to ng add @angular/material`);
-    context.logger.warn(
-      `XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
-    );
-  }
-  context.logger.info("");
+
 
   return host;
 };
 
-export function  ngAdd(_options: IOPTIONS_EXTENDED): Rule {
+export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
   return chain([
     async (tree: Tree, _context: SchematicContext) => {
      await setupOptions(tree, _options, _context);
@@ -177,7 +103,7 @@ export function  ngAdd(_options: IOPTIONS_EXTENDED): Rule {
     // runExternal(_options),
     externalSchematic("@angular/material", "ng-add", { project:_options.projectFound,
       animations: true, theme: "indigo-pink",  typography: false}),
-    externalSchematic("@ng-bootstrap/ng-bootstrap", "ng-add", { project:_options.projectFound}),
+    //externalSchematic("@ng-bootstrap/ng-bootstrap", "ng-add", { project:_options.projectFound}),
     addAndinstallDependencies(_options),
     (tree: Tree, _context: SchematicContext) => {
       return doTheLogs(tree, _options, _context);
