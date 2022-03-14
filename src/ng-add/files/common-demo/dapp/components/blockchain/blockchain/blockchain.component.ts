@@ -51,7 +51,7 @@ export class BlockchainComponent implements OnInit, OnChanges {
       const transactions = [];
       for (const transaction of block.transactions) {
         hashes.push(transaction.hash);
-        transaction.data = transaction.data.substring(0,10) + '....'
+        transaction.data = transaction.data !== "0x" ?  transaction.data.substring(0,50) + '....' : transaction.data
         const newTransaction =  {
           hash: transaction.hash,
           display: JSON.stringify(transaction, undefined, 4),

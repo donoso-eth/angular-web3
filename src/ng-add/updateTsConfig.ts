@@ -25,7 +25,7 @@ export const updateTsConfig = (
   if (tsconfig_path == undefined) {
     compilerOptions["paths"] = {}
   }
-  compilerOptions["paths"]['angular-web3'] = ["src/app/dapp-injector/index.ts"]
+  compilerOptions["paths"]['angular-web3'] = [`${_options.sourceRoot}/app/dapp-injector/index.ts`]
   const tsConfigString = JSON.stringify(tsconfig)
   tree.overwrite("tsconfig.json",tsConfigString)
 

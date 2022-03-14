@@ -7,6 +7,8 @@ import {
   Tree
 } from "@angular-devkit/schematics";
 
+import { prompt} from 'inquirer'
+
 import { IOPTIONS_EXTENDED } from "./schema";
 import { createFiles } from "./createFiles";
 import { addAndinstallDependencies } from "./addAndInstallDependencies";
@@ -18,14 +20,16 @@ import { updateTsConfig } from "./updateTsConfig";
 import { runExternal } from "./runExternal";
 
 /** Adds a package to the package.json in the given host tree. */
-const setupOptions = (
+const setupOptions = async (
   host: Tree,
   _options: IOPTIONS_EXTENDED,
   context: SchematicContext
-): Tree => {
+): Promise<Tree> => {
+
+
+
   let workspaceConfig;
   workspaceConfig = JSON.parse(host.read("angular.json")!.toString("utf-8"));
-
   let project;
 
   if (!workspaceConfig) {
@@ -37,29 +41,49 @@ const setupOptions = (
     throw new SchematicsException("Not Angualar Projects Available");
   }
 
-  if (_options.project == "default") {
-    const project_keys = Object.keys(workspaceConfig.projects);
+const project_keys = Object.keys(workspaceConfig.projects);
 
-    if (workspaceConfig.default == undefined) {
-      project = workspaceConfig.projects[project_keys[0]];
-      _options.projectFound = project_keys[0];
-    } else {
-      project = workspaceConfig.projects[workspaceConfig.default];
+if (project_keys.length == 1) {
+  _options.projectFound = project_keys[0];
+} else {
+  const questions = [{
+    type: 'list',
+    name: 'project',
+    message: 'In which Project would you like to add angular-web3?',
+    choices: project_keys
+  }];
+  const answer =  await prompt(questions)
+  _options.projectFound = answer['project']
 
-      if (project == undefined) {
-        throw new SchematicsException("Default project Not Available");
-      }
-      _options.projectFound = workspaceConfig.default;
+}
 
-    }
-  } else {
-    project = workspaceConfig.projects[_options.project];
-    _options.projectFound = _options.project
-    if (project == undefined) {
-      throw new SchematicsException("Default project Not Available");
-    }
-  }
 
+
+
+  // if (_options.project == "default") {
+
+  //   if (workspaceConfig.default == undefined) {
+  //     project = workspaceConfig.projects[project_keys[0]];
+  //     _options.projectFound = project_keys[0];
+  //   } else {
+  //     project = workspaceConfig.projects[workspaceConfig.default];
+
+  //     if (project == undefined) {
+  //       throw new SchematicsException("Default project Not Available");
+  //     }
+  //     _options.projectFound = workspaceConfig.default;
+
+  //   }
+  // } else {
+  //   project = workspaceConfig.projects[_options.project];
+  //   _options.projectFound = _options.project
+  //   if (project == undefined) {
+  //     throw new SchematicsException("Default project Not Available");
+  //   }
+  // }
+
+
+  project = workspaceConfig.projects[_options.projectFound as string];
   _options.sourceRoot = project.sourceRoot;
 
 
@@ -89,6 +113,8 @@ const changeContractConfig = (
   host: Tree,
   _options: IOPTIONS_EXTENDED
 ): Tree => {
+
+ 
   const contractConfig: any = contract_config;
   if (_options.alreadyInstalled == false) {
     const contractConfigString = JSON.stringify({
@@ -151,10 +177,10 @@ const doTheLogs = (
   return host;
 };
 
-export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
+export function  ngAdd(_options: IOPTIONS_EXTENDED): Rule {
   return chain([
-    (tree: Tree, _context: SchematicContext) => {
-      setupOptions(tree, _options, _context);
+    async (tree: Tree, _context: SchematicContext) => {
+     await setupOptions(tree, _options, _context);
     },
     (tree: Tree, _context: SchematicContext) => {
       changeContractConfig(tree, _options);
