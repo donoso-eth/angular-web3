@@ -150,4 +150,11 @@ describe("Initilization", () => {
       expect(tree.exists(normalize("/projects/schematest/src/app/3-nft-contract/nft-contract.module.ts"))).toBeTrue();
   });
 
+  it("NFT Demo creates custom webpack", async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "nftContract" }, appTree)
+      .toPromise();
+      expect(tree.exists(normalize("extra-webpack.config.js"))).toBeTrue();
+  });
+
 });

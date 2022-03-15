@@ -39,6 +39,14 @@ export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
     templates_src = templates_src.concat(ele.templates_src)
   })
 
+
+/// ============ components common for demo apps ================= 
+if (_options.demoToInstall== true){
+    templates_src.push(     {
+      source: "./files/demo-components",
+      target: "/app/dapp-components",
+    },)
+}
   
   const options_file_replacements = { 
     sourceRoot: _options.sourceRoot , 

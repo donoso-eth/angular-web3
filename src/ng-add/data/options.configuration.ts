@@ -118,7 +118,7 @@ export const configuration_options: {
       ],
       templates_src: [
         {
-          source: "./files/demo-nft-contractt/demo",
+          source: "./files/demo-nft-contract/demo",
           target: "/app/3-nft-contract",
         },
       ],
