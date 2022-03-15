@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Web3ModalComponent } from './web3-modal.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { Web3ModalComponent } from './web3-modal.component';;
 import { FormsModule } from '@angular/forms';
 
 

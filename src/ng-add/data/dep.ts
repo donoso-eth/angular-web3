@@ -1,7 +1,8 @@
 export const devs = {
     initial: {
         "ethers": "^5.0.0",
-        "@ngrx/store": "^13.0.2"
+        "@ngrx/store": "^13.0.2",
+        "@download/blockies": "^1.0.3",
     },
     debugcontract: {
         "@download/blockies": "^1.0.3",

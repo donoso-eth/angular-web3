@@ -2,10 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 
 import { Contract, ethers, Signer } from 'ethers';
 
-import { DappInjectorService } from '../../../dapp-injector/dapp-injector.service';
 
 import {
-  DialogService,
+
   BlockWithTransactions,
   IBALANCE,
   ICONTRACT,
@@ -14,14 +13,16 @@ import {
   displayEther,
   displayUsd,
   convertUSDtoEther,
-  NotifierService,
-  IABI_OBJECT,
+
   Web3State,
   web3Selectors,
   IMETA_CONTRACT,
+  DappInjectorService,
+  AngularContract,
 } from 'angular-web3';
 import { Store } from '@ngrx/store';
 import { first, firstValueFrom } from 'rxjs';
+import { DialogService, NotifierService } from 'src/app/dapp-components';
 
 @Component({
   selector: 'hello-world-contract',
@@ -33,7 +34,7 @@ export class HelloWorldContractComponent implements OnInit {
 
   walletBalance!: IBALANCE;
   contractBalance!: IBALANCE;
-  contractHeader!: ICONTRACT;
+  contractHeader!: any;
   deployer_address!: string;
   //  myContract!: ethers.Contract;
   greeting!: string;
@@ -48,7 +49,7 @@ export class HelloWorldContractComponent implements OnInit {
 
   dollarExchange!: number;
   balanceDollar!: number;
-  myContract!: IMETA_CONTRACT;
+  helloWorldContract!:  AngularContract;
   signer!: Signer ;
   constructor(
     private dialogService: DialogService,
@@ -62,14 +63,14 @@ export class HelloWorldContractComponent implements OnInit {
       // await this.dappInjectorService.init();
 
       this.deployer_address =
-        await (await this.dappInjectorService.config.providers['main'].getSigner()).getAddress();
+        await (await this.dappInjectorService.config.defaultProvider!.getSigner()).getAddress();
 
-        this.dappInjectorService.config.providers['main'].on('block', async (log:any, event:any) => {
+        this.dappInjectorService.config.defaultProvider!.on('block', async (log:any, event:any) => {
   
           this.refreshContractBalance();
          
           const block =
-            await  this.dappInjectorService.config.providers['main'].getBlockWithTransactions(
+            await  this.dappInjectorService.config.defaultProvider!.getBlockWithTransactions(
               log
             );
           this.blocks = [block].concat(this.blocks);
@@ -103,8 +104,10 @@ export class HelloWorldContractComponent implements OnInit {
       // );
 
       this.contractHeader = {
-        name: this.myContract.name,
-        address: this.myContract.address,
+        name: this.helloWorldContract.name,
+        address: this.helloWorldContract.address,
+        abi: this.helloWorldContract.abi,
+        network: ''
       };
 
       //  this.dappInjectorService.blockchain_busy.subscribe(loading=> {
@@ -119,8 +122,8 @@ export class HelloWorldContractComponent implements OnInit {
   }
 
   async refreshContractBalance(){
-   const balance = await this.dappInjectorService.config.providers['main'].getBalance(this.contractHeader.address)
-             const ehterbalance = convertWeiToEther(balance);
+   const balance = await this.dappInjectorService.config.defaultProvider!.getBalance(this.contractHeader.address)
+             const ehterbalance = convertWeiToEther(+balance);
           const dollar =
             ehterbalance * (await this.dappInjectorService.getDollarEther());
           this.contractBalance = {
@@ -131,19 +134,16 @@ export class HelloWorldContractComponent implements OnInit {
 
   async addBlock(blockNr: number) {
     const block =
-       await  this.dappInjectorService.config.providers['main'].getBlockWithTransactions(
+       await  this.dappInjectorService.config.defaultProvider!.getBlockWithTransactions(
         blockNr
       );
     this.blocks = this.blocks.concat(block);
   }
 
   async displayGreeting() {
-    this.greeting = await this.dappInjectorService.runfunction({
-      contractKey: 'myContract',
-      method: 'greet',
-      args: [],
-    });
-    console.log(this.greeting);
+   const result  = await this.helloWorldContract.runFunction('greet', [],
+    );
+    console.log(result.payload);
     // this.deployer_balance = ethers.utils.formatUnits(
     //   await this.newWallet.getBalance(),
     //   18
@@ -238,7 +238,7 @@ export class HelloWorldContractComponent implements OnInit {
   ngOnInit(): void {
     this.store.pipe(web3Selectors.selectChainReady).subscribe(async (value) => {
       console.log(value);
-      this.myContract = this.dappInjectorService.config.contracts['myContract'];
+      this.helloWorldContract = this.dappInjectorService.config.defaultContract as AngularContract;
       this.signer = this.dappInjectorService.config.signer as Signer
       this.onChainStuff();
     });

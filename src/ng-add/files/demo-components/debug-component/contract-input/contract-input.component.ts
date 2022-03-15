@@ -7,7 +7,8 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IABI_OBJECT, IINPUT_EVENT } from '../../../models';
+import { IABI_OBJECT, IINPUT_EVENT } from 'angular-web3';
+
 
 
 
@@ -62,11 +63,11 @@ export class ContractInputComponent implements OnInit {
 
   initUi(_abi_input:any) {
     this.abi_input = _abi_input;
-    this.abi_input.inputs.forEach((input) => {
+    this.abi_input.inputs.forEach((input:any) => {
       const newControl = new FormControl('',Validators.required);
       this.input_form.addControl(input.name, newControl);
     });
-    this.labels = this.abi_input.outputs.map(map=> map.name)
+    this.labels = this.abi_input.outputs.map((map:any)=> map.name)
 
     if (this.abi_input.stateMutability == 'payable') {
       this.payable_input = new FormControl(0)

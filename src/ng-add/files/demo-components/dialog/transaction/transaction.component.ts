@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+
 
 @Component({
   selector: 'transaction',
@@ -11,7 +11,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class TransactionComponent implements OnInit {
   input_form:FormGroup;
   constructor(
-    public activeModal: NgbActiveModal,
+
     // public dialogRef: MatDialogRef<TransactionComponent>,
     // @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
@@ -22,13 +22,13 @@ export class TransactionComponent implements OnInit {
     });
 
   }
-  doTransaction(){
-    this.activeModal.close({...{type:'transaction'},...this.input_form.getRawValue()});
-  }
+  // doTransaction(){
+  //   this.activeModal.close({...{type:'transaction'},...this.input_form.getRawValue()});
+  // }
 
-  onNoClick(): void {
-    this.activeModal.close({type:'cancel'});
-  }
+  // onNoClick(): void {
+  //   this.activeModal.close({type:'cancel'});
+  // }
   ngOnInit(): void {
   }
 

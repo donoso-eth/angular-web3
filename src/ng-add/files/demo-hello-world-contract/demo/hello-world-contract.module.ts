@@ -5,9 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
 
-import { blockchain_imports, blockchain_providers } from './blockchain_wiring';
-import { WalletdisplaytModule } from 'angular-web3';
-
+import {BlockchainModule, ContractShowModule, DialogModule, HomeModule, NotifierModule, WalletDisplayModule} from '../dapp-components'
 
 
 @NgModule({
@@ -19,10 +17,12 @@ import { WalletdisplaytModule } from 'angular-web3';
     FormsModule,
     MatTabsModule,
     MatButtonModule,
-    ...blockchain_imports,
-    
-    
-    WalletdisplaytModule
+    BlockchainModule,
+    WalletDisplayModule,
+    ContractShowModule,
+    HomeModule,
+    DialogModule,
+    NotifierModule
   ],
   exports: [
     HelloWorldContractComponent

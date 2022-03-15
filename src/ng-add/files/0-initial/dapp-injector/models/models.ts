@@ -4,13 +4,14 @@ import { INETWORK, NETWORK_TYPE } from "../constants";
 
 
 export interface ISTARTUP_CONFIG {
-  defaultProvider:providers.JsonRpcProvider | 'noop';
+  defaultProvider:providers.JsonRpcProvider | null;
   defaultNetwork: NETWORK_TYPE,
   connectedNetwork:string,
   wallet: 'wallet' | 'privKey' | 'burner',
   blockSubscription:boolean,
   providers: {[key:string]: any},
   signer?: Signer 
+  defaultContract:AngularContract | null,
   contracts:{[key:string]: AngularContract}
 }
 

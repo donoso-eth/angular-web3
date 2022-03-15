@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import { Store } from '@ngrx/store';
+import { NETWORK_STATUS } from 'angular-web3';
 import { Signer } from 'ethers';
-import { NETWORK_STATUS, Web3State, web3Selectors } from '../../../store';
+
 import { angular_web3, no_network } from './images';
 
 

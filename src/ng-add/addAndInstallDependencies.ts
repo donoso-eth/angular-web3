@@ -30,7 +30,8 @@ interface PackageJson {
     if (!json.dependencies) {
       json.dependencies = {};
     }
-  
+
+
     Object.keys(deps).forEach((key) => {
       if (!json.dependencies[key]) {
         json.dependencies[key] = deps[key];
@@ -56,6 +57,8 @@ interface PackageJson {
     if (!json.devDependencies) {
       json.devDependencies = {};
     }
+      
+  
     Object.keys(deps).forEach((key) => {
       if (!json.devDependencies[key]) {
         json.devDependencies[key] = deps[key];

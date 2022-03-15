@@ -9,7 +9,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { BlockWithTransactions } from '../../../models/models';
+import { BlockWithTransactions } from 'angular-web3';
 
 @Component({
   selector: 'blockchain',

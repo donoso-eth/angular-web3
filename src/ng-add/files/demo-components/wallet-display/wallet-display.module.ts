@@ -14,8 +14,9 @@ import { WalletDisplayComponent } from './wallet-display.component';
   ],
   imports: [
     CommonModule,
-    ClipboardModule
-
+    ClipboardModule,
+    MatIconModule,
+    MatButtonModule,
 
   ],
   providers:[],

@@ -1,6 +1,7 @@
 import { AfterViewInit, Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ITRANSACTION_RESULT } from '../../models';
+import { ITRANSACTION_RESULT } from 'angular-web3';
+
 import { NotifierComponent } from './notifier/notifier.component';
 
 export interface INOTIF {

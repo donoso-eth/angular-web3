@@ -1,11 +1,10 @@
 import { AfterViewInit, ChangeDetectorRef, Component, ElementRef,  EventEmitter,  Input,  Output,  Renderer2, SimpleChanges, ViewChild } from '@angular/core';
 import { createIcon } from '@download/blockies';
 import { Store } from '@ngrx/store';
+import { convertWeiToEther, displayEther, displayUsd, Web3Actions, web3Selectors, Web3State } from 'angular-web3';
 import { Signer } from 'ethers';
 import {  firstValueFrom } from 'rxjs';
-import { netWorkByName, NETWORK_TYPE } from '../../constants/constants';
-import { convertWeiToEther, displayEther, displayUsd } from '../../helpers';
-import { Web3Actions, web3Selectors, Web3State } from '../../store';
+import { netWorkByName, NETWORK_TYPE } from 'src/app/dapp-injector/constants';
 
 
 

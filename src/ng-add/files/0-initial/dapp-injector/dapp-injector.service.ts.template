@@ -26,7 +26,7 @@ export class DappInjectorService {
 
   constructor(
     @Inject(DOCUMENT) private readonly document: any,
-    @Inject('minimalContractMetadata')
+    @Inject('<%=camelize(metadata)%>')
     public contractMetadata: ICONTRACT_METADATA,
     private store: Store
   ) {
@@ -297,7 +297,7 @@ export class DappInjectorService {
       signer: dispatchObject.signer,
     });
 
-    this.config.contracts['myContract'] = contract;
+    this.config.defaultContract = contract;
 
 
 

@@ -16,10 +16,11 @@ import { ContractInputComponent } from '../contract-input/contract-input.compone
 import { ContractFactory, ethers } from 'ethers';
 
 
-import { BlockWithTransactions, IABI_OBJECT, IBALANCE, ICONTRACT, IINPUT_EVENT } from  '../../../models';
+
 import { NotifierService } from '../../notifier/notifier.service';
 import { DialogService } from '../../dialog/dialog.service';
 import { AngularContract } from 'src/app/dapp-injector/classes/contract';
+import { BlockWithTransactions, IABI_OBJECT, IBALANCE, ICONTRACT, IINPUT_EVENT } from 'angular-web3';
 
 
 @Component({

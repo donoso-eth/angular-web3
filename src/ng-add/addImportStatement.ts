@@ -22,7 +22,6 @@ class AddToModuleContext {
 }
 
 export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
-  console.log('i am importing')
   
   //// Importing Feature module
   let featureName;
