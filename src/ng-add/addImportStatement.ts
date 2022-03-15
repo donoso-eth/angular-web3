@@ -30,14 +30,14 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   if (_options.dappDemo == "minimalContract") {
     featureName = "MinimalContractModule";
     featurePath =
-      "./dapp-demos/0-minimal-contract/minimal-contract.module";
+      "./0-minimal-contract/minimal-contract.module";
   } else if (_options.dappDemo == "helloWorldContract") {
     featureName = "HelloWorldContractModule";
     featurePath =
-      "./dapp-demos/1-hello-world-contract/hello-world-contract.module";
+      "./1-hello-world-contract/hello-world-contract.module";
   } else if (_options.dappDemo == "nftContract") {
     featureName = "NftContractModule";
-    featurePath = "./dapp-demos/3-nft-contract/nft-contract.module";
+    featurePath = "./3-nft-contract/nft-contract.module";
   } else {
     return tree;
   }

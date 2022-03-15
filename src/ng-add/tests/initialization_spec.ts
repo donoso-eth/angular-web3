@@ -61,7 +61,6 @@ describe("Initilization", () => {
   });
 
 
-
   it("Creates Hardhat Config File", async () => {
     const tree = await schematicRunner
       .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
@@ -131,8 +130,24 @@ describe("Initilization", () => {
     const tree = await schematicRunner
       .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
       .toPromise();
-      expect(tree.exists(normalize("/projects/schematest/src/app/dapp-demos/1-hello-world-contract/hello-world-contract.module.ts"))).toBeTrue();
+
+      expect(tree.exists(normalize("/projects/schematest/src/app/1-hello-world-contract/hello-world-contract.module.ts"))).toBeTrue();
   });
 
+  it("Debug app creates Debug world  module", async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "debugContract" }, appTree)
+      .toPromise();
+
+      expect(tree.exists(normalize("/projects/schematest/src/app/2-debug-contract/debug-contract.module.ts"))).toBeTrue();
+  });
+
+  it("NFT Demo app creates NFT world  module", async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "nftContract" }, appTree)
+      .toPromise();
+
+      expect(tree.exists(normalize("/projects/schematest/src/app/3-nft-contract/nft-contract.module.ts"))).toBeTrue();
+  });
 
 });

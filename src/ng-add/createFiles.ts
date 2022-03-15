@@ -29,6 +29,8 @@ export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
     toInstallKeys.push(configuration_options.dappServices[service])
   }
 
+
+
   let templates_src:Array<{source:string, target:string}> =[];
   let templates_root:Array<{source:string, target:string}> =[];
 
@@ -55,7 +57,7 @@ export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
     );
   }
 
-  for (const srcFile of templates_root) {
+  for (const srcFile of templates_src) {
     const templateSrc = apply(url(srcFile.source), [
       applyTemplates(options_file_replacements),
       move(normalize(`/${_options.sourceRoot}${srcFile.target}`)),

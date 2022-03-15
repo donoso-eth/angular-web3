@@ -14,7 +14,7 @@ export interface IDEMO {
 }
 
 export interface IDEMO_APP extends IDEMO {
-  dappServices: Array<string>;
+  dappServices: Array<DappServiceType>;
 }
 
 export interface IDEMO_SERVICE extends IDEMO{}
@@ -80,7 +80,7 @@ export const configuration_options: {
       ],
       templates_src: [
         {
-          source: "./files/demo-hello-world-contractt/demo",
+          source: "./files/demo-hello-world-contract/demo",
           target: "/app/1-hello-world-contract",
         },
       ],
@@ -97,7 +97,7 @@ export const configuration_options: {
       ],
       templates_src: [
         {
-          source: "./files/demo-debug-contractt/demo",
+          source: "./files/demo-debug-contract/demo",
           target: "/app/2-debug-contract",
         },
       ],
