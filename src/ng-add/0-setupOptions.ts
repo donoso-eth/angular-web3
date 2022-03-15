@@ -1,6 +1,7 @@
 import { Tree, SchematicContext, SchematicsException } from "@angular-devkit/schematics";
 import { IOPTIONS_EXTENDED } from "./schema";
 import { prompt } from 'inquirer'
+import { configuration_options } from "./data/options.configuration";
 
 ///////////////////////////////////////////////////////////
 //////////////////// SetUp Options /////////////////////////
@@ -84,6 +85,7 @@ export const setupOptions = async (
             const answerDemo = await prompt(questionsDemo)
             console.log(answerDemo)
             _options.dappDemo = answerDemo.demoApp
+            _options.dappServices = configuration_options.dappDemos[_options.dappDemo].dappServices
         } else {
             // ============ If Not demo APP========================
             _options.dappDemo = "minimalContract"
@@ -109,9 +111,18 @@ export const setupOptions = async (
 
     }
 
+    if (_options.skipInstall == undefined) {
+        _options.skipInstall = false;
+    }
+    _options.alreadyInstalled = false;
+    if (host.exists("hardhat/hardhat.config.ts") == true) {
+        _options.alreadyInstalled = true;
+    }
 
+
+    
     // ============ if IPFS change custom webpack  ========================
-    if (_options.dappDemo == 'nftContract') {
+    if (_options.dappServices.indexOf('ipfs')!== -1) {
         workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["builder"] = "@angular-builders/custom-webpack:browser";
         workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["options"]["customWebpackConfig"] = { "path": "./extra-webpack.config.js" }
         workspaceConfig.projects[_options.projectFound as string]["architect"]["serve"]["builder"] = "@angular-builders/custom-webpack:browser";
@@ -119,13 +130,8 @@ export const setupOptions = async (
 
     host.overwrite("angular.json", JSON.stringify(workspaceConfig));
 
-    _options.alreadyInstalled = false;[]
-    if (_options.skipInstall == undefined) {
-        _options.skipInstall = false;
-    }
-    if (host.exists("hardhat/hardhat.config.ts") == true) {
-        _options.alreadyInstalled = true;
-    }
+    
+
 
     return host;
 };

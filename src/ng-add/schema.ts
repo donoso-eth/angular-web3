@@ -4,17 +4,17 @@
 export declare interface IOPTIONS {
 
     /**
-     * Demo App
+     * Demo App;
      */
     demoToInstall: boolean;
     /**
      * description
      */
-    dappDemo: "minimalContract" | "helloWorldContract" | "debugContract" | "nftContract";
+    dappDemo: DappDemoType ;
     /**
      * Dapp Services to be included
      */
-    dappServices: ("subgraph" | "ipfs")[];
+    dappServices: Array<DappServiceType>;
     /**
      * Services Infrastructrue to install
      */
@@ -40,7 +40,9 @@ export declare interface IOPTIONS {
 }
 
 
+export type DappDemoType = "minimalContract" | "helloWorldContract" | "debugContract" | "nftContract" ;
 
+export type DappServiceType = "subgraph" | "ipfs";
 
 export interface IOPTIONS_EXTENDED extends IOPTIONS {
     sourceRoot?: string,
