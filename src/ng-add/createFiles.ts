@@ -13,6 +13,9 @@ import {
 import { configuration_options } from "./data/options.configuration";
 import { IOPTIONS_EXTENDED } from "./schema";
 
+import { classify, dasherize, camelize, underscore } from '@angular-devkit/core/src/utils/strings';
+const stringUtils = {classify, dasherize, camelize, underscore };
+
 export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
   const templateRules = [];
   let toInstallKeys = []
@@ -50,6 +53,7 @@ if (_options.demoToInstall== true){
 }
   
   const options_file_replacements = { 
+    ...stringUtils,
     sourceRoot: _options.sourceRoot , 
     contractCode:_options.dappDemo,
     metadata:_options.dappDemo + 'Metadata'  }
