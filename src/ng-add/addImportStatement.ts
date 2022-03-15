@@ -22,7 +22,7 @@ class AddToModuleContext {
 }
 
 export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
-  
+  console.log('i am importing')
   
   //// Importing Feature module
   let featureName;
@@ -35,6 +35,9 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
     featureName = "HelloWorldContractModule";
     featurePath =
       "./1-hello-world-contract/hello-world-contract.module";
+  } else if (_options.dappDemo == "debugContract") {
+    featureName = "DebugContractModule";
+    featurePath = "./2-debug-contract/debug-contract.module";
   } else if (_options.dappDemo == "nftContract") {
     featureName = "NftContractModule";
     featurePath = "./3-nft-contract/nft-contract.module";
@@ -52,6 +55,7 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
     throw new SchematicsException("app.module.ts not found");
   }
  // const result = new AddToModuleContext();
+
 
   const source_app = ts.createSourceFile(
     appModulePath,

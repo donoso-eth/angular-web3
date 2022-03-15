@@ -48,6 +48,8 @@ describe("Initilization", () => {
 
 
 
+
+
   it("works", async () => {
     const tree = await schematicRunner
       .runSchematicAsync(
@@ -125,6 +127,14 @@ describe("Initilization", () => {
   //     expect(indexHtml).toContain(`<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`);
   // });
 
+
+  it("No Demo app should install Mnimal Module", async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:false, dappServices:[],dappDemo: "minimalContract" }, appTree)
+      .toPromise();
+ 
+      expect(tree.exists(normalize("/projects/schematest/src/app/0-minimal-contract/minimal-contract.module.ts"))).toBeTrue();
+  });
 
   it("Hello app creates Hello world chain module", async () => {
     const tree = await schematicRunner

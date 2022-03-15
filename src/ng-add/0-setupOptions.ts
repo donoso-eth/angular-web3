@@ -83,7 +83,7 @@ export const setupOptions = async (
                 }
             }];
             const answerDemo = await prompt(questionsDemo)
-            console.log(answerDemo)
+      
             _options.dappDemo = answerDemo.demoApp
             _options.dappServices = configuration_options.dappDemos[_options.dappDemo].dappServices
         } else {
@@ -92,7 +92,7 @@ export const setupOptions = async (
             const questionsNoDemo = [{
                 type: 'checkbox',
                 name: 'dappServices',
-                message: 'In which Project would you like to add angular-web3?',
+                message: 'Which services would you like to add to your project?',
                 choices: ["Subgraph", "Ipfs"],
                 filter(value: string[]) {
                     return value.map(map => {

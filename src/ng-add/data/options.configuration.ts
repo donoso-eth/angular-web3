@@ -57,13 +57,13 @@ export const configuration_options: {
       dappServices: [],
       templates_root: [
         {
-          source: "./files/demo-miminal-contract/hardhat",
+          source: "./files/demo-mininal-contract/hardhat",
           target: "/hardhat/",
         },
       ],
       templates_src: [
         {
-          source: "./files/demo-miminal-contract/demo",
+          source: "./files/demo-minimal-contract/demo",
           target: "/app/0-minimal-contract",
         },
       ],
