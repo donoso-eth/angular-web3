@@ -2,6 +2,7 @@ import { Tree, SchematicContext, SchematicsException } from "@angular-devkit/sch
 import { IOPTIONS_EXTENDED } from "./schema";
 import { prompt } from 'inquirer'
 import { configuration_options } from "./data/options.configuration";
+import { JSONFile } from "./helpers/json-file";
 
 ///////////////////////////////////////////////////////////
 //////////////////// SetUp Options /////////////////////////
@@ -17,20 +18,21 @@ export const setupOptions = async (
 
     // ============ Get Project, if more than one in workspace inquire with prompt  ========================
     // #region get project
-    let workspaceConfig;
-    workspaceConfig = JSON.parse(host.read("angular.json")!.toString("utf-8"));
+    let workspaceConfig; 
+    workspaceConfig = new JSONFile(host,"angular.json")
     let project;
 
     if (!workspaceConfig) {
         throw new SchematicsException("Not an Angular CLI workspace");
-    } else if (
-        workspaceConfig.projects == undefined ||
-        Object.keys(workspaceConfig.projects).length == 0
-    ) {
+    } 
+        
+    const projects =  workspaceConfig.get(["projects"]) as {[key:string]:any}
+    if (projects == undefined || Object.keys( workspaceConfig.get(["projects"]) as Array<string>).length == 0) {
+  
         throw new SchematicsException("Not Angualar Projects Available");
-    }
+     }
 
-    const project_keys = Object.keys(workspaceConfig.projects);
+    const project_keys = Object.keys(projects);
    
         if (project_keys.length == 1) {
             _options.projectFound = project_keys[0];
@@ -50,7 +52,7 @@ export const setupOptions = async (
         // ============ get the source folder Path  ========================
         // #region get source folder path
 
-        project = workspaceConfig.projects[_options.projectFound as string];
+        project = projects[_options.projectFound as string];
         _options.sourceRoot = project.sourceRoot;
         // #endregion get source path
 
@@ -122,22 +124,22 @@ export const setupOptions = async (
 
       // ============ Manual Angular Material installation  ========================
     if (_options.demoToInstall == true){
-        workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["options"]["styles"] = 
-        ["./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"].concat( workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["options"]["styles"] )
+        const styles_path = ['projects',_options.projectFound as string,"architect","build","options","styles"]
+        const styles = workspaceConfig.get(styles_path) as Array<string>
+        workspaceConfig.modify(styles_path,["./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"].concat(styles))
     }
+     
 
     
     // ============ if IPFS change custom webpack  ========================
     if (_options.dappServices.indexOf('ipfs')!== -1) {
-        workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["builder"] = "@angular-builders/custom-webpack:browser";
-        workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["options"]["customWebpackConfig"] = { "path": "./extra-webpack.config.js" }
-        workspaceConfig.projects[_options.projectFound as string]["architect"]["serve"]["builder"] = "@angular-builders/custom-webpack:dev-server";
+        workspaceConfig.modify(['projects',_options.projectFound as string,"architect","build","builder"],"@angular-builders/custom-webpack:browser");
+        workspaceConfig.modify(['projects',_options.projectFound as string,"architect","build","options","customWebpackConfig","path"],"./extra-webpack.config.js" )
+        workspaceConfig.modify(['projects',_options.projectFound as string,"architect","serve","builder"],"@angular-builders/custom-webpack:dev-server")
     }
 
-    host.overwrite("angular.json", JSON.stringify(workspaceConfig));
+   // host.overwrite("angular.json", JSON.stringify(workspaceConfig));
 
     
-
-
     return host;
 };

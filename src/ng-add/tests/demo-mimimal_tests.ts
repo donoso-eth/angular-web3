@@ -1,14 +1,17 @@
 
-import { normalize } from "@angular-devkit/core";
+import { json, normalize } from "@angular-devkit/core";
 import { expect } from 'chai';
 import {
   SchematicTestRunner,
   UnitTestTree,
 } from "@angular-devkit/schematics/testing";
 import * as path from "path";
-import { findNodes, insertAfterLastOccurrence } from "../helpers/ast-utils";
+import { findNodes, getSourceNodes, insertAfterLastOccurrence } from "../helpers/ast-utils";
 import * as ts from 'typescript';
 import { NoopChange } from "../helpers/change";
+import { JSONFile } from "../helpers/json-file";
+import { writeFileSync } from "fs";
+import { getCircularReplacer } from "../helpers/circular";
 const collectionPath = path.join(__dirname, "../../collection.json");
 
 const workspaceOptions = {
@@ -52,8 +55,10 @@ describe("Initilization", () => {
     const tree = await schematicRunner
       .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "minimalContract" }, appTree)
       .toPromise();
-    const contract_config_json = JSON.parse(tree.read("hardhat/contract.config.json")!.toString("utf-8"));
-    expect(Object.keys(contract_config_json)).to.include('minimalContract')
+
+    const jsonNew= new JSONFile(tree,"hardhat/contract.config.json")
+
+    expect(jsonNew.get(['minimalContract','name'])).to.be.equal('MinimalContract')
   });
 
   
@@ -131,6 +136,47 @@ describe("Initilization", () => {
 
   });
 
+  it("Creates minimal contract entry in Contract JSON Config File", async () => { 
+    const tree = await schematicRunner
+    .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "minimalContract" }, appTree)
+    .toPromise();
+ 
+    const appModulePath = `/projects/schematest/src/app/dapp-injector/blockchain_wiring.ts` as string;
+    const appModuleFile = (
+      tree.read(normalize(appModulePath)) as Buffer
+    ).toString("utf-8");
+      
+      console.log(appModuleFile)
 
+    const source_app = ts.createSourceFile(
+      appModulePath,
+      appModuleFile,
+      ts.ScriptTarget.Latest,
+      true
+    );
+
+    const fileName = './0-minimal-contract/minimal-contract.module';
+    const symbolName = 'MinimalContractModule';
+    const allNodes = getSourceNodes(source_app)
+   // console.log(allNodes)
+    const allImports = findNodes(source_app, ts.SyntaxKind.ExportKeyword);
+
+    let i = 0;
+      const filNode = allImports.filter(node=> {
+        console.log(i)
+        console.log(node)
+        i++
+      })
+
+
+
+ 
+
+      // for (const myChild of child[1].getChildren()){
+      // console.log(i,'  ',myChild.kind,' ',myChild.getText(),' ',myChild.getFullText())
+      //   i++;
+      // }
+  // console.log(JSON.stringify(allImports[1],getCircularReplacer()))
+  })
 
 });
