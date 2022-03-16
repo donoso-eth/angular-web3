@@ -91,7 +91,7 @@
          tabSize: 2,
        },
      });
- 
+
      this.content = applyEdits(this.content, edits);
      this.host.overwrite(this.path, this.content);
      this._jsonAst = undefined;
