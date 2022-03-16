@@ -1,23 +1,34 @@
-export const devs = {
+export const devs:{[key:string]: Record<string, string>} = {
     initial: {
         "ethers": "^5.0.0",
         "@ngrx/store": "^13.0.2",
         "@download/blockies": "^1.0.3",
     },
-    debugcontract: {
+    dappDemo:{
         "@download/blockies": "^1.0.3",
+        "@angular/cdk": "~13.2.2",
+        "@angular/material": "~13.2.2",
+    },
+    helloWorldContract: {
+    
+    },
+    debugcontract: {
+
     },
     nftContract: {
-        "@download/blockies": "^1.0.3",
+ 
+    },
+    ipfs:{
         "ang-jsoneditor": "^1.10.5",
         "json-editor": "^0.7.28",
-        "@angular-builders/custom-webpack": "^13.1.0"
+        "@angular-builders/custom-webpack": "^13.1.0", 
     }
 
+    
 
 }
 
-export const devDeps = {
+export const devDeps:{[key:string]: Record<string, string>}  = {
     initial: {
         "@nomiclabs/hardhat-ethers": "^2.0.0",
         "@nomiclabs/hardhat-etherscan": "^2.1.3",

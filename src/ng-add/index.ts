@@ -19,6 +19,7 @@ import { addImport } from "./addImportStatement";
 import { updateTsConfig } from "./updateTsConfig";
 import { runExternal } from "./runExternal";
 import { setupOptions } from "./0-setupOptions";
+import { addFontsToIndex } from "./addFonts";
 
 /** Adds a package to the package.json in the given host tree. */
 
@@ -99,10 +100,10 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
 
   
     adScriptsToPackageJson(_options),
-    // addFontsToIndex(_options),
+    addFontsToIndex(_options),
     // runExternal(_options),
-    externalSchematic("@angular/material", "ng-add", { project:_options.projectFound,
-      animations: true, theme: "indigo-pink",  typography: false}),
+    // externalSchematic("@angular/material", "ng-add", { project:_options.projectFound,
+    //   animations: true, theme: "indigo-pink",  typography: false}),
     //externalSchematic("@ng-bootstrap/ng-bootstrap", "ng-add", { project:_options.projectFound}),
     addAndinstallDependencies(_options),
     (tree: Tree, _context: SchematicContext) => {

@@ -65,7 +65,7 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
 
 
 
-  const importsFeature:Change[] =  addImportToModule(
+  let importsFeature:Change[] =  addImportToModule(
     source_app,
     appModulePath,
     featureName,
@@ -97,10 +97,21 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   const importProvider:Change[] = addProviderToModule(
     source_app,
     appModulePath,
-    '...blockchain_providers',
-    './blockchain_wiring.ts'
+    'blockchain_providers',
+    './blockchain_wiring'
 
   )
+    // ============ Manual Angular Material installation  ========================
+    if (_options.demoToInstall == true){
+      const importDappBrowserAnimations:Change[] =  addImportToModule(
+        source_app,
+        appModulePath,
+        'BrowserAnimationsModule',
+        '@angular/platform-browser/animations',
+      )
+      importsFeature= importsFeature.concat(importDappBrowserAnimations)
+    }
+
 
   const importRecorder = tree.beginUpdate(appModulePath);
   for (const change of importsFeature.concat(importProvider,importDappInjector,importStore,[importReducer])) {

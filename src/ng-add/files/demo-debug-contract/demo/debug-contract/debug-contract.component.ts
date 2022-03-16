@@ -13,23 +13,25 @@ import { ContractInputComponent } from '../contract-input/contract-input.compone
 
 import { ethers, Signer } from 'ethers';
 import {
+  AngularContract,
   BlockWithTransactions,
   convertEtherToWei,
   convertUSDtoEther,
   convertWeiToEther,
   DappInjectorService,
-  DialogService,
+
   displayEther,
   displayUsd,
   IABI_OBJECT,
   IBALANCE,
   ICONTRACT,
   IINPUT_EVENT,
-  NotifierService,
   web3Selectors,
   Web3State,
 } from 'angular-web3';
 import { Store } from '@ngrx/store';
+import { DialogService, NotifierService } from 'src/app/dapp-components';
+import { netWorkByName } from 'src/app/dapp-injector/constants';
 
 @Component({
   selector: 'debug-contract',
@@ -61,12 +63,7 @@ export class DebugContractComponent implements AfterViewInit {
 
   dollarExchange!: number;
   balanceDollar!: number;
-  myContract!: {
-    name: string;
-    address: string;
-    contract: ethers.Contract;
-    abi: IABI_OBJECT[];
-  };
+  debugContract!: AngularContract
   constructor(
     private cd: ChangeDetectorRef,
     private dialogService: DialogService,
@@ -188,10 +185,10 @@ export class DebugContractComponent implements AfterViewInit {
   async onChainStuff() {
     try {
       this.deployer_address = await (
-        await this.dappInjectorService.config.providers['main'].getSigner()
+        await this.dappInjectorService.config.defaultProvider!.getSigner()
       ).getAddress();
 
-      this.dappInjectorService.config.providers['main'].on(
+      this.dappInjectorService.config.defaultProvider!.on(
         'block',
         async (log: any, event: any) => {
           this.refreshContractBalance();
@@ -204,8 +201,10 @@ export class DebugContractComponent implements AfterViewInit {
       );
 
       this.contractHeader = {
-        name: this.myContract.name,
-        address: this.myContract.address,
+        name: this.debugContract.name,
+        address: this.debugContract.address,
+        abi:this.debugContract.abi,
+        network: netWorkByName('localhost')
       };
 
       this.eventsAbiArray = this.contract_abi.filter(
@@ -213,7 +212,7 @@ export class DebugContractComponent implements AfterViewInit {
       );
 
       this.eventsAbiArray.forEach((val) => {
-        this.myContract.contract.on(val.name, (args) => {
+        this.debugContract.contract.on(val.name, (args) => {
           let payload;
           if (typeof args == 'object') {
             payload = JSON.stringify(args);
@@ -305,8 +304,8 @@ export class DebugContractComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.store.pipe(web3Selectors.selectChainReady).subscribe(async (value) => {
       console.log(value);
-      this.myContract = this.dappInjectorService.config.contracts['myContract'];
-      this.contract_abi = this.myContract.abi;
+      this.debugContract = this.dappInjectorService.config.defaultContract!;
+      this.contract_abi = this.debugContract.abi;
       console.log(this.contract_abi);
       this.signer = this.dappInjectorService.config.signer as Signer;
       this.onChainStuff();

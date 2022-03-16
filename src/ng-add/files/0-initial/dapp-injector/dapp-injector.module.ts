@@ -1,6 +1,6 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DappInjectorService } from './dapp-injector.service.ts.template';
+import { DappInjectorService } from './dapp-injector.service';
 import { ISTARTUP_CONFIG } from './models';
 
 export const startUpConfig:ISTARTUP_CONFIG = {

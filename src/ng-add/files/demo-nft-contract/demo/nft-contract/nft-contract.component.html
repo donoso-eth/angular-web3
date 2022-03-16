@@ -15,7 +15,7 @@
       <ipfs-upload></ipfs-upload>
     </mat-tab>
     <mat-tab label="Debug Contract">
-      <debug-component *ngIf="myContract && myContract.contract" [debugContract]="myContract"></debug-component>
+      <debug-component *ngIf="nftContract && nftContract.contract" [debugContract]="nftContract"></debug-component>
     </mat-tab>
 
   </mat-tab-group>

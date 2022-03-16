@@ -6,9 +6,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
-import { blockchain_imports, blockchain_providers } from './blockchain_wiring';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IpfsModule } from './ipfs/ipfs.module';
+import { DebugComponentModule, DialogModule, HomeModule, NotifierModule, WalletDisplayModule } from '../dapp-components';
 
 
 
@@ -27,9 +28,13 @@ import { IpfsModule } from './ipfs/ipfs.module';
     MatIconModule,
     MatTabsModule,
     IpfsModule,
-    blockchain_imports
+    DialogModule,
+    NotifierModule,
+    WalletDisplayModule,
+    HomeModule,
+    DebugComponentModule
   ],
-  providers:[...blockchain_providers] ,
+  providers:[] ,
   exports: [
     NftContractComponent
   ]

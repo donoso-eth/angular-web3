@@ -54,7 +54,7 @@ const artifactsPath = '../<%= sourceRoot %>/assets/artifacts/contracts/';
       if (myConfigObjArray.length == 0) {
         const name = jsonFile.substring(0, jsonFile.length - 5);
 
-        const jsonName = toUnder(name + 'Metadata') + '.json';
+        const jsonName = toUnder(name) ;
         contractArtifacts.push({
           name: name,
           artifactsPath: contractArtifact,

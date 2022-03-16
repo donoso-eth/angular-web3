@@ -57,7 +57,7 @@ export const configuration_options: {
       dappServices: [],
       templates_root: [
         {
-          source: "./files/demo-mininal-contract/hardhat",
+          source: "./files/demo-minimal-contract/hardhat",
           target: "/hardhat/",
         },
       ],

@@ -33,6 +33,8 @@ export const adScriptsToPackageJson = (_options: IOPTIONS_EXTENDED): Rule => {
       json.scripts = {};
     }
 
+  
+
     
     Object.keys(scripts.initial).forEach((key) => {
       if (!json.scripts[key]) {

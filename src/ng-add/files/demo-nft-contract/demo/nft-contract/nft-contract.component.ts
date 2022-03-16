@@ -5,17 +5,16 @@ import {
   convertEtherToWei,
   convertUSDtoEther,
   DappInjectorService,
-  DialogService,
   IABI_OBJECT,
   IBALANCE,
   ICONTRACT,
   NETWORK_STATUS,
-  NotifierService,
   Web3Actions,
   web3Selectors,
   Web3State,
 } from 'angular-web3';
 import { ethers, providers, Signer } from 'ethers';
+import { DialogService, NotifierService } from 'src/app/dapp-components';
 import {
   netWorkByName,
   NETWORK_TYPE,
@@ -47,7 +46,7 @@ export class NftContractComponent implements AfterViewInit {
 
   dollarExchange!: number;
   balanceDollar!: number;
-  myContract!: AngularContract;
+  nftContract!: AngularContract;
   blockchain_is_busy: boolean = true;
   constructor(
     private dialogService: DialogService,
@@ -59,7 +58,7 @@ export class NftContractComponent implements AfterViewInit {
   async onChainStuff() {
     try {
       this.deployer_address = await (
-        await this.dappInjectorService.config.providers['main'].getSigner()
+        await this.dappInjectorService.config.defaultProvider!.getSigner()
       ).getAddress();
     } catch (error) {
       console.log(error);
@@ -169,15 +168,15 @@ export class NftContractComponent implements AfterViewInit {
     this.store.pipe(web3Selectors.selectChainReady).subscribe(async (value) => {
       console.log(' should not be in contract debug');
 
-      this.myContract = this.dappInjectorService.config.contracts['myContract'];
-      this.contract_abi = this.myContract.abi;
+      this.nftContract = this.dappInjectorService.config.defaultContract!;
+      this.contract_abi = this.nftContract.abi;
       this.signer = this.dappInjectorService.config.signer as Signer;
 
       this.contractHeader = {
-        name: this.myContract.name,
-        address: this.myContract.address,
-        abi: this.myContract.abi,
-        network: this.myContract.network,
+        name: this.nftContract.name,
+        address: this.nftContract.address,
+        abi: this.nftContract.abi,
+        network: this.nftContract.network,
       };
 
       this.onChainStuff();

@@ -120,12 +120,18 @@ export const setupOptions = async (
     }
 
 
+      // ============ Manual Angular Material installation  ========================
+    if (_options.demoToInstall == true){
+        workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["options"]["styles"] = 
+        ["./node_modules/@angular/material/prebuilt-themes/indigo-pink.css"].concat( workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["options"]["styles"] )
+    }
+
     
     // ============ if IPFS change custom webpack  ========================
     if (_options.dappServices.indexOf('ipfs')!== -1) {
         workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["builder"] = "@angular-builders/custom-webpack:browser";
         workspaceConfig.projects[_options.projectFound as string]["architect"]["build"]["options"]["customWebpackConfig"] = { "path": "./extra-webpack.config.js" }
-        workspaceConfig.projects[_options.projectFound as string]["architect"]["serve"]["builder"] = "@angular-builders/custom-webpack:browser";
+        workspaceConfig.projects[_options.projectFound as string]["architect"]["serve"]["builder"] = "@angular-builders/custom-webpack:dev-server";
     }
 
     host.overwrite("angular.json", JSON.stringify(workspaceConfig));

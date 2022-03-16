@@ -11,7 +11,7 @@ import "hardhat/console.sol";
 
 // GET LISTED ON OPENSEA: https://testnets.opensea.io/get-listed/step-two
 
-contract SimpleNftContract is ERC721URIStorage, Ownable {
+contract NftContract is ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter public _tokenIds;
     
@@ -19,7 +19,7 @@ contract SimpleNftContract is ERC721URIStorage, Ownable {
         // _setBaseURI("https://ipfs.io/ipfs/");
     }
 
-        function tokenURI(uint256 tokenId) public view override (ERC721,ERC721URIStorage) returns (string memory) {
+        function tokenURI(uint256 tokenId) public view override (ERC721URIStorage) returns (string memory) {
         require(_exists(tokenId), "ERC721URIStorage: URI query for nonexistent token");
 
 
@@ -30,7 +30,7 @@ contract SimpleNftContract is ERC721URIStorage, Ownable {
     function _burn(uint256 tokenId)
         internal
         virtual
-        override(ERC721, ERC721URIStorage)
+        override(ERC721URIStorage)
     {
         super._burn(tokenId);
 
