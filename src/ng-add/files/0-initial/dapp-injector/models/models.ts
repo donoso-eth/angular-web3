@@ -46,7 +46,7 @@ export interface ICONTRACT_METADATA {
   address:string;
   name:string;
   abi:Array<IABI_OBJECT>;
-  network_id: number;
+  network: string;
 }
 
 export interface ICONTRACT{

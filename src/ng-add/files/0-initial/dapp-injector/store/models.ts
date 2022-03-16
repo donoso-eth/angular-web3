@@ -8,4 +8,4 @@ export interface Web3State {
     
   }
 
-  export type NETWORK_STATUS = 'loading' | 'fail' | 'wallet-not-connected' | 'ethereum-not-connected' | 'success' | 'disconnected';
+  export type NETWORK_STATUS = 'loading' | 'fail' | 'wallet-not-connected' | 'success' | 'disconnected';

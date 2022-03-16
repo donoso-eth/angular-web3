@@ -6,7 +6,8 @@
 
 import { writeFileSync,readFileSync } from "fs";
 import {ensureDir } from 'fs-extra'
-import { ethers } from "hardhat";
+import { ethers,hardhatArguments } from "hardhat";
+import config from "../hardhat.config";
 import { join } from "path";
 
 
@@ -23,6 +24,12 @@ const contract_path = join(processDir,contract_path_relative)
 ensureDir(contract_path)
 
 async function main() {
+
+let network = hardhatArguments.network;
+if (network == undefined) {
+  network = config.defaultNetwork;
+}
+
   const contract_config = JSON.parse(readFileSync( join(processDir,'contract.config.json'),'utf-8')) as {[key:string]: ICONTRACT_DEPLOY}
   
   const deployContracts=["<%= contractCode %>"]
@@ -52,7 +59,8 @@ async function main() {
     writeFileSync(`${contract_path}/${toDeployContract.jsonName}_metadata.json`, JSON.stringify({
       abi:Metadata.abi,
       name:toDeployContract.name
-      ,address: contract.address}));
+      ,address: contract.address,
+      network: network}));
   
     console.log(toDeployContract.name + " Contract Deployed to:",  contract.address);
   } 

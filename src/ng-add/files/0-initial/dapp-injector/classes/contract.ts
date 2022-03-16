@@ -14,14 +14,14 @@ export class AngularContract implements OnDestroy {
   private _contract!: Contract;
   private _provider!: providers.JsonRpcProvider;
   private _balance: any;
-  private _network!: INETWORK;
+  private _network_deployed!: string;
   public eventSubscriptionObject: { [key: string]: ReplaySubject<any> } = {};
 
   public contractBalanceSubscription: ReplaySubject<any> = new ReplaySubject(1);
 
   constructor(
     @Inject('metadata')
-    public contrat_init: {
+    public contract_init: {
       metadata: ICONTRACT_METADATA;
       provider: JsonRpcProvider | Web3Provider;
       signer: Signer;
@@ -31,39 +31,32 @@ export class AngularContract implements OnDestroy {
   }
 
   async init() {
-    this._provider = this.contrat_init.provider;
+    this._provider = this.contract_init.provider;
+    this._network_deployed = this.contract_init.metadata.network;
     this._contract = await new Contract(
-      this.contrat_init.metadata.address,
-      this.contrat_init.metadata.abi,
-      this.contrat_init.signer
+      this.contract_init.metadata.address,
+      this.contract_init.metadata.abi,
+      this.contract_init.signer
     );
-    console.log(this.contrat_init.metadata.network_id)
-    if (this.contrat_init.metadata.network_id !== undefined) {
-      console.log(this.contrat_init.metadata.network_id)
-      const network = netWorkById(this.contrat_init.metadata.network_id as number);
-      console.log(network)
-      this._network = network;
-    } else {
-      this._network = noNetwork;
-    }
+
 
     return this._contract;
   }
 
   get name() {
-    return this.contrat_init.metadata.name;
+    return this.contract_init.metadata.name;
   }
 
   get abi() {
-    return this.contrat_init.metadata.abi;
+    return this.contract_init.metadata.abi;
   }
 
   get address() {
-    return this.contrat_init.metadata.address;
+    return this.contract_init.metadata.address;
   }
 
-  get network() {
-    return this._network;
+  get network_deployed() {
+    return this._network_deployed;
   }
 
   get contract() {
