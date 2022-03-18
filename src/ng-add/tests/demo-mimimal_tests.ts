@@ -146,8 +146,7 @@ describe("Initilization", () => {
       tree.read(normalize(appModulePath)) as Buffer
     ).toString("utf-8");
       
-      console.log(appModuleFile)
-
+   
     const source_app = ts.createSourceFile(
       appModulePath,
       appModuleFile,
@@ -162,11 +161,11 @@ describe("Initilization", () => {
     const allImports = findNodes(source_app, ts.SyntaxKind.ExportKeyword);
 
     let i = 0;
-      const filNode = allImports.filter(node=> {
-        console.log(i)
-        console.log(node)
-        i++
-      })
+      // const filNode = allImports.filter(node=> {
+      //   console.log(i)
+      //   console.log(node)
+      //   i++
+      // })
 
 
 
