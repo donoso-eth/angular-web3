@@ -5,8 +5,9 @@ import { IOPTIONS_EXTENDED } from "./schema";
 import {
   addImportToModule,
   insertImport,
+  addProviderToModule,
 } from "@schematics/angular/utility/ast-utils";
-import { InsertChange } from "@schematics/angular/utility/change";
+import { Change, InsertChange } from "@schematics/angular/utility/change";
 
 class AddToModuleContext {
   // source of the module file
@@ -21,19 +22,24 @@ class AddToModuleContext {
 }
 
 export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
-  let importName;
-  let importPath;
-  if (_options.configuration == "minimalContract") {
-    importName = "MinimalContractModule";
-    importPath =
-      "./dapp-demos/0-minimal-contract/minimal-contract.module";
-  } else if (_options.configuration == "helloWorldContract") {
-    importName = "HelloWorldContractModule";
-    importPath =
-      "./dapp-demos/1-hello-world-contract/hello-world-contract.module";
-  } else if (_options.configuration == "debugContract") {
-    importName = "DebugContractModule";
-    importPath = "./dapp-demos/2-debug-contract/debug-contract.module";
+  
+  //// Importing Feature module
+  let featureName;
+  let featurePath;
+  if (_options.dappDemo == "minimalContract") {
+    featureName = "MinimalContractModule";
+    featurePath =
+      "./0-minimal-contract/minimal-contract.module";
+  } else if (_options.dappDemo == "helloWorldContract") {
+    featureName = "HelloWorldContractModule";
+    featurePath =
+      "./1-hello-world-contract/hello-world-contract.module";
+  } else if (_options.dappDemo == "debugContract") {
+    featureName = "DebugContractModule";
+    featurePath = "./2-debug-contract/debug-contract.module";
+  } else if (_options.dappDemo == "nftContract") {
+    featureName = "NftContractModule";
+    featurePath = "./3-nft-contract/nft-contract.module";
   } else {
     return tree;
   }
@@ -47,27 +53,73 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   if (!appModuleFile) {
     throw new SchematicsException("app.module.ts not found");
   }
-  const result = new AddToModuleContext();
-  result.source = ts.createSourceFile(
+ // const result = new AddToModuleContext();
+
+
+  const source_app = ts.createSourceFile(
     appModulePath,
     appModuleFile,
     ts.ScriptTarget.Latest,
     true
   );
-  result.relativePath = importPath;
-  result.classifiedName = importName;
-  const importsChanges = addImportToModule(
-    result.source,
+
+
+
+  let importsFeature:Change[] =  addImportToModule(
+    source_app,
     appModulePath,
-    result.classifiedName,
-    result.relativePath
-  );
+    featureName,
+    featurePath,
+  )
+
+  const importReducer  = insertImport(
+    source_app,
+    appModulePath,
+    "we3ReducerFunction",
+    "angular-web3"
+  )
+
+  const importStore:Change[] =  addImportToModule(
+    source_app,
+    appModulePath,
+    'StoreModule.forRoot({web3: we3ReducerFunction}),',
+    '@ngrx/store',
+  )
+
+
+  const importDappInjector:Change[] =  addImportToModule(
+    source_app,
+    appModulePath,
+    'DappInjectorModule',
+    "./dapp-injector/dapp-injector.module",
+  )
+
+  const importProvider:Change[] = addProviderToModule(
+    source_app,
+    appModulePath,
+    'blockchain_providers',
+    './blockchain_wiring'
+
+  )
+    // ============ Manual Angular Material installation  ========================
+    if (_options.demoToInstall == true){
+      const importDappBrowserAnimations:Change[] =  addImportToModule(
+        source_app,
+        appModulePath,
+        'BrowserAnimationsModule',
+        '@angular/platform-browser/animations',
+      )
+      importsFeature= importsFeature.concat(importDappBrowserAnimations)
+    }
+
+
   const importRecorder = tree.beginUpdate(appModulePath);
-  for (const change of importsChanges) {
+  for (const change of importsFeature.concat(importProvider,importDappInjector,importStore,[importReducer])) {
     if (change instanceof InsertChange) {
       importRecorder.insertLeft(change.pos, change.toAdd);
     }
   }
   tree.commitUpdate(importRecorder);
+
   return tree;
 };

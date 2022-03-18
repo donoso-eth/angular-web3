@@ -1,0 +1,16 @@
+<form  [formGroup]="input_form" class="example-form">
+    <mat-form-field style="width:100%" class="example-full-width" appearance="fill">
+      <mat-label>to</mat-label>
+      <input formControlName="to" matInput placeholder="to" value="Sushi">
+    </mat-form-field>
+  
+    <mat-form-field style="width:100%" class="example-full-width" appearance="fill">
+        <mat-label>Amount in US$</mat-label>
+        <input formControlName="amount"  matInput placeholder="Amount in US$" value="Sushi">
+      </mat-form-field>
+      <!-- <div style="text-align: right;" class="example-button-container">
+        <button  (click)="doTransaction()"  [disabled]="input_form.invalid" mat-fab color="warn" aria-label="Example icon button with a heart icon">
+          <mat-icon>send</mat-icon>
+        </button>
+      </div> -->
+  </form>

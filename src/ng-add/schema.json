@@ -1,34 +1,47 @@
 {
   "$schema": "http://json-schema.org/schema",
   "$id": "options",
-  "title": "Angualr on Chain",
+  "title": "Angular Web3",
   "type": "object",
   "properties": {
-    "project": {
-      "description": "Project Path",
-      "type": "string",
-      "default": "default",
-      "x-prompt": "What is your Project name"
-    },
-    "configuration": {
+
+  "demoToInstall": {
+    "description": "Demo App",
+    "type": "boolean",
+    "default": false
+  },
+  "dappDemo": {
       "type": "string",
       "description": "description",
       "uniqueItems": true,
       "default":"minimalContract",
-      "enum": ["minimalContract","helloWorldContract","debugContract"],
-      "x-prompt": {
-        "message": "Which dapp would you like to start with?",
-        "type": "list",
-        "multiselect": false,
-        "items": [
-          {"value":"minimalContract","label":"Minimal Contract"},
-          {"value":"helloWorldContract","label":"Demo Hello World Contract"},
-          {"value":"debugContract","label":"Demo Debug Contract"}
-        ]
-      }
+      "enum": ["minimalContract", "helloWorldContract","debugContract", "nftContract"]
+  },
+  "dappServices": {
+    "description": "Dapp Services to be included",
+    "type":"array",
+    "items": {
+      "type":"string",
+      "enum": ["subgraph","ipfs"]
+    },
+    "default": []
+  },
+  "services": {
+    "description": "Services Infrastructrue to install",
+    "type":"array",
+    "items": {
+      "type":"string",
+      "enum": ["graph-node"]
+    },
+    "default": []
   },
   "skipInstall": {
     "description": "skipInstall",
+    "type": "boolean",
+    "default": false
+  },
+  "test": {
+    "description": "Am i in test?",
     "type": "boolean",
     "default": false
   },

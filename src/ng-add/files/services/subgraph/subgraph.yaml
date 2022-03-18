@@ -1,0 +1,43 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: GratitudeContract
+    network: mumbai
+    source:
+      address: "0xE1101b6E5c8A53251745af018FA2D3E1BC6676bc"
+      abi: GratitudeContract
+      startBlock: 25408945
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - GratitudeToken
+        - GratitudeCampaign
+      abis:
+        - name: GratitudeContract
+          file: ./abis/GratitudeContract.json
+      eventHandlers:
+        # - event: Approval(indexed address,indexed address,indexed uint256)
+        #   handler: handleApproval
+        # - event: ApprovalForAll(indexed address,indexed address,bool)
+        #   handler: handleApprovalForAll
+        - event: GratitudTokenAceptedEvent(uint256,uint8,string,string,address)
+          handler: handleGratitudTokenAceptedEvent
+        - event: GratitudTokenChangeStatusEvent(uint256,uint8)
+          handler: handleGratitudTokenChangeStatusEvent
+        - event: GratitudeCampaignCreatedEvent(indexed uint256,address,uint8,string,string)
+          handler: handleGratitudeCampaignCreatedEvent
+        - event: GratitudeCampaignRejected(uint256)
+          handler: handleGratitudeCampaignRejected
+        - event: GratitudeCampaignVerified(uint256)
+          handler: handleGratitudeCampaignVerified
+        - event: GratitudeTokenCreationEvent(indexed uint256,uint8,address,address,string,string,string)
+          handler: handleGratitudeTokenCreationEvent
+        # - event: OwnershipTransferred(indexed address,indexed address)
+        #   handler: handleOwnershipTransferred
+        # - event: Transfer(indexed address,indexed address,indexed uint256)
+        #   handler: handleTransfer
+      file: ./src/mapping.ts

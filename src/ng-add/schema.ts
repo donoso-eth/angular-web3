@@ -2,22 +2,50 @@
  * Angualr on Chain
  */
 export declare interface IOPTIONS {
+
     /**
-     * Project Path
+     * Demo App;
      */
-    project: string;
+    demoToInstall: boolean;
     /**
      * description
      */
-    configuration: "minimalContract" | "helloWorldContract" | "debugContract" 
+    dappDemo: DappDemoType ;
+    /**
+     * Dapp Services to be included
+     */
+    dappServices: Array<DappServiceType>;
+    /**
+     * Services Infrastructrue to install
+     */
+    services: "graph-node"[];
+    /**
+     * skipInstall
+     */
+    skipInstall: boolean;
+    /**
+     * Am i in test?
+     */
+    test?: boolean;
+    /**
+     * alreadyInstalled
+     */
+    alreadyInstalled?: boolean;
 
-
-    skipInstall:boolean,
-
-    alreadyInstalled: boolean,
+    /**
+     * reset
+     */
+    reset?: boolean;
 
 }
 
-export interface IOPTIONS_EXTENDED extends IOPTIONS{
-    sourceRoot?:string
-  }
+
+export type DappDemoType = "minimalContract" | "helloWorldContract" | "debugContract" | "nftContract" ;
+
+export type DappServiceType = "subgraph" | "ipfs";
+
+export interface IOPTIONS_EXTENDED extends IOPTIONS {
+    sourceRoot?: string,
+    projectFound?: string
+    
+}

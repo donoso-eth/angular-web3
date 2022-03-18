@@ -1,0 +1,12 @@
+
+import { InjectionToken } from '@angular/core';
+import { ICONTRACT } from 'angular-web3';
+import <%=classify(metadata)%> from '../assets/contracts/<%= underscore(metadata)%>.json';
+
+
+export const <%=camelize(metadata)%> = new InjectionToken<ICONTRACT>('<%=camelize(metadata)%>')
+
+export const blockchain_providers = [{provide: '<%=camelize(metadata)%>', useValue:<%=classify(metadata)%> }]
+
+
+
