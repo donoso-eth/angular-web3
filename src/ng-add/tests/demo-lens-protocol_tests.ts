@@ -57,9 +57,6 @@ describe("Initilization", () => {
       .toPromise();
 
     const jsonNew= new JSONFile(tree,"hardhat/contract.config.json")
-
-    console.log(jsonNew.content)
-
     expect(jsonNew.get(['lensProtocol','name'])).to.be.equal('LensHub')
   });
 
@@ -72,6 +69,7 @@ describe("Initilization", () => {
     .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "lensProtocol" }, appTree)
     .toPromise();
       expect(tree.exists(normalize("/hardhat/contracts/core/LensHub.sol"))).to.be.true;
+      expect(tree.exists(normalize("/hardhat/hardhat.config.ts"))).to.be.true;
   });
 
 

@@ -77,7 +77,7 @@ if (_options.demoToInstall== true){
     ]);
 
     templateRules.push(
-      mergeWith(templateSrc, MergeStrategy.Overwrite)
+      mergeWith(templateSrc, MergeStrategy.AllowCreationConflict)
     );
   }
 
