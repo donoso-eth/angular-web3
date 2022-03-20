@@ -68,25 +68,35 @@ ng add angular-web3
   &nbsp;  
 ### 2) chose installation Options:
 The package will prompt the options for configuration  
-- Project name: if not provided, the angular.json default project will be taken
-- Demo Dapp to be installed. The roadmap shows the plan to add additional demo Dapps, for the time being only Hello World Contract and Debug Contract are available
-  - Minimal Contract
-  - Demo Hello World Contract
-  - Demo Debug Contract  
- &nbsp;  
+- Project name in the case that your workspace has more than one angular project
+- Do you wnat to install a Demo app or only infrastructure/services?
 
-If you choose a Demo app, bear in mind that we use Angular Material for fast mock up, therefore please install angular material for Hello World and Debug Contracts
-```bash
-  ng add @angular/material
-```
+a) Demo Dapp to be installed:
+  - Hello World Contract
+  - Debug Contract  
+  - NFT Contract   
+
+If you choose a Demo app, bear in mind that Angular Material will be installed for fast mock up
+
+&nbsp; 
+b) Having chosen an empty app you will have the opportunity to adda services (more to come)
+
+  - ipfs
+  - subgraph
+
   &nbsp;  
-### 3) Update tsconfig.json:
-Please add following line to the paths property within the tsconfig.json file in the compilerOptions section.
+### 3) Updated tsconfig.json:
+All relevant web3 dapp files are under de DappInjectorModule. For ease of coding we have added a path in the tsconfig file:
  ```
 "paths":{"angular-web3":["src/app/dapp-injector/index.ts"]}
 ```
+to be able to :
+ ```
+import { DappFeature } from 'angular-web3'
+```
+throurought the entire dapp
   &nbsp;  
-
+  &nbsp;  
 ### 4) Initialize your 👷‍ Hardhat chain:
 For start up and running we recommend starting learning and playing with the local node. 
 
@@ -198,6 +208,20 @@ In the case that no typings.d.ts file is available, the schematics package will 
 </p>
 
  &nbsp;
+# 🧰 Angular web3 dapp structure 
+
+ We will deep dive in other articles, for now a brief introduction in order to understand the structured required to run our dapp on the blockchain. 
+
+ Out of the box chain state will be handled through ngrx with two 
+
+ A configuration object declared at the DappInjector Module level with followind params:
+<p align="center">
+  <img  width="300" src="docs/images/config_injector.png"  alt="Hello World app"  title="Hello World app">
+</p>
+
+ &nbsp; 
+
+
 # 📚 Documentation
 
 As per [Scaffold-eth](https://github.com/scaffold-eth/scaffold-eth), find a non exhaustive list of ressources to learn solidity, inlcuding the [Scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) resources  
