@@ -1,4 +1,4 @@
-// import  './initialization_tests'
+ import  './initialization_tests'
 
 // import './already_installed'
 

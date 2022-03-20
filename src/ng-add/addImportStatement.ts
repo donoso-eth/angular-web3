@@ -40,7 +40,10 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   } else if (_options.dappDemo == "nftContract") {
     featureName = "NftContractModule";
     featurePath = "./3-nft-contract/nft-contract.module";
-  } else {
+  } else if (_options.dappDemo == "lensProtocol") {
+    featureName = "LensProtocolModule";
+    featurePath = "./4-lens-protocol/lens-protocol.module";
+  }else {
     return tree;
   }
 

@@ -76,7 +76,7 @@ export const setupOptions = async (
                 type: 'list',
                 name: 'demoApp',
                 message: 'In which Project would you like to add angular-web3?',
-                choices: ["Hello World Contract", "Debug Contract", "Nft Contract"],
+                choices: ["Hello World Contract", "Debug Contract", "Nft Contract", "Lens Protocol"],
                 filter(value: string) {
                     let valueChanged = value.split(" ").join("");
                     let first_ele = valueChanged.substring(0, 1).toLowerCase()
