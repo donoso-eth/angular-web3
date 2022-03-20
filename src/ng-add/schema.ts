@@ -40,7 +40,7 @@ export declare interface IOPTIONS {
 }
 
 
-export type DappDemoType = "minimalContract" | "helloWorldContract" | "debugContract" | "nftContract" ;
+export type DappDemoType = "minimalContract" | "helloWorldContract" | "debugContract" | "nftContract" | "lensProtocol";
 
 export type DappServiceType = "subgraph" | "ipfs";
 

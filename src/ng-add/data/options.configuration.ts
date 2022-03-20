@@ -123,6 +123,27 @@ export const configuration_options: {
         },
       ],
     },
+    lensProtocol: {
+      deps: {},
+      scripts: {},
+      dappServices: ["ipfs"],
+      templates_root: [
+        {
+          source: "./files/demo-lens-protocol/hardhat",
+          target: "/hardhat/",
+        },
+        {
+          source: "./files/demo-lens-protocol/custom-webpack",
+          target: "",
+        },
+      ],
+      templates_src: [
+        {
+          source: "./files/demo-lens-protocol/demo",
+          target: "/app/4-lens-protocol",
+        },
+      ],
+    },
   },
   dappServices: {
     subgraph: {deps:{}, scripts:{}, templates_root:[], templates_src:[]},
