@@ -13,7 +13,7 @@ import { IOPTIONS_EXTENDED } from "./schema";
 import { createFiles } from "./createFiles";
 import { addAndinstallDependencies } from "./addAndInstallDependencies";
 import { adScriptsToPackageJson } from "./addScriptsToPackageJson";
-import { contract_config } from "./data/contract.config.";
+import { contract_config } from "./data/contract.config";
 import { addImport } from "./addImportStatement";
 
 import { updateTsConfig } from "./updateTsConfig";
@@ -28,7 +28,6 @@ const changeContractConfig = (
   _options: IOPTIONS_EXTENDED
 ): Tree => {
 
- 
   const contractConfig: any = contract_config;
   if (_options.alreadyInstalled == false) {
     const contractConfigString = JSON.stringify({
@@ -48,6 +47,8 @@ const changeContractConfig = (
         "If project does exist, I should not be here"
       );
     }
+
+
 
     alreadyConfig[_options.dappDemo] =
       contractConfig[_options.dappDemo];
@@ -83,7 +84,7 @@ const doTheLogs = (
 export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
   return chain([
     async (tree: Tree, _context: SchematicContext) => {
-     await setupOptions(tree, _options, _context);
+      await setupOptions(tree, _options, _context);
     },
     (tree: Tree, _context: SchematicContext) => {
       changeContractConfig(tree, _options);
@@ -95,10 +96,10 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
       return addImport(tree, _options);
     },
     (tree: Tree, _context: SchematicContext) => {
-      return   updateTsConfig(tree,_options);
+      return updateTsConfig(tree, _options);
     },
 
-  
+
     adScriptsToPackageJson(_options),
     addFontsToIndex(_options),
     // runExternal(_options),

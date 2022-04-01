@@ -1,5 +1,8 @@
- import  './initialization_tests'
+//  import  './initialization_tests'
 
 // import './already_installed'
 
-import './demo-mimimal_tests'
+// import './demo-mimimal_tests'
+
+
+import './demo-lens-protocol_tests'

@@ -24,4 +24,10 @@ export const contract_config = {
     ctor: [],
     jsonName: "nft_contract",
   },
+  lensProtocol: {
+    artifactsPath: "4-LensHub.sol/LensHub.json",
+    name: "LensHub",
+    ctor: [],
+    jsonName: "lens_hub",
+  },
 };
