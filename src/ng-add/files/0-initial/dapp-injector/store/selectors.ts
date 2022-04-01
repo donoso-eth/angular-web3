@@ -23,7 +23,7 @@ const chainStatus = createSelector(
 
 const selectChainReady = pipe(
   select(chainStatus),
-  filter((val) => val == 'success')
+  filter((val) => val == 'wallet-connected')
 );
 
 

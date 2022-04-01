@@ -139,9 +139,9 @@ export class DappInjectorService {
       Web3Actions.setSignerNetwork({ network: networkString })
     );
 
-    console.log('success');
+    console.log('wallet-connected');
 
-    this.store.dispatch(Web3Actions.chainStatus({ status: 'success' }));
+    this.store.dispatch(Web3Actions.chainStatus({ status: 'wallet-connected' }));
     this.store.dispatch(Web3Actions.chainBusy({ status: false }));
   }
 
@@ -192,7 +192,7 @@ export class DappInjectorService {
       //   success: false,
       //   error_message: error.toString(),
       // });
-      this.store.dispatch(Web3Actions.chainStatus({ status: 'fail' }));
+      this.store.dispatch(Web3Actions.chainStatus({ status: 'fail-to-connect-network' }));
       this.store.dispatch(Web3Actions.chainBusy({ status: false }));
     }
   }
@@ -208,7 +208,7 @@ export class DappInjectorService {
     try {
       await hardhatProvider.getNetwork();
     } catch (error) {
-      this.store.dispatch(Web3Actions.chainStatus({ status: 'fail' }));
+      this.store.dispatch(Web3Actions.chainStatus({ status: 'fail-to-connect-network' }));
       this.store.dispatch(Web3Actions.chainBusy({ status: false }));
       return;
     }
@@ -262,7 +262,7 @@ export class DappInjectorService {
       }
       await this.webModal.loadWallets();
       this.webModal.onConnect.subscribe(async (walletConnectProvider) => {
-        this.store.dispatch(Web3Actions.chainStatus({ status: 'fail' }));
+        this.store.dispatch(Web3Actions.chainStatus({ status: 'fail-to-connect-network' }));
         this.store.dispatch(Web3Actions.chainBusy({ status: true }));
 
         const webModalProvider = new providers.Web3Provider(
@@ -277,7 +277,7 @@ export class DappInjectorService {
 
       this.webModal.onDisConnect.subscribe(() => {
         console.log('i am disconnecting');
-        this.store.dispatch(Web3Actions.chainStatus({ status: 'fail' }));
+        this.store.dispatch(Web3Actions.chainStatus({ status: 'fail-to-connect-network' }));
         this.store.dispatch(Web3Actions.chainBusy({ status: false }));
       });
     } else {

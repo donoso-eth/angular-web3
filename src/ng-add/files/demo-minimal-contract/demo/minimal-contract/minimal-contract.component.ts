@@ -80,7 +80,7 @@ export class MinimalContractComponent implements AfterViewInit {
 
       console.log(value);
 
-      if (value == 'success') {
+      if (value == 'wallet-connected') {
         this.minimalContract = this.dappInjectorService.config.defaultContract!;
         console.log(this.minimalContract.network_deployed);
         this.asyncStuff();

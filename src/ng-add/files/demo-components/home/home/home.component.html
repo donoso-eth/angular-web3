@@ -2,19 +2,19 @@
 <div class="toolbar" role="banner">
   <img [class.blockchain_is_busy]="blockchain_is_busy" width="50" alt="Angular Logo"
     src="data:image/png;base64,{{angular_web3}}" />
-  <span *ngIf="blockchain_status=='success'"> {{contractHeader.name}} is running!</span>
+  <span *ngIf="blockchain_status=='wallet-connected'"> {{contractHeader.name}} is running!</span>
   <div class="spacer"></div>
 
-  <wallet-display *ngIf="blockchain_status=='success'" style="margin-right:10px" [signer]="signer"
+  <wallet-display *ngIf="blockchain_status=='wallet-connected'" style="margin-right:10px" [signer]="signer"
     (doFaucetEvent)="doFaucetEvent.emit()" (openTransactionEvent)="openTransactionEvent.emit()"></wallet-display>
 </div>
 
 <div class="content" role="main">
 
-  <h3 *ngIf="blockchain_status == 'fail'" style="margin:40px auto;">Something went wrong with the connection<br>
+  <h3 *ngIf="blockchain_status == 'fail-to-connect-network'" style="margin:40px auto;">Something went wrong with the connection<br>
     Please review your jsonrpc connection</h3>
 
-<img *ngIf="blockchain_status == 'fail'" style="width:200px;margin-bottom:40px;" alt="Angular Logo"
+<img *ngIf="blockchain_status == 'fail-to-connect-network'" style="width:200px;margin-bottom:40px;" alt="Angular Logo"
     src="data:image/png;base64,{{no_network}}">
 
 

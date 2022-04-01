@@ -15,7 +15,7 @@ export const updateTsConfig = (
     throw new SchematicsException("No typescrit config fie");
   } 
 
-    const pathString = `${_options.sourceRoot}/app/dapp-injector/index.ts`
+    const pathString = `[${_options.sourceRoot}/app/dapp-injector/index.ts]`
     tsConfig.modify(['compilerOptions','paths','angular-web3'],pathString) 
     
 

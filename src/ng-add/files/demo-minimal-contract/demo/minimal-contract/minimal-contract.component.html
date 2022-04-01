@@ -2,7 +2,7 @@
 <img [class.blockchain_is_busy]="blockchain_is_busy" width="50" alt="Angular Logo"
 src="data:image/png;base64,{{angular_web3}}" />
 
-<div *ngIf="blockchain_status == 'success'">
+<div *ngIf="blockchain_status == 'wallet-connected'">
   <div style="text-align: center" *ngIf="!!contractHeader">
     <p>Wallet {{ myWallet_address }}  <br> on {{ connected_netWork}} </p>
 
@@ -15,9 +15,9 @@ src="data:image/png;base64,{{angular_web3}}" />
   </div>
 </div>
 
-<div style="text-align: center;" *ngIf="blockchain_status == 'fail'">
+<div style="text-align: center;" *ngIf="blockchain_status == 'fail-to-connect-network'">
  <p>Connection with the blockchain not possible</p>
- <img *ngIf="blockchain_status == 'fail'" style="width:200px;margin-bottom:40px;" alt="Angular Logo"
+ <img *ngIf="blockchain_status == 'fail-to-connect-network'" style="width:200px;margin-bottom:40px;" alt="Angular Logo"
     src="data:image/png;base64,{{no_network}}">
 </div>
 
