@@ -186,7 +186,7 @@ export const configuration_options: {
       deps: {},
       devDeps: {},
       scripts: {},
-      addOns: ["ipfs"],
+      addOns: ["ipfsService"],
       templates_root: [
         {
           source: "./files/demos/demo-nft-contract/hardhat",
@@ -204,11 +204,12 @@ export const configuration_options: {
         },
       ],
     },
+    //// lens app
     lensProtocol: {
       deps: {},
       devDeps: {},
       scripts: {},
-      addOns: ["ipfs"],
+      addOns: ["ipfsService"],
       templates_root: [
         {
           source: "./files/demos/demo-lens-protocol/hardhat",
@@ -267,7 +268,7 @@ export const configuration_options: {
       ],
       templates_src: [],
     },
-    ipfs: {
+    ipfsService: {
       deps: {
         "ang-jsoneditor": "^1.10.5",
         "json-editor": "^0.7.28",
@@ -278,8 +279,24 @@ export const configuration_options: {
       templates_root: [],
       templates_src: [],
     },
-    "graph-node": {
+    graphNode: {
       deps: {},
+      devDeps: {},
+      scripts: {},
+      templates_root: [],
+      templates_src: [],
+    },
+    graphQlService:{
+      deps: {},
+      devDeps: {},
+      scripts: {},
+      templates_root: [],
+      templates_src: [],
+    },
+    litProtocol: {
+      deps: {
+        "lit-js-sdk": "^1.1.149",
+      },
       devDeps: {},
       scripts: {},
       templates_root: [],

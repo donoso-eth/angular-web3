@@ -135,7 +135,7 @@ export const setupOptions = async (
 
     
     // ============ if IPFS change custom webpack  ========================
-    if (_options.addOns.indexOf('ipfs')!== -1) {
+    if (_options.addOns.indexOf('ipfsService')!== -1) {
         workspaceConfig.modify(['projects',_options.projectFound as string,"architect","build","builder"],"@angular-builders/custom-webpack:browser");
         workspaceConfig.modify(['projects',_options.projectFound as string,"architect","build","options","customWebpackConfig","path"],"./extra-webpack.config.js" )
         workspaceConfig.modify(['projects',_options.projectFound as string,"architect","serve","builder"],"@angular-builders/custom-webpack:dev-server")
