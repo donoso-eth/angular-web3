@@ -270,7 +270,7 @@ export class Web3ModalComponent implements AfterViewInit {
 
   async loadWallets() {
 
-    this.store.pipe(web3Selectors.pleaseDisconnect).subscribe(()=> {
+    this.store.pipe(web3Selectors.hookForceDisconnect).subscribe(()=> {
       console.log('i amdisconencting manually')
       this.logoutOfWeb3Modal()
     })

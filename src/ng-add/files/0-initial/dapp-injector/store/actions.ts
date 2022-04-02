@@ -1,6 +1,5 @@
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { Action, createAction, props } from '@ngrx/store';
-import { Contract, providers, Signer, Wallet } from 'ethers';
 import { NETWORK_STATUS } from './models';
 
 export enum Web3ActionTypes {
@@ -8,6 +7,9 @@ export enum Web3ActionTypes {
   ChainBusy = '[Chain] Busy',
   DisconnectChain = '[Disconnect] Chain',
   setSignerNetwork = '[Set] SignerNetwork',
+
+  ReadContractIsReady = '[Read] Contract',
+
   SetDollarExhange = '[Set] Dollar',
   UpdateWalletBalance = '[Update] WalletBalance'
 
@@ -15,15 +17,16 @@ export enum Web3ActionTypes {
 // const chainMount = createAction('[Chain] Mount')();
 // const chainReady = createAction('[Chain] Ready')();
 
-const chainStatus = createAction('[Chain] Status', props<{status:NETWORK_STATUS }>());
-const chainBusy = createAction('[Chain] Busy', props<{status:boolean}>());
+const chainStatus = createAction('[Chain] Status', props<{ status: NETWORK_STATUS }>());
+const chainBusy = createAction('[Chain] Busy', props<{ status: boolean }>());
 
+const readContractReady = createAction('[Read] Contract', props<{ readCotractisReady: true }>())
 
-const setSignerNetwork = createAction( '[Set] SignerNetwork', props<{network:string}>());
+const setSignerNetwork = createAction('[Set] SignerNetwork', props<{ network: string }>());
 
-const setDollarExhange = createAction('[Set] Dollar', props<{exchange:number}>());
+const setDollarExhange = createAction('[Set] Dollar', props<{ exchange: number }>());
 
-const updateWalletBalance = createAction('[Update] WalletBalance', props<{walletBalance:number}>());
+const updateWalletBalance = createAction('[Update] WalletBalance', props<{ walletBalance: number }>());
 
 
 
@@ -33,7 +36,7 @@ export const Web3Actions = {
   chainStatus,
   chainBusy,
 
-
+  readContractReady,
 
   setSignerNetwork,
 

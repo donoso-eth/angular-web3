@@ -1,40 +1,56 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable } from '@angular/core';
+import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { Contract, Signer, Wallet } from 'ethers';
+import { Contract, Signature, Signer, Wallet } from 'ethers';
 import { providers } from 'ethers';
 import { AngularContract } from './classes';
 
 import { netWorkById, NETWORKS } from './constants/constants';
-import { startUpConfig } from './dapp-injector.module';
+import { DappConfigService } from './dapp-injector.module';
 
-import { uniswap_abi } from './helpers/uniswap_abi';
-import {
-  ICONTRACT_METADATA,
-  ISTARTUP_CONFIG,
-} from './models';
+import { ICONTRACT_METADATA, IDAPP_CONFIG, IDAPP_STATE,  ITRANSACTION_DETAILS, ITRANSACTION_RESULT } from './models';
 import { Web3Actions, web3Selectors } from './store';
 
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { Web3ModalComponent } from './web3-modal/web3-modal.component';
+import { Subject, takeUntil } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root',
 })
-export class DappInjectorService {
-  private _dollarExchange!: number;
-  config!: ISTARTUP_CONFIG;
-  webModal!: Web3ModalComponent;
+export class DappInjectorService implements OnDestroy {
+  
+  private destroyHooks: Subject<void> = new Subject();
+
+  ///// ---------  DAPP STATE INITIALIZATION
+  DAPP_STATE:IDAPP_STATE = {
+   
+    defaultProvider: null,
+    connectedNetwork: null,
+
+    signer:null,
+    signerAddress:null,
+
+    defaultContract: null,
+    viewContract:null,
+
+  }
+
+  ///// ---------  WEB3Modal for wallet conneciton
+  private webModal!: Web3ModalComponent;
+
+
 
   constructor(
+    @Inject(DappConfigService) private dappConfig: IDAPP_CONFIG,
     @Inject(DOCUMENT) private readonly document: any,
-    @Inject('minimalContractMetadata')
-    public contractMetadata: ICONTRACT_METADATA,
+    @Inject('contractMetadata') public contractMetadata: ICONTRACT_METADATA,
     private store: Store
   ) {
-    //this.store
-    this.initChain();
+    ///// ---------  Blockchain Bootstrap
+    this.chainInitialization();
   }
 
   async createProvider(url_array: string[]) {
@@ -42,9 +58,7 @@ export class DappInjectorService {
     if (url_array.length == 0) {
       provider = new providers.JsonRpcProvider();
     } else {
-      const p_race = await Promise.race(
-        url_array.map((map) => new providers.JsonRpcProvider(map))
-      );
+      const p_race = await Promise.race(url_array.map((map) => new providers.JsonRpcProvider(map)));
       provider = await p_race;
     }
 
@@ -52,32 +66,76 @@ export class DappInjectorService {
     return provider;
   }
 
-  async getDollarEther() {
-    if (this._dollarExchange == undefined) {
-      const uniswapUsdcAddress = '0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc';
-      const uniswapAbi = uniswap_abi;
+  async doTransaction(tx: any, signer?: any) {
+    let notification_message: ITRANSACTION_RESULT = {
+      success: false,
+    };
 
-      const uniswapService = await this.createProvider([
-        'https://eth-mainnet.gateway.pokt.network/v1/lb/611156b4a585a20035148406',
-        `https://eth-mainnet.alchemyapi.io/v2/oKxs-03sij-U_N0iOlrSsZFr29-IqbuF`,
-        'https://rpc.scaffoldeth.io:48544',
-      ]);
+    let transaction_details: ITRANSACTION_DETAILS = {
+      txhash: '',
+      bknr: 0,
+      from: '',
+      gas: '',
+      to: '',
+      value: '',
+    };
+    try {
+      let tx_obj;
 
-      const getUniswapContract = async (address: string) =>
-        await new Contract(address, uniswapAbi, uniswapService);
-      const contract = await getUniswapContract(uniswapUsdcAddress);
-      const reserves = await contract['getReserves']();
+      if (!signer) {
+        tx_obj = await this.DAPP_STATE.signer!.sendTransaction(tx);
+      } else {
+        tx_obj = await signer.sendTransaction(tx);
+      }
 
-      this._dollarExchange =
-        (Number(reserves._reserve0) / Number(reserves._reserve1)) * 1e12;
+      let tx_result = await tx_obj.wait();
+      const balance: any = await this.DAPP_STATE.signer?.getBalance();
+      this.store.dispatch(Web3Actions.updateWalletBalance({ walletBalance: balance }));
+
+      const result = tx_result;
+      transaction_details.txhash = result.transactionHash;
+      transaction_details.from = result.from;
+      transaction_details.to = result.to;
+      transaction_details.gas = result.gasUsed.toString();
+      transaction_details.bknr = result.blockNumber;
+
+      tx_obj.value == undefined
+        ? (transaction_details.value = '0')
+        : (transaction_details.value = tx_obj.value.toString());
+      notification_message.success = true;
+      notification_message.success_result = transaction_details;
+    } catch (e: any) {
+      // console.log(e);
+      // Accounts for Metamask and default signer on all networks
+      let myMessage =
+        e.data && e.data.message
+          ? e.data.message
+          : e.error && JSON.parse(JSON.stringify(e.error)).body
+          ? JSON.parse(JSON.parse(JSON.stringify(e.error)).body).error.message
+          : e.data
+          ? e.data
+          : JSON.stringify(e);
+      if (!e.error && e.message) {
+        myMessage = e.message;
+      }
+
+      try {
+        let obj = JSON.parse(myMessage);
+        if (obj && obj.body) {
+          let errorObj = JSON.parse(obj.body);
+          if (errorObj && errorObj.error && errorObj.error.message) {
+            myMessage = errorObj.error.message;
+          }
+        }
+      } catch (e) {
+        //ignore
+      }
+
+      notification_message.error_message = myMessage;
     }
-    return this._dollarExchange;
+
+    return notification_message;
   }
-
-
-  async goScan() {}
-
-
 
   async handleContractError(e: any) {
     // console.log(e);
@@ -109,192 +167,212 @@ export class DappInjectorService {
     return myMessage;
   }
 
-
-  async dispatchInit(dispatchObject: {
-    signer: Signer;
-    provider: JsonRpcProvider | Web3Provider;
-  }) {
-    this.config.signer = dispatchObject.signer;
-    this.config.defaultProvider = dispatchObject.provider;
-
-    const contract = new AngularContract({
-      metadata: this.contractMetadata,
-      provider: dispatchObject.provider,
-      signer: dispatchObject.signer,
-    });
-
-    this.config.defaultContract = contract;
-
-    await this.getDollarEther();
-    this.store.dispatch(
-      Web3Actions.setDollarExhange({ exchange: this._dollarExchange })
-    );
-
-    const providerNetwork = await dispatchObject.provider.getNetwork();
-
-    const networkString = netWorkById(providerNetwork.chainId)?.name as string;
-    console.log(networkString);
-    this.config.connectedNetwork = networkString;
-    this.store.dispatch(
-      Web3Actions.setSignerNetwork({ network: networkString })
-    );
-
-    console.log('wallet-connected');
-
-    this.store.dispatch(Web3Actions.chainStatus({ status: 'wallet-connected' }));
-    this.store.dispatch(Web3Actions.chainBusy({ status: false }));
-  }
-
-  async launchWenmodal() {
-    if (this.config.defaultNetwork == 'localhost' && this.config.wallet !== 'wallet') {
-      this.connectLocalWallet();
+  ///// ---- -----  Launching webmodal when chain is disconnected
+  async launchWebModal() {
+    if (this.dappConfig.wallet !== 'wallet') {
+      this.chainInitialization();
     } else {
       await this.webModal.connectWallet();
     }
   }
 
-  async connectLocalWallet() {
-    this.store.dispatch(Web3Actions.chainBusy({ status: true }));
-    try {
-      const hardhatProvider = await this.createProvider([
-        NETWORKS[this.config.defaultNetwork].rpcUrl,
-      ]);
+  ///// ---------  Blockchain Bootstrap
+ private async chainInitialization() {
 
-      let wallet: Wallet;
 
-      switch (this.config.wallet) {
-        case 'burner':
-          const currentPrivateKey =
-            window.localStorage.getItem('metaPrivateKey');
-          if (currentPrivateKey) {
-            wallet = new Wallet(currentPrivateKey);
-          } else {
-            wallet = Wallet.createRandom();
-            const privateKey = wallet._signingKey().privateKey;
-            window.localStorage.setItem('metaPrivateKey', privateKey);
-          }
-          break;
 
-        default: //environment.privKey
-          let privKey = '';
-          wallet = new Wallet(privKey);
-          break;
-      }
+    ///// ---------  Initializaing the default read provider, congif from startUpCOnfig, nerwork details from xxxx
+    const { isdefaultProviderConnected, provider } = await this.providerInitialization();
 
-      ////// local wallet
-      const hardhatSigner = await wallet.connect(hardhatProvider);
-
-      this.dispatchInit({ signer: hardhatSigner, provider: hardhatProvider });
-    } catch (error: any) {
-      console.log(error);
-
-      // this.notifierService.showNotificationTransaction({
-      //   success: false,
-      //   error_message: error.toString(),
-      // });
-      this.store.dispatch(Web3Actions.chainStatus({ status: 'fail-to-connect-network' }));
-      this.store.dispatch(Web3Actions.chainBusy({ status: false }));
-    }
-  }
-
-  async initChain() {
-    this.config = startUpConfig;
-
-    const hardhatProvider = await this.createProvider([
-      NETWORKS[this.config.defaultNetwork].rpcUrl,
-    ]);
-
-    this.config.defaultProvider = hardhatProvider;
-    try {
-      await hardhatProvider.getNetwork();
-    } catch (error) {
-      this.store.dispatch(Web3Actions.chainStatus({ status: 'fail-to-connect-network' }));
-      this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+    ///// ---------  Exit initialization if network is not available
+    if (isdefaultProviderConnected == false) {
       return;
     }
 
-    if (this.config.wallet == 'wallet') {
-      console.log('Check if 🦊 injected provider');
-      let ethereum = (window as any).ethereum;
-      if (!!(window as any).ethereum) {
-        const metamaskProvider = new providers.Web3Provider(ethereum, 'any');
+    this.DAPP_STATE.defaultProvider = provider as JsonRpcProvider;
 
-        const addresses = await metamaskProvider.listAccounts();
-        console.log(addresses);
-        if (addresses.length > 0) {
-          const providerNetwork =
-            metamaskProvider && (await metamaskProvider.getNetwork());
-          const metamaskSigner = await metamaskProvider.getSigner();
+    /// todo launch read contract async not required to await
 
-          this.dispatchInit({
-            signer: metamaskSigner,
-            provider: metamaskProvider,
-          });
+    ///// ---------  Signer Initialization in order to xxxxxx
 
-          this.webModal = new Web3ModalComponent(
-            {
-              document: this.document,
-              provider: ethereum,
-            },
-            this.store
-          );
-        } else {
-          this.webModal = new Web3ModalComponent(
-            { document: this.document },
-            this.store
-          );
-          this.store.dispatch(
-            Web3Actions.chainStatus({ status: 'wallet-not-connected' })
-          );
-          this.store.dispatch(Web3Actions.chainBusy({ status: false }));
-          console.log('ethereum no connecte');
+    switch (this.dappConfig.wallet) {
+      case 'wallet':
+        const walletResult = await this.walletInitialization();
+        if (walletResult == false) {
+          return;
         }
-      } else {
-        this.webModal = new Web3ModalComponent(
-          { document: this.document },
-          this.store
-        );
-        this.store.dispatch(
-          Web3Actions.chainStatus({ status: 'wallet-not-connected' })
-        );
-        this.store.dispatch(Web3Actions.chainBusy({ status: false }));
-        console.log('wallet no connecte');
-      }
-      await this.webModal.loadWallets();
-      this.webModal.onConnect.subscribe(async (walletConnectProvider) => {
-        this.store.dispatch(Web3Actions.chainStatus({ status: 'fail-to-connect-network' }));
-        this.store.dispatch(Web3Actions.chainBusy({ status: true }));
 
-        const webModalProvider = new providers.Web3Provider(
-          walletConnectProvider
-        );
-        const webModalSigner = await webModalProvider.getSigner();
-        this.dispatchInit({
-          signer: webModalSigner,
-          provider: webModalProvider,
+        this.DAPP_STATE.signer = walletResult.signer;
+        this.DAPP_STATE.defaultProvider = walletResult.provider;
+
+        ///// create web-modal/hoos for connection/disconection .etcc.....
+        this.webModal = new Web3ModalComponent({ document: this.document }, this.store);
+
+        await this.webModal.loadWallets();
+        this.webModal.onConnect.pipe(takeUntil(this.destroyHooks)).subscribe(async (walletConnectProvider) => {
+          this.store.dispatch(Web3Actions.chainStatus({ status: 'fail-to-connect-network' }));
+          this.store.dispatch(Web3Actions.chainBusy({ status: true }));
+
+          const webModalProvider = new providers.Web3Provider(walletConnectProvider);
+          const webModalSigner = await webModalProvider.getSigner();
+          this.DAPP_STATE.signerAddress = await webModalSigner.getAddress()
+          this.DAPP_STATE.defaultProvider = webModalProvider;
+          this.DAPP_STATE.signer = webModalSigner;
+
+          this.contractInitialization();
         });
-      });
 
-      this.webModal.onDisConnect.subscribe(() => {
-        console.log('i am disconnecting');
-        this.store.dispatch(Web3Actions.chainStatus({ status: 'fail-to-connect-network' }));
-        this.store.dispatch(Web3Actions.chainBusy({ status: false }));
-      });
-    } else {
-      this.connectLocalWallet();
-      // this.store.dispatch(Web3Actions.chainStatus({ status: 'disconnected' }));
-      // this.store.dispatch(Web3Actions.chainBusy({ status: false }));
-      this.store.pipe(web3Selectors.pleaseDisconnect).subscribe(() => {
-        console.log('i amdisconencting manually');
-        this.store.dispatch(
-          Web3Actions.chainStatus({ status: 'disconnected' })
-        );
-        this.store.dispatch(Web3Actions.chainBusy({ status: false }));
-        this.config.signer = undefined;
-        this.config.contracts = {};
-        this.config.defaultContract = null;
-        this.config.defaultProvider = null;
-      });
+        this.webModal.onDisConnect.pipe(takeUntil(this.destroyHooks)).subscribe(() => {
+          console.log('i am disconnecting');
+          this.store.dispatch(Web3Actions.chainStatus({ status: 'fail-to-connect-network' }));
+          this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+        });
+
+        ///// Disconnecting manually.....
+        this.store.pipe(web3Selectors.hookForceDisconnect).pipe(takeUntil(this.destroyHooks)).subscribe(() => {
+          console.log('i amdisconencting manually');
+          this.store.dispatch(Web3Actions.chainStatus({ status: 'disconnected' }));
+          this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+          this.DAPP_STATE.signer = null;
+          this.DAPP_STATE.signerAddress = null;
+          this.DAPP_STATE.defaultContract = null;
+          this.DAPP_STATE.defaultProvider = null;
+        });
+
+        break;
+
+      case 'burner':
+        ////// local wallet
+        let wallet: Wallet;
+        const currentPrivateKey = window.localStorage.getItem('metaPrivateKey');
+        if (currentPrivateKey) {
+          wallet = new Wallet(currentPrivateKey);
+        } else {
+          wallet = Wallet.createRandom();
+          const privateKey = wallet._signingKey().privateKey;
+          window.localStorage.setItem('metaPrivateKey', privateKey);
+        }
+
+        this.DAPP_STATE.signer = await wallet.connect(this.DAPP_STATE.defaultProvider);
+        this.DAPP_STATE.signerAddress = await this.DAPP_STATE.signer.getAddress()
+        this.contractInitialization();
+        break;
+
+      case 'privKey':
+        let privateWallet: Wallet;
+        let privKey = ''; //environment.privKey
+        privateWallet = new Wallet(privKey);
+        this.DAPP_STATE.signer = await privateWallet.connect(this.DAPP_STATE.defaultProvider);
+        this.DAPP_STATE.signerAddress = await this.DAPP_STATE.signer.getAddress()
+        this.contractInitialization();
+        break;
     }
   }
+
+  ///// ---------  Provider Initialization
+ private  async providerInitialization(): Promise<{
+    isdefaultProviderConnected: boolean;
+    provider?: JsonRpcProvider;
+  }> {
+    const hardhatProvider = await this.createProvider([NETWORKS[this.dappConfig.defaultNetwork].rpcUrl]);
+
+    try {
+      const network = await hardhatProvider.getNetwork();
+      console.log('I am connected to ' + network);
+    } catch (error) {
+      this.store.dispatch(Web3Actions.chainStatus({ status: 'fail-to-connect-network' }));
+      this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+      return { isdefaultProviderConnected: false };
+    }
+    return { isdefaultProviderConnected: true, provider: hardhatProvider };
+  }
+
+  ///// ---------  Signer Initialization
+ private  async walletInitialization() {
+    //// Wallet Configuration
+
+    //// Check if metamask/wallet already available
+    console.log('Check if 🦊 injected provider');
+    let ethereum = (window as any).ethereum;
+
+    /////  check if Metamast is present in the browwser
+    if (!!(window as any).ethereum) {
+      const metamaskProvider = new providers.Web3Provider(ethereum, 'any');
+
+      const addresses = await metamaskProvider.listAccounts();
+
+      if (addresses.length > 0) {
+        const providerNetwork = metamaskProvider && (await metamaskProvider.getNetwork());
+        const metamaskSigner = await metamaskProvider.getSigner();
+        this.DAPP_STATE.signerAddress = await metamaskSigner.getAddress()
+        return {
+          signer: metamaskSigner,
+          provider: metamaskProvider,
+        };
+      } else {
+        this.store.dispatch(Web3Actions.chainStatus({ status: 'wallet-not-connected' }));
+
+        this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+        return false;
+      }
+    } else {
+      /////  NO metamask
+      this.store.dispatch(Web3Actions.chainStatus({ status: 'wallet-not-connected' }));
+
+      this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+      return false;
+    }
+  }
+
+  ///// ---------  Contract Initialization
+  private async contractInitialization() {
+    const contract = new AngularContract({
+      metadata: this.contractMetadata,
+      provider: this.DAPP_STATE.defaultProvider!,
+      signer: this.DAPP_STATE.signer!,
+    });
+
+    this.DAPP_STATE.defaultContract = contract;
+
+    const providerNetwork = await this.DAPP_STATE.defaultProvider!.getNetwork();
+
+    const networkString = netWorkById(providerNetwork.chainId)?.name as string;
+    console.log(networkString);
+    this.DAPP_STATE.connectedNetwork = networkString;
+    this.store.dispatch(Web3Actions.setSignerNetwork({ network: networkString }));
+
+    this.store.dispatch(Web3Actions.chainStatus({ status: 'wallet-connected' }));
+    this.store.dispatch(Web3Actions.chainBusy({ status: false }));
+  }
+
+  /////// VIEW FUCNTIOSN
+
+  get signer() {
+    return this.DAPP_STATE.signer
+  }
+
+  get signerAddress() {
+    return this.DAPP_STATE.signerAddress
+  }
+
+  get provider() {
+    return this.DAPP_STATE.defaultProvider
+  }
+
+
+  get connectedNetwork() {
+    return this.DAPP_STATE.connectedNetwork
+  }
+
+  get defaultContract() {
+    return this.DAPP_STATE.defaultContract
+  }
+
+    
+  ngOnDestroy(): void {
+    this.destroyHooks.next();
+    this.destroyHooks.complete();
+  }
+
+
 }

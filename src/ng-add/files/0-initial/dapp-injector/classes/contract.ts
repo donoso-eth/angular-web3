@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy, Inject } from '@angular/core';
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
-import { providers, Wallet, Contract, Signer } from 'ethers';
+import { providers, Wallet, Contract, Signer, CallOverrides, ContractTransaction, PayableOverrides } from 'ethers';
 import { ReplaySubject } from 'rxjs';
 import { INETWORK, netWorkById, NETWORK_TYPE, noNetwork } from '../constants/constants';
 import {
@@ -9,9 +9,22 @@ import {
   ITRANSACTION_RESULT,
 } from '../models/models';
 
+interface myfunctions  {
+  greet(overrides?: CallOverrides): Promise<[string]>;
+
+  setGreeting(
+    _greeting: string,
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  testpublic(overrides?: CallOverrides): Promise<[string]>;
+};
+
+
+
 @Injectable()
 export class AngularContract implements OnDestroy {
-  private _contract!: Contract;
+  private _contract!: Contract
   private _provider!: providers.JsonRpcProvider;
   private _balance: any;
   private _network_deployed!: string;
@@ -69,6 +82,7 @@ export class AngularContract implements OnDestroy {
   async refreshBalance() {
     this._balance = await this._provider.getBalance(this.address);
     this.contractBalanceSubscription.next(this._balance);
+   
     return this._balance;
   }
 

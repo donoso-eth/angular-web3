@@ -13,14 +13,14 @@ initial: {"chain": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json
     "tinker": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run ./scripts/tinker.ts",
 },
 subgraph: {
-    "graph-node-run": "cd graph-node && docker-compose up",
-    "graph-node-remove": "cd graph-node && docker-compose down",
-    "graph-node-clean": "rm -rf graph-node/data/",
-    "subgraph-codegen": "graph codegen",
-    "subgraph-build": "graph build",
-    "subgraph-deploy": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ GITHUB_USERNAME/your-contract",
-    "subgraph-create-local": "graph create --node http://localhost:4200/ GITHUB_USERNAME/your-contractt",
-    "subgraph-remove-local": "graph remove --node http://localhost:4200/ GITHUB_USERNAME/your-contract",
-    "subgraph-deploy-local": "graph deploy --node http://localhost:4200/ --ipfs http://localhost:5001  GITHUB_USERNAME/your-contract"
+    "run-graph-node": "cd services/graph-node && docker-compose up",
+    "remove-graph-node": "cd graph-node && docker-compose down",
+    "clean-graph-node": "rm -rf cd services/graph-node/data/",
+    "codegen": "cd subgraph && graph codegen",
+    "build-graph": "cd subgraph && graph build",
+    "deploy-graph": "cd services/graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ GITHUB_USERNAME/your-contract",
+    "create-graph-local": "cd subgraph && graph create --node http://localhost:8020/ angular-web3/your-contract",
+    "remove-graph-local": "cd subgraph && graph remove --node http://localhost:8020/ angular-web3/your-contract",
+    "deploy-graph-local": "cd subgraph && graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 angular-web3/your-contract"
 }
 }

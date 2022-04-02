@@ -1,34 +1,19 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { InjectionToken, ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DappInjectorService } from './dapp-injector.service';
-import { ISTARTUP_CONFIG } from './models';
+import { IDAPP_CONFIG } from './models';
 
-export const startUpConfig:ISTARTUP_CONFIG = {
-  defaultNetwork: 'localhost',
-  defaultProvider:null,
-  connectedNetwork:'',
-  wallet: 'wallet',
-  defaultContract:null,
-  blockSubscription: false,
-  providers:{},
-  contracts:{},
-
-}
+export const DappConfigService = new InjectionToken<IDAPP_CONFIG>('DappConfig');
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
 })
-
-export class DappInjectorModule { 
-  static forRoot(): ModuleWithProviders<DappInjectorModule> {
+export class DappInjectorModule {
+  static forRoot(dappConfig: IDAPP_CONFIG): ModuleWithProviders<DappInjectorModule> {
     return {
       ngModule: DappInjectorModule,
-      providers: [
-        {provide: DappInjectorService}
-      ]
+      providers: [DappInjectorService, { provide: DappConfigService, useValue: dappConfig }],
     };
   }
- }
+}

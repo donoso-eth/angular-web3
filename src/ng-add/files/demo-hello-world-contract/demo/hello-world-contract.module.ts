@@ -8,6 +8,15 @@ import { MatButtonModule } from '@angular/material/button';
 import {BlockchainModule, ContractShowModule, DialogModule, HomeModule, NotifierModule, WalletDisplayModule} from '../dapp-components'
 
 
+import { ICONTRACT_METADATA } from 'angular-web3';
+
+import HelloWorldContractMetadata from '../../assets/contracts/hello_world_contract_metadata.json';
+export const helloWorldContractMetadata = new InjectionToken<ICONTRACT_METADATA>('contractMetadata')
+
+export const contractProvider= {provide: 'contractMetadata', useValue:HelloWorldContractMetadata };
+
+
+
 @NgModule({
   declarations: [
     HelloWorldContractComponent
@@ -27,6 +36,6 @@ import {BlockchainModule, ContractShowModule, DialogModule, HomeModule, Notifier
   exports: [
     HelloWorldContractComponent
   ],
-  providers: []
+  providers: [contractProvider]
 })
 export class HelloWorldContractModule { }

@@ -21,16 +21,48 @@ const chainStatus = createSelector(
   (state: Web3State) => state.chainStatus
 );
 
-const selectChainReady = pipe(
+
+const hookChanIsLoading = pipe(
+  select(chainStatus),
+  filter((val) => val == 'loading')
+);
+
+
+const hookFailToconnect = pipe(
+  select(chainStatus),
+  filter((val) => val == 'fail-to-connect-network')
+);
+
+
+const hookWalletNotConnected = pipe(
+  select(chainStatus),
+  filter((val) => val == 'wallet-not-connected')
+);
+
+
+const hookContractConnected = pipe(
   select(chainStatus),
   filter((val) => val == 'wallet-connected')
 );
 
 
-const pleaseDisconnect = pipe(
+
+
+
+const hookForceDisconnect = pipe(
   select(chainStatus),
   filter((val) => val == 'disconnected')
 );
+
+
+const hookReadContractConnected= pipe(
+  select(selectWeb3State),
+  map(map=> map.readContactReady),
+  filter((val) => val == true)
+);
+
+
+
 
 const isNetworkBusy = createSelector(
   selectWeb3State,
@@ -42,6 +74,8 @@ const selectSignerNetwork = createSelector(
   selectWeb3State,
   (state: Web3State) => state.signerNetwork
 );
+
+
 
 
 const selectWalletBalance= pipe(
@@ -56,10 +90,18 @@ const selectDollarExchange= pipe(
 );
 
 export const web3Selectors = {
+
   chainStatus,
-  selectChainReady,
-  pleaseDisconnect,
+  hookChanIsLoading,
+  hookFailToconnect,
+  hookWalletNotConnected,
+  hookContractConnected,
+  hookReadContractConnected,
+  hookForceDisconnect,
+
   isNetworkBusy,
+
+  
   selectSignerNetwork,
   selectWalletBalance,
   selectDollarExchange

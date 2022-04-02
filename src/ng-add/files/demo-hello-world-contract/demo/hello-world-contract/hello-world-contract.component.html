@@ -1,9 +1,8 @@
 
-
-<onchain-home *ngIf="contractHeader !== undefined"
+ <onchain-home *ngIf="contractHeader !== undefined"
 [contractHeader]="contractHeader"
 [blockchain_is_busy]="blockchain_is_busy"
->
+> 
 
   <h2>💃💃💃 Your First Smart Contract and DAPP 👏 👏 👏</h2>
   <div style="max-width: 800px;width: 90vw;margin: auto;" *ngIf="loading_contract == 'found'">
@@ -12,8 +11,8 @@
   
         <p style="text-align: center; font-size: 20px">
 
-          <wallet-display [signer]="signer" (doFaucetEvent)="doFaucet()"
-          (openTransactionEvent)="openTransaction()" ></wallet-display>
+        <wallet-display [signer]="signer" (doFaucetEvent)="doFaucet()"
+          (openTransactionEvent)="openTransaction()" ></wallet-display> 
 
         </p>
 
@@ -30,11 +29,11 @@
             <span style="color: darkgreen"> {{ deployer_address }}</span>
           </h3>
           <p style="text-align: center; font-size: 20px;font-weight: 500;">
-          <contract-show
+       <contract-show
             *ngIf="!!contractHeader"
             [balance]="contractBalance"
             [contract]="contractHeader"
-          ></contract-show>
+          ></contract-show> 
           </p>
           <h3 style="margin: 10px;font-weight: 500;">
             <span>  Current Greeting:</span><br />
@@ -43,12 +42,12 @@
           </h3>
   
           <p style="margin: 10px">
-            <input
+           <input
               style="width: 250px; font-size: 18px; padding: 10px ;"
               [(ngModel)]="greeting_input"
               type="text"
               placeholder="Enter new Greeting"
-            />
+            /> 
             <br />
             <button mat-raised-button color="accent"  style="margin:10px;" (click)="changeGreeting()" class="btn_send">Change Greeting</button>
           </p>
@@ -56,13 +55,13 @@
    
 
 
-    </mat-tab>
+ </mat-tab>
     <mat-tab style="height: fit-content;text-align: left;" label="BlockChain">
-      <blockchain [blocks]="blocks" (addBlock)="addBlock($event)" ></blockchain>
+      <blockchain [blocks]="blocks" (addBlock)="addBlock($event)" ></blockchain> 
       <br />
       <br />
     </mat-tab>
-  </mat-tab-group>
+  </mat-tab-group>  
 </div>
 <div *ngIf="loading_contract == 'error'">
   <h2>
@@ -71,4 +70,4 @@
   </h2>
 
 </div>
-</onchain-home>
+<!-- </onchain-home> -->

@@ -17,6 +17,11 @@ export const devs: { [key: string]: Record<string, string> } = {
     "json-editor": "^0.7.28",
     "@angular-builders/custom-webpack": "^13.1.0",
   },
+  subgraph:{
+    "@apollo/client": "^3.5.10",
+    "apollo-angular": "^3.0.0",
+    "graphql": "^16.3.0",
+  }
 };
 
 export const devDeps: { [key: string]: Record<string, string> } = {
@@ -63,5 +68,7 @@ export const devDeps: { [key: string]: Record<string, string> } = {
   subgraph: {
     "@graphprotocol/graph-cli": "^0.22.1",
     "@graphprotocol/graph-ts": "^0.22.1",
+    "js-yaml": "^4.1.0",
+    "@types/js-yaml": "^4.0.5",
   },
 };
