@@ -54,7 +54,7 @@ describe("Initilization", () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         "ng-add",
-        { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" },
+        { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "helloWorldContract" },
         appTree
       )
       .toPromise();
@@ -65,7 +65,7 @@ describe("Initilization", () => {
 
   it("Creates Hardhat Config File", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "helloWorldContract" }, appTree)
       .toPromise();
 
     expect(tree.exists("hardhat/hardhat.config.ts")).toBeTrue();
@@ -74,7 +74,7 @@ describe("Initilization", () => {
 
   it("Creates Contract JSON Config File", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "helloWorldContract" }, appTree)
       .toPromise();
 
     expect(tree.exists("hardhat/contract.config.json")).toBeTrue();
@@ -83,7 +83,7 @@ describe("Initilization", () => {
 
   it("Hardhat Config File contains assets path", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "helloWorldContract" }, appTree)
       .toPromise();
     const hardhat_config_file = tree.readContent("hardhat/hardhat.config.ts");
 
@@ -93,7 +93,7 @@ describe("Initilization", () => {
   it("Should add Injector module ", async () => {
 
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "helloWorldContract" }, appTree)
       .toPromise();
     const app_module_file = tree.readContent("/projects/schematest/src/app/app.module.ts");
 
@@ -103,7 +103,7 @@ describe("Initilization", () => {
 
   it("Add dependencies", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "helloWorldContract" }, appTree)
       .toPromise();
     const packageJson = tree.read("package.json")!.toString("utf-8");
     expect(packageJson).toContain("\"hardhat\":");
@@ -111,7 +111,7 @@ describe("Initilization", () => {
 
   it("Add scripts", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "helloWorldContract" }, appTree)
       .toPromise();
     const packageJson = tree.read("package.json")!.toString("utf-8");
 
@@ -121,7 +121,7 @@ describe("Initilization", () => {
   
   // it("It adds fonts to index.html", async () => {
   //   const tree = await schematicRunner
-  //     .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
+  //     .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "helloWorldContract" }, appTree)
   //     .toPromise();
   //     const indexHtml = tree.read(normalize("/projects/schematest/src/index.html"))!.toString("utf-8");
   //     expect(indexHtml).toContain(`<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">`);
@@ -130,7 +130,7 @@ describe("Initilization", () => {
 
   it("No Demo app should install Mnimal Module", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:false, dappServices:[],dappDemo: "minimalContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:false, addOns:[],dappDemo: "minimalContract" }, appTree)
       .toPromise();
  
       expect(tree.exists(normalize("/projects/schematest/src/app/0-minimal-contract/minimal-contract.module.ts"))).toBeTrue();
@@ -138,7 +138,7 @@ describe("Initilization", () => {
 
   it("Hello app creates Hello world chain module", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "helloWorldContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "helloWorldContract" }, appTree)
       .toPromise();
 
       expect(tree.exists(normalize("/projects/schematest/src/app/1-hello-world-contract/hello-world-contract.module.ts"))).toBeTrue();
@@ -146,7 +146,7 @@ describe("Initilization", () => {
 
   it("Debug app creates Debug world  module", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "debugContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "debugContract" }, appTree)
       .toPromise();
 
       expect(tree.exists(normalize("/projects/schematest/src/app/2-debug-contract/debug-contract.module.ts"))).toBeTrue();
@@ -154,7 +154,7 @@ describe("Initilization", () => {
 
   it("NFT Demo app creates NFT world  module", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "nftContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "nftContract" }, appTree)
       .toPromise();
 
       expect(tree.exists(normalize("/projects/schematest/src/app/3-nft-contract/nft-contract.module.ts"))).toBeTrue();
@@ -162,7 +162,7 @@ describe("Initilization", () => {
 
   it("NFT Demo creates custom webpack", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "nftContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "nftContract" }, appTree)
       .toPromise();
       expect(tree.exists(normalize("extra-webpack.config.js"))).toBeTrue();
   });

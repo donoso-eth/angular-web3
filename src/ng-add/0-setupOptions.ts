@@ -1,7 +1,7 @@
 import { Tree, SchematicContext, SchematicsException } from "@angular-devkit/schematics";
 import { IOPTIONS_EXTENDED } from "./schema";
 import { prompt } from 'inquirer'
-import { configuration_options } from "./data/options.configuration";
+import { configuration_options } from "./config/options.configuration";
 import { JSONFile } from "./helpers/json-file";
 
 ///////////////////////////////////////////////////////////
@@ -88,7 +88,7 @@ export const setupOptions = async (
             const answerDemo = await prompt(questionsDemo)
       
             _options.dappDemo = answerDemo.demoApp
-            _options.addOns = configuration_options.dappDemos[_options.dappDemo].dappServices
+            _options.addOns = configuration_options.dappDemos[_options.dappDemo].addOns
 
         } else {
             

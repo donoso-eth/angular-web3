@@ -53,7 +53,7 @@ describe("Initilization", () => {
 
   it("Creates lensprotocol contract entry in Contract JSON Config File", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "lensProtocol" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "lensProtocol" }, appTree)
       .toPromise();
 
     const jsonNew= new JSONFile(tree,"hardhat/contract.config.json")
@@ -66,7 +66,7 @@ describe("Initilization", () => {
 
   it("Lensprotocol should copy minimal contract", async () => {
     const tree = await schematicRunner
-    .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "lensProtocol" }, appTree)
+    .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "lensProtocol" }, appTree)
     .toPromise();
       expect(tree.exists(normalize("/hardhat/contracts/core/LensHub.sol"))).to.be.true;
       expect(tree.exists(normalize("/hardhat/hardhat.config.ts"))).to.be.true;
@@ -75,7 +75,7 @@ describe("Initilization", () => {
 
   it("Lens Protocol app should include LensProtocolModule import in app.module", async () => {
     const tree = await schematicRunner
-    .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "lensProtocol" }, appTree)
+    .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "lensProtocol" }, appTree)
     .toPromise();
      
       const appModulePath = `/projects/schematest/src/app/app.module.ts` as string;
@@ -130,7 +130,7 @@ describe("Initilization", () => {
 
   // it("Creates minimal contract entry in Contract JSON Config File", async () => { 
   //   const tree = await schematicRunner
-  //   .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "minimalContract" }, appTree)
+  //   .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "minimalContract" }, appTree)
   //   .toPromise();
  
   //   const appModulePath = `/projects/schematest/src/app/dapp-injector/blockchain_wiring.ts` as string;

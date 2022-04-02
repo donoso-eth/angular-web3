@@ -1,6 +1,7 @@
 import { Rule, Tree, SchematicContext } from "@angular-devkit/schematics";
 import { NodePackageInstallTask, } from "@angular-devkit/schematics/tasks";
-import { devDeps, devs } from "./data/dep";
+
+import { getOptionskeys } from "./helpers/getOptionsKeys";
 import { DappDemoType, IOPTIONS_EXTENDED } from "./schema";
 
 interface PackageJson {
@@ -16,10 +17,10 @@ interface PackageJson {
         return result;
       }, {} as Record<string, string>);
   }
-  
+
  const addPackageToPackageJson = (
     host: Tree,
-    deps: Record<string, string>
+    _options:IOPTIONS_EXTENDED
   ): Tree => {
     if (host.exists("package.json") == false) {
       host.create("package.json", "{}");
@@ -32,11 +33,19 @@ interface PackageJson {
     }
 
 
-    Object.keys(deps).forEach((key) => {
-      if (!json.dependencies[key]) {
-        json.dependencies[key] = deps[key];
-      }
-    });
+    let toInstallKeys = getOptionskeys(_options)
+
+    for (const installKey of toInstallKeys) {
+
+      if (installKey.deps !== undefined) {
+      Object.keys(installKey.deps).forEach((key) => {
+        if (!json.dependencies[key]) {
+          json.dependencies[key] = installKey.deps[key];
+        }
+      });
+    }
+    }
+
   
     json.dependencies = sortObjectByKeys(json.dependencies);
     host.overwrite("package.json", JSON.stringify(json, null, 2));
@@ -46,7 +55,7 @@ interface PackageJson {
   
  const addPackageToDevPackageJson = (
     host: Tree,
-    deps: Record<string, string>
+    _options:IOPTIONS_EXTENDED
   ): Tree => {
     if (host.exists("package.json") == false) {
       host.create("package.json", "{}");
@@ -59,11 +68,19 @@ interface PackageJson {
     }
       
   
-    Object.keys(deps).forEach((key) => {
-      if (!json.devDependencies[key]) {
-        json.devDependencies[key] = deps[key];
-      }
-    });
+    let toInstallKeys = getOptionskeys(_options)
+
+    for (const installKey of toInstallKeys) {
+
+      if (installKey.devDeps !== undefined) {
+      Object.keys(installKey.devDeps).forEach((key) => {
+        if (!json.devDependencies[key]) {
+          json.devDependencies[key] = installKey.devDeps[key];
+        }
+      });
+    }
+    }
+
   
     host.overwrite("package.json", JSON.stringify(json, null, 2));
   
@@ -74,27 +91,9 @@ interface PackageJson {
 export const addAndinstallDependencies = (_options:IOPTIONS_EXTENDED): Rule => {
     return (tree: Tree, _context: SchematicContext) => {
     
-      let dependencies_to_install = {};
-      let dev_dependencies_to_install = {};
 
-      if (_options.alreadyInstalled == false) {
-        dependencies_to_install = {...dependencies_to_install,...devs.initial};
-        dev_dependencies_to_install = {...dev_dependencies_to_install,...devDeps.initial}
-      }
-
-      if (_options.demoToInstall == true){
-        dependencies_to_install = {...dependencies_to_install,...devs.dappDemo,...devs[_options.dappDemo]};
-     
-      }
-
-      _options.addOns.forEach(service=> {
-        dependencies_to_install = {...dependencies_to_install,...devs[service]};
-        dev_dependencies_to_install = {...dev_dependencies_to_install,...devDeps[service]};
-      })
-
-      addPackageToDevPackageJson(tree, dev_dependencies_to_install);
-      addPackageToPackageJson(tree, dependencies_to_install)
-
+      addPackageToDevPackageJson(tree, _options);
+      addPackageToPackageJson(tree, _options)
 
 
         if (_options.skipInstall == false) {

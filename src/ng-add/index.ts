@@ -13,7 +13,7 @@ import { IOPTIONS_EXTENDED } from "./schema";
 import { createFiles } from "./createFiles";
 import { addAndinstallDependencies } from "./addAndInstallDependencies";
 import { adScriptsToPackageJson } from "./addScriptsToPackageJson";
-import { contract_config } from "./data/contract.config";
+import { contract_config } from "./config/contract.config";
 import { addImport } from "./addImportStatement";
 
 import { updateTsConfig } from "./updateTsConfig";

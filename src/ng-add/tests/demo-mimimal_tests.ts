@@ -53,11 +53,12 @@ describe("Initilization", () => {
 
   it("Creates minimal contract entry in Contract JSON Config File", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "minimalContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "minimalContract" }, appTree)
       .toPromise();
 
-    const jsonNew= new JSONFile(tree,"hardhat/contract.config.json")
 
+    const jsonNew= new JSONFile(tree,"hardhat/contract.config.json")
+ 
     expect(jsonNew.get(['minimalContract','name'])).to.be.equal('MinimalContract')
   });
 
@@ -65,7 +66,7 @@ describe("Initilization", () => {
 
   it("No Demo app should install Minimal Module", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:false, dappServices:[],dappDemo: "minimalContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:false, addOns:[],dappDemo: "minimalContract" }, appTree)
       .toPromise();
  
       expect(tree.exists(normalize("/projects/schematest/src/app/0-minimal-contract/minimal-contract.module.ts"))).to.be.true;
@@ -74,7 +75,7 @@ describe("Initilization", () => {
 
   it("No Demo app should copy minimal contract", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:false, dappServices:[],dappDemo: "minimalContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:false, addOns:[],dappDemo: "minimalContract" }, appTree)
       .toPromise();
  
       expect(tree.exists(normalize("/hardhat/contracts/0-MinimalContract.sol"))).to.be.true;
@@ -83,7 +84,7 @@ describe("Initilization", () => {
 
   it("No Demo app should include MiminalContractModule import in app.module", async () => {
     const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:false, dappServices:[],dappDemo: "minimalContract" }, appTree)
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:false, addOns:[],dappDemo: "minimalContract" }, appTree)
       .toPromise();
      
       const appModulePath = `/projects/schematest/src/app/app.module.ts` as string;
@@ -130,52 +131,6 @@ describe("Initilization", () => {
     
       }
     
-
-    
-
-
   });
-
-  it("Creates minimal contract entry in Contract JSON Config File", async () => { 
-    const tree = await schematicRunner
-    .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, dappServices:[],dappDemo: "minimalContract" }, appTree)
-    .toPromise();
- 
-    const appModulePath = `/projects/schematest/src/app/dapp-injector/blockchain_wiring.ts` as string;
-    const appModuleFile = (
-      tree.read(normalize(appModulePath)) as Buffer
-    ).toString("utf-8");
-      
-   
-    const source_app = ts.createSourceFile(
-      appModulePath,
-      appModuleFile,
-      ts.ScriptTarget.Latest,
-      true
-    );
-
-    const fileName = './0-minimal-contract/minimal-contract.module';
-    const symbolName = 'MinimalContractModule';
-    const allNodes = getSourceNodes(source_app)
-   // console.log(allNodes)
-    const allImports = findNodes(source_app, ts.SyntaxKind.ExportKeyword);
-
-    let i = 0;
-      // const filNode = allImports.filter(node=> {
-      //   console.log(i)
-      //   console.log(node)
-      //   i++
-      // })
-
-
-
- 
-
-      // for (const myChild of child[1].getChildren()){
-      // console.log(i,'  ',myChild.kind,' ',myChild.getText(),' ',myChild.getFullText())
-      //   i++;
-      // }
-  // console.log(JSON.stringify(allImports[1],getCircularReplacer()))
-  })
 
 });

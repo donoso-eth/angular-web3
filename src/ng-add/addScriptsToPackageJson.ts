@@ -1,8 +1,9 @@
 import { Rule, SchematicContext, Tree } from "@angular-devkit/schematics";
-import { ngadd_scritps } from "./data/scripts";
+
+
+import { getOptionskeys } from "./helpers/getOptionsKeys";
 import { IOPTIONS_EXTENDED } from "./schema";
 
-const scripts:any = ngadd_scritps;
 
 interface PackageJson {
   scripts: Record<string, string>;
@@ -33,14 +34,22 @@ export const adScriptsToPackageJson = (_options: IOPTIONS_EXTENDED): Rule => {
       json.scripts = {};
     }
 
-  
+    let toInstallKeys = getOptionskeys(_options)
+
+    for (const installKey of toInstallKeys) {
+
+      if (installKey.scripts !== undefined) {
+      Object.keys(installKey.scripts).forEach((key) => {
+        if (!json.scripts[key]) {
+          json.scripts[key] = installKey.scripts[key];
+        }
+      });
+    }
+    }
+
 
     
-    Object.keys(scripts.initial).forEach((key) => {
-      if (!json.scripts[key]) {
-        json.scripts[key] = scripts.initial[key];
-      }
-    });
+
 
     //json.scripts = sortObjectByKeys(json.scripts);
     host.overwrite("package.json", JSON.stringify(json, null, 2));

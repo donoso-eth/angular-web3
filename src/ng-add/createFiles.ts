@@ -10,32 +10,22 @@ import {
   chain,
   apply,
 } from "@angular-devkit/schematics";
-import { configuration_options } from "./data/options.configuration";
+import { configuration_options } from "./config/options.configuration";
 import { IOPTIONS_EXTENDED } from "./schema";
 
 import { classify, dasherize, camelize, underscore } from '@angular-devkit/core/src/utils/strings';
+import { getOptionskeys } from "./helpers/getOptionsKeys";
 const stringUtils = {classify, dasherize, camelize, underscore };
 
 export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
+  
+  let toInstallKeys = getOptionskeys(_options)
+  
   const templateRules = [];
-  let toInstallKeys = []
-
-
-  //////////////////// COMMON FILES /////////////////////////
-  if (_options.alreadyInstalled == false || _options.reset == true){
-    toInstallKeys.push(configuration_options['initial'])
-  }
-
-  toInstallKeys.push(configuration_options.dappDemos[_options.dappDemo])
-
-  for (const addOn of _options.addOns) {
-    toInstallKeys.push(configuration_options.addOns[addOn])
-  }
-
-
 
   let templates_src:Array<{source:string, target:string}> =[];
   let templates_root:Array<{source:string, target:string}> =[];
+
 
   toInstallKeys.forEach(ele=> {
     templates_root = templates_root.concat(ele.templates_root);
@@ -52,6 +42,8 @@ if (_options.demoToInstall== true){
     },)
 }
   
+
+/// ============  demo apps ================= 
   const options_file_replacements = { 
     ...stringUtils,
     sourceRoot: _options.sourceRoot , 
