@@ -12,13 +12,10 @@ export declare interface IOPTIONS {
      */
     dappDemo: DappDemoType ;
     /**
-     * Dapp Services to be included
+     * Add Ons to be included
      */
-    dappServices: Array<DappServiceType>;
-    /**
-     * Services Infrastructrue to install
-     */
-    services: "graph-node"[];
+    addOns: Array<AddOnsType>;
+   
     /**
      * skipInstall
      */
@@ -42,7 +39,7 @@ export declare interface IOPTIONS {
 
 export type DappDemoType = "minimalContract" | "helloWorldContract" | "debugContract" | "nftContract" | "lensProtocol";
 
-export type DappServiceType = "subgraph" | "ipfs";
+export type AddOnsType = "subgraph" | "ipfs" | "graph-node";
 
 export interface IOPTIONS_EXTENDED extends IOPTIONS {
     sourceRoot?: string,

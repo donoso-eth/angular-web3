@@ -1,4 +1,4 @@
-import { DappDemoType, DappServiceType } from "../schema";
+import { DappDemoType, AddOnsType } from "../schema";
 
 export interface IDEMO {
   deps: { [key: string]: string };
@@ -14,7 +14,7 @@ export interface IDEMO {
 }
 
 export interface IDEMO_APP extends IDEMO {
-  dappServices: Array<DappServiceType>;
+  dappServices: Array<AddOnsType>;
 }
 
 export interface IDEMO_SERVICE extends IDEMO{}
@@ -22,7 +22,7 @@ export interface IDEMO_SERVICE extends IDEMO{}
 export const configuration_options: {
   initial: IDEMO_APP;
   dappDemos: { [key in DappDemoType]: IDEMO_APP };
-  dappServices: { [key in DappServiceType]: IDEMO_SERVICE };
+  addOns: { [key in AddOnsType]: IDEMO_SERVICE };
   services: "graph-node"[];
 } = {
   initial: {
@@ -145,8 +145,9 @@ export const configuration_options: {
       ],
     },
   },
-  dappServices: {
+  addOns: {
     subgraph: {deps:{}, scripts:{}, templates_root:[], templates_src:[]},
-    ipfs: {deps:{}, scripts:{}, templates_root:[], templates_src:[]}},
+    ipfs: {deps:{}, scripts:{}, templates_root:[], templates_src:[]},
+    'graph-node': {deps:{}, scripts:{}, templates_root:[], templates_src:[]}},
   services: [],
 };

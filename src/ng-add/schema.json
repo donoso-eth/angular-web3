@@ -17,21 +17,12 @@
       "default":"minimalContract",
       "enum": ["minimalContract", "helloWorldContract","debugContract", "nftContract", "lensProtocol"]
   },
-  "dappServices": {
+  "addOns": {
     "description": "Dapp Services to be included",
     "type":"array",
     "items": {
       "type":"string",
       "enum": ["subgraph","ipfs"]
-    },
-    "default": []
-  },
-  "services": {
-    "description": "Services Infrastructrue to install",
-    "type":"array",
-    "items": {
-      "type":"string",
-      "enum": ["graph-node"]
     },
     "default": []
   },

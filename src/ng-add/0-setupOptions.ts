@@ -49,6 +49,7 @@ export const setupOptions = async (
         }
         // #endregion get project
 
+
         // ============ get the source folder Path  ========================
         // #region get source folder path
 
@@ -87,8 +88,10 @@ export const setupOptions = async (
             const answerDemo = await prompt(questionsDemo)
       
             _options.dappDemo = answerDemo.demoApp
-            _options.dappServices = configuration_options.dappDemos[_options.dappDemo].dappServices
+            _options.addOns = configuration_options.dappDemos[_options.dappDemo].dappServices
+
         } else {
+            
             // ============ If Not demo APP========================
             _options.dappDemo = "minimalContract"
             const questionsNoDemo = [{
@@ -106,7 +109,7 @@ export const setupOptions = async (
                 }
             }];
             const answerNoDemo = await prompt(questionsNoDemo)
-            _options.dappServices = answerNoDemo.dappServices
+            _options.addOns = answerNoDemo.dappServices
         }
 
         // #endregion get Demo App/services
@@ -132,7 +135,7 @@ export const setupOptions = async (
 
     
     // ============ if IPFS change custom webpack  ========================
-    if (_options.dappServices.indexOf('ipfs')!== -1) {
+    if (_options.addOns.indexOf('ipfs')!== -1) {
         workspaceConfig.modify(['projects',_options.projectFound as string,"architect","build","builder"],"@angular-builders/custom-webpack:browser");
         workspaceConfig.modify(['projects',_options.projectFound as string,"architect","build","options","customWebpackConfig","path"],"./extra-webpack.config.js" )
         workspaceConfig.modify(['projects',_options.projectFound as string,"architect","serve","builder"],"@angular-builders/custom-webpack:dev-server")

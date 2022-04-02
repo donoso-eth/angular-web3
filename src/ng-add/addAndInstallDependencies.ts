@@ -87,7 +87,7 @@ export const addAndinstallDependencies = (_options:IOPTIONS_EXTENDED): Rule => {
      
       }
 
-      _options.dappServices.forEach(service=> {
+      _options.addOns.forEach(service=> {
         dependencies_to_install = {...dependencies_to_install,...devs[service]};
         dev_dependencies_to_install = {...dev_dependencies_to_install,...devDeps[service]};
       })

@@ -28,8 +28,8 @@ export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
 
   toInstallKeys.push(configuration_options.dappDemos[_options.dappDemo])
 
-  for (const service of _options.dappServices) {
-    toInstallKeys.push(configuration_options.dappServices[service])
+  for (const addOn of _options.addOns) {
+    toInstallKeys.push(configuration_options.addOns[addOn])
   }
 
 
