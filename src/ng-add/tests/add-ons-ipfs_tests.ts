@@ -56,7 +56,7 @@ describe("Initilization", () => {
           project: "default",
           test: true,
           demoToInstall: false,
-          addOns: ["subgraph"],
+          addOns: ["ipfsService"],
           dappDemo: "minimalContract",
         },
         appTree
@@ -66,29 +66,14 @@ describe("Initilization", () => {
 
   it("Add On subgraph should create subgraph folder", async () => {
  
+
     expect(
       tree.exists(
         normalize(
-          "/add-ons/subgraph/schema.graphql"
+          '/projects/schematest/src/app/dapp-injector/services/ipfs/ipfs.service.ts'
         )
       )
     ).to.be.true;
   });
-
-  it("It Add subgraph scripts", async () => {
-   // const packageJson = tree.read("package.json")!.toString("utf-8");
-
-    const packageJson = new JSONFile(tree,"package.json")
-    expect(packageJson.get(['scripts',"build-graph"])).to.be.equal('cd subgraph && graph build')
-
-  });
-
-  it("It Add subgraph dependencies", async () => {
-    // const packageJson = tree.read("package.json")!.toString("utf-8");
- 
-     const packageJson = new JSONFile(tree,"package.json")
-     expect(packageJson.get(['devDependencies', "@graphprotocol/graph-cli"])).to.be.equal("^0.22.1")
- 
-   });
 
 });

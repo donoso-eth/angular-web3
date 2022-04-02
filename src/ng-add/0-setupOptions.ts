@@ -98,9 +98,10 @@ export const setupOptions = async (
                 type: 'checkbox',
                 name: 'dappServices',
                 message: 'Which services would you like to add to your project?',
-                choices: ["Subgraph", "Ipfs"],
+                choices: ["Ipfs Service","Lit Protocol Service","GraphQl Service","Subgraph","Graph Node" ],
                 filter(value: string[]) {
                     return value.map(map => {
+                        map = map.split(" ").join("")
                         let first_ele = map.substring(0, 1).toLowerCase()
                         let rest = map.substring(1, map.length)
                         return first_ele + rest
@@ -111,6 +112,8 @@ export const setupOptions = async (
             const answerNoDemo = await prompt(questionsNoDemo)
             _options.addOns = answerNoDemo.dappServices
         }
+
+        console.log(_options.addOns)
 
         // #endregion get Demo App/services
 

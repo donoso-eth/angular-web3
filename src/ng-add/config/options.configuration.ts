@@ -242,19 +242,9 @@ export const configuration_options: {
         "@types/js-yaml": "^4.0.5",
       },
       scripts: {
-        "run-graph-node": "cd services/graph-node && docker-compose up",
-        "remove-graph-node": "cd graph-node && docker-compose down",
-        "clean-graph-node": "rm -rf cd services/graph-node/data/",
         codegen: "cd subgraph && graph codegen",
         "build-graph": "cd subgraph && graph build",
-        "deploy-graph":
-          "cd services/graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ GITHUB_USERNAME/your-contract",
-        "create-graph-local":
-          "cd subgraph && graph create --node http://localhost:8020/ angular-web3/your-contract",
-        "remove-graph-local":
-          "cd subgraph && graph remove --node http://localhost:8020/ angular-web3/your-contract",
-        "deploy-graph-local":
-          "cd subgraph && graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 angular-web3/your-contract",
+        "deploy-graph":"cd services/graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ GITHUB_USERNAME/your-contract",
       },
       templates_root: [
         {
@@ -275,15 +265,30 @@ export const configuration_options: {
         "@angular-builders/custom-webpack": "^13.1.0",
       },
       devDeps: {},
-      scripts: {},
+      scripts: {
+        "run-graph-node": "cd services/graph-node && docker-compose up",
+        "remove-graph-node": "cd graph-node && docker-compose down",
+        "clean-graph-node": "rm -rf cd services/graph-node/data/",
+      },
       templates_root: [],
-      templates_src: [],
+      templates_src: [{
+        source: "./files/add-ons/dapp-service-ipfs",
+        target: "/app/dapp-injector/services/ipfs",
+      }
+    ],
     },
     graphNode: {
       deps: {},
       devDeps: {},
-      scripts: {},
-      templates_root: [],
+      scripts: {
+        "create-graph-local": "cd subgraph && graph create --node http://localhost:8020/ angular-web3/your-contract",
+        "remove-graph-local": "cd subgraph && graph remove --node http://localhost:8020/ angular-web3/your-contract",
+        "deploy-graph-local": "cd subgraph && graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 angular-web3/your-contract",
+      },
+      templates_root: [{
+        source: "./files/add-ons/graph-node",
+        target: "/add-ons/graph-node/",
+      }],
       templates_src: [],
     },
     graphQlService:{
@@ -291,16 +296,22 @@ export const configuration_options: {
       devDeps: {},
       scripts: {},
       templates_root: [],
-      templates_src: [],
+      templates_src: [{
+        source: "./files/add-ons/dapp-service-graph-ql",
+        target: "/app/dapp-injector/services/graph-ql",
+      }],
     },
-    litProtocol: {
+    litProtocolService: {
       deps: {
         "lit-js-sdk": "^1.1.149",
       },
       devDeps: {},
       scripts: {},
       templates_root: [],
-      templates_src: [],
+      templates_src: [{
+        source: "./files/add-ons/dapp-service-lit-protocol",
+        target: "/app/dapp-injector/services/lit-protocol",
+      }],
     },
   },
 };

@@ -39,7 +39,7 @@ export declare interface IOPTIONS {
 
 export type DappDemoType = "minimalContract" | "helloWorldContract" | "debugContract" | "nftContract" | "lensProtocol";
 
-export type AddOnsType =  "graphQlService" | "subgraph" | "graphNode" | "ipfsService" | "litProtocol";
+export type AddOnsType =  "graphQlService" | "subgraph" | "graphNode" | "ipfsService" | "litProtocolService";
 
 export interface IOPTIONS_EXTENDED extends IOPTIONS {
     sourceRoot?: string,

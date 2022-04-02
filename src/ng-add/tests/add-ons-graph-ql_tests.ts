@@ -5,12 +5,6 @@ import {
   UnitTestTree,
 } from "@angular-devkit/schematics/testing";
 import * as path from "path";
-import {
-  findNodes,
-  getSourceNodes,
-  insertAfterLastOccurrence,
-} from "../helpers/ast-utils";
-import * as ts from "typescript";
 
 import { JSONFile } from "../helpers/json-file";
 import { Console } from "console";
@@ -56,7 +50,7 @@ describe("Initilization", () => {
           project: "default",
           test: true,
           demoToInstall: false,
-          addOns: ["subgraph"],
+          addOns: ["graphQlService"],
           dappDemo: "minimalContract",
         },
         appTree
@@ -66,29 +60,17 @@ describe("Initilization", () => {
 
   it("Add On subgraph should create subgraph folder", async () => {
  
+
     expect(
       tree.exists(
         normalize(
-          "/add-ons/subgraph/schema.graphql"
+          '/projects/schematest/src/app/dapp-injector/services/graph-ql/graph-ql.service.ts'
         )
       )
     ).to.be.true;
   });
 
-  it("It Add subgraph scripts", async () => {
-   // const packageJson = tree.read("package.json")!.toString("utf-8");
 
-    const packageJson = new JSONFile(tree,"package.json")
-    expect(packageJson.get(['scripts',"build-graph"])).to.be.equal('cd subgraph && graph build')
 
-  });
-
-  it("It Add subgraph dependencies", async () => {
-    // const packageJson = tree.read("package.json")!.toString("utf-8");
- 
-     const packageJson = new JSONFile(tree,"package.json")
-     expect(packageJson.get(['devDependencies', "@graphprotocol/graph-cli"])).to.be.equal("^0.22.1")
- 
-   });
 
 });
