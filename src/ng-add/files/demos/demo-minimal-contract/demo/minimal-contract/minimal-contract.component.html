@@ -2,6 +2,7 @@
 <img [class.blockchain_is_busy]="blockchain_is_busy" width="50" alt="Angular Logo"
 src="data:image/png;base64,{{angular_web3}}" />
 
+
 <div *ngIf="blockchain_status == 'wallet-connected'">
   <div style="text-align: center" *ngIf="!!contractHeader">
     <p>Wallet {{ myWallet_address }}  <br> on {{ connected_netWork}} </p>

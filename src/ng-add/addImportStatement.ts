@@ -97,13 +97,13 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
     "./dapp-injector/dapp-injector.module",
   )
 
-  const importProvider:Change[] = addProviderToModule(
-    source_app,
-    appModulePath,
-    'blockchain_providers',
-    './blockchain_wiring'
+  // const importProvider:Change[] = addProviderToModule(
+  //   source_app,
+  //   appModulePath,
+  //   'blockchain_providers',
+  //   './blockchain_wiring'
 
-  )
+  // )
     // ============ Manual Angular Material installation  ========================
     if (_options.demoToInstall == true){
       const importDappBrowserAnimations:Change[] =  addImportToModule(
@@ -117,7 +117,7 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
 
 
   const importRecorder = tree.beginUpdate(appModulePath);
-  for (const change of importsFeature.concat(importProvider,importDappInjector,importStore,[importReducer])) {
+  for (const change of importsFeature.concat(importDappInjector,importStore,[importReducer])) {
     if (change instanceof InsertChange) {
       importRecorder.insertLeft(change.pos, change.toAdd);
     }

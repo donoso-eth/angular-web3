@@ -7,6 +7,7 @@ import {
   web3Selectors,
   no_network,
   angular_web3,
+  DappBaseComponent,
 } from 'angular-web3';
 import { providers } from 'ethers';
 
@@ -33,12 +34,11 @@ import { providers } from 'ethers';
     `,
   ],
 })
-export class MinimalContractComponent implements AfterViewInit {
+export class MinimalContractComponent extends DappBaseComponent implements AfterViewInit {
   deployer_address!: string;
   myWallet_address!: string;
   contractHeader!: { name: string; address: string };
-  blockchain_is_busy = false;
-  blockchain_status!: NETWORK_STATUS;
+
   minimalContract!: AngularContract;
   netWork!: string;
   no_network = no_network;
@@ -48,50 +48,35 @@ export class MinimalContractComponent implements AfterViewInit {
   provider_network!: string;
 
   constructor(
-    private store: Store,
-    private dappInjectorService: DappInjectorService
-  ) {}
+    store: Store,
+    dapp: DappInjectorService
+  ) { super(dapp,store)}
 
   async asyncStuff() {
     this.myWallet_address =
-      (await this.dappInjectorService.config.signer?.getAddress()) as string;
+      (await this.dapp.DAPP_STATE.signer?.getAddress()) as string;
     this.contractHeader = {
       name: this.minimalContract.name,
       address: this.minimalContract.address,
     };
     this.deployer_address = await (
       await (
-        this.dappInjectorService.config
+        this.dapp.DAPP_STATE
           .defaultProvider as providers.JsonRpcProvider
       ).getSigner()
     ).getAddress();
-    this.connected_netWork = this.dappInjectorService.config.connectedNetwork;
+    this.connected_netWork! = this.dapp.DAPP_STATE.connectedNetwork as string
     this.contract_network = this.minimalContract.network_deployed;
-    this.provider_network = this.dappInjectorService.config.defaultNetwork;
+    this.provider_network  = this.dapp.dappConfig.defaultNetwork;
+  }
+
+  override async hookContractConnected(): Promise<void> {
+    this.minimalContract = this.dapp.defaultContract as AngularContract;
+    this.asyncStuff()
   }
 
   connect() {
-    this.dappInjectorService.launchWenmodal();
+    this.dapp.launchWebModal();
   }
 
-  ngAfterViewInit(): void {
-    this.store.select(web3Selectors.chainStatus).subscribe(async (value) => {
-      this.blockchain_status = value;
-
-      console.log(value);
-
-      if (value == 'wallet-connected') {
-        this.minimalContract = this.dappInjectorService.config.defaultContract!;
-        console.log(this.minimalContract.network_deployed);
-        this.asyncStuff();
-      }
-    });
-
-    this.store
-      .select(web3Selectors.isNetworkBusy)
-      .subscribe((isBusy: boolean) => {
-        console.log(isBusy);
-        this.blockchain_is_busy = isBusy;
-      });
-  }
 }

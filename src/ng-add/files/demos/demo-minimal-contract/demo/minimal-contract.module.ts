@@ -21,6 +21,6 @@ export const contractProvider= {provide: 'contractMetadata', useValue:MinimalCon
   exports: [
     MinimalContractComponent,
   ],
-  providers:[ ]
+  providers:[ contractProvider]
 })
 export class MinimalContractModule { }

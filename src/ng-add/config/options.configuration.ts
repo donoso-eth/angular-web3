@@ -102,10 +102,6 @@ export const configuration_options: {
     ],
     templates_src: [
       {
-        source: "./files/0-initial/app",
-        target: "/app",
-      },
-      {
         source: "./files/0-initial/dapp-injector",
         target: "/app/dapp-injector",
       },
