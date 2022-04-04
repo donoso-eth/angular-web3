@@ -68,7 +68,7 @@ describe("Add Onn Graph node", () => {
     ).to.be.true;
   });
 
-  it("It Add Graph Node subgraph scripts", async () => {
+  it("It Add Graph Node scripts", async () => {
     // const packageJson = tree.read("package.json")!.toString("utf-8");
  
      const packageJson = new JSONFile(tree,"package.json")

@@ -31,7 +31,7 @@
     </div>
 
     <button  (click)="runMyFunction()"  style="background:#355f7d;border-color:#355f7d;margin:auto" class="btn btn-primary" *ngIf="
-        abi_input.inputs.length == 0 && abi_input.stateMutability == 'view';
+        abi_input.inputs!.length == 0 && abi_input.stateMutability == 'view';
         else runFunction" mini-fab color="accent" >
       <!-- <i class="material-icons">refresh</i> -->{{ abi_input.name }}
     </button>

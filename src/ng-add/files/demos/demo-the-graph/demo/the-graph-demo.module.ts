@@ -10,7 +10,7 @@ import {BlockchainModule, ContractShowModule, DialogModule, HomeModule, Notifier
 
 import { ICONTRACT_METADATA } from 'angular-web3';
 
-import TheGraphMetadata from '../../assets/contracts/gravity_contract_metadata.json';
+import TheGraphMetadata from '../../assets/contracts/gravity_metadata.json';
 export const contractMetadata = new InjectionToken<ICONTRACT_METADATA>('contractMetadata')
 
 export const contractProvider= {provide: 'contractMetadata', useValue:TheGraphMetadata };

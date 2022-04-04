@@ -20,13 +20,13 @@ import {
 } from 'angular-web3';
 import { Store } from '@ngrx/store';
 import { first, firstValueFrom } from 'rxjs';
-import { DialogService, NotifierService } from 'src/app/dapp-components';
+import { DialogService, NotifierService } from '../../dapp-components'
 import { uniswap_abi } from 'src/app/dapp-injector/helpers/uniswap_abi';
 
 @Component({
   selector: 'the-graph-demo',
   templateUrl: './the-graph-demo.component.html',
-  styleUrls: ['./the-graph-demo.component.css'],
+  styleUrls: ['./the-graph-demo.component.scss'],
 })
 export class TheGraphDemoComponent extends DappBaseComponent implements OnInit {
   blocks: Array<BlockWithTransactions> = [];
@@ -62,7 +62,7 @@ export class TheGraphDemoComponent extends DappBaseComponent implements OnInit {
     try {
       // await this.dapp.init();
 
-      this.deployer_address = await (await this.dapp.provider!.getSigner()).getAddress();
+      this.deployer_address = this.dapp.signerAddress!;
 
       this.dapp.provider!.on('block', async (log: any, event: any) => {
         this.refreshContractBalance();
@@ -121,13 +121,13 @@ export class TheGraphDemoComponent extends DappBaseComponent implements OnInit {
   }
 
   async displayGreeting() {
-    const result = await this.defaultContract.runFunction('greet', []);
-    console.log(result.payload);
-    // this.deployer_balance = ethers.utils.formatUnits(
-    //   await this.newWallet.getBalance(),
-    //   18
-    // );
-    this.loading_contract = 'found';
+    // const result = await this.defaultContract.runFunction('greet', []);
+    // console.log(result.payload);
+    // // this.deployer_balance = ethers.utils.formatUnits(
+    // //   await this.newWallet.getBalance(),
+    // //   18
+    // // );
+    // this.loading_contract = 'found';
   }
 
   async doFaucet() {

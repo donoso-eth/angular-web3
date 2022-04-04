@@ -1,4 +1,5 @@
-pragma solidity ^0.4.0;
+//SPDX-License-Identifier: Unlicense
+pragma solidity ^0.8.4;
 
 contract GravatarRegistry {
   event NewGravatar(uint id, address owner, string displayName, string imageUrl);
@@ -15,9 +16,10 @@ contract GravatarRegistry {
   mapping (uint => address) public gravatarToOwner;
   mapping (address => uint) public ownerToGravatar;
 
-  function createGravatar(string _displayName, string _imageUrl) public {
+  function createGravatar(string memory _displayName,string memory _imageUrl) public {
     require(ownerToGravatar[msg.sender] == 0);
-    uint id = gravatars.push(Gravatar(msg.sender, _displayName, _imageUrl)) - 1;
+    gravatars.push(Gravatar(msg.sender, _displayName, _imageUrl));
+    uint id = gravatars.length - 1;
 
     gravatarToOwner[id] = msg.sender;
     ownerToGravatar[msg.sender] = id;
@@ -25,12 +27,12 @@ contract GravatarRegistry {
     emit NewGravatar(id, msg.sender, _displayName, _imageUrl);
   }
 
-  function getGravatar(address owner) public view returns (string, string) {
+  function getGravatar(address owner) public view returns (string memory, string memory) {
     uint id = ownerToGravatar[owner];
     return (gravatars[id].displayName, gravatars[id].imageUrl);
   }
 
-  function updateGravatarName(string _displayName) public {
+  function updateGravatarName(string memory _displayName) public {
     require(ownerToGravatar[msg.sender] != 0);
     require(msg.sender == gravatars[ownerToGravatar[msg.sender]].owner);
 
@@ -40,7 +42,7 @@ contract GravatarRegistry {
     emit UpdatedGravatar(id, msg.sender, _displayName, gravatars[id].imageUrl);
   }
 
-  function updateGravatarImage(string _imageUrl) public {
+  function updateGravatarImage(string memory _imageUrl) public {
     require(ownerToGravatar[msg.sender] != 0);
     require(msg.sender == gravatars[ownerToGravatar[msg.sender]].owner);
 
@@ -58,6 +60,6 @@ contract GravatarRegistry {
   // but then no more
   function setMythicalGravatar() public {
     require(msg.sender == 0x8d3e809Fbd258083a5Ba004a527159Da535c8abA);
-    gravatars.push(Gravatar(0x0, " ", " "));
+    gravatars.push(Gravatar(address(0x0), " ", " "));
   }
 }

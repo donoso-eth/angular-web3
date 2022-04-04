@@ -36,7 +36,7 @@
       }} <br>
       {{network }}
     </span>
-    <button style="margin: 0 5px 0 5px; transform: scale(0.7)" class="btn btn-light"
+    <button   mat-raised-button color="accent" style="margin: 0 5px 0 5px; transform: scale(0.7)" class="btn btn-light"
       [cdkCopyToClipboard]="address_to_show">
       <i class="material-icons">content_copy</i>
     </button>
@@ -60,8 +60,8 @@
       </div>
     </div>
    <div  style="display: flex;flex-direction: column;margin: 0 5px 0 10px;">
-    <button (click)="doScan()" type="button" style="line-height: 10px;padding: 2px;font-size: 11px;color:white" class="btn btn-primary">BlockScan</button>
-    <button (click)="doDisconnect()" type="button" style="margin-top:5px;line-height: 10px;padding: 2px;font-size: 11px;" class="btn btn-outline-warning">Disconnect</button>
+    <button mat-raised-button color="primary" (click)="doScan()" type="button" style="line-height: 10px;padding: 5px;font-size: 11px;color:white" class="btn btn-primary">BlockScan</button>
+    <button  mat-raised-button color="warn" (click)="doDisconnect()" type="button" style="margin-top:5px;line-height: 10px;padding: 5px;font-size: 11px;" class="btn btn-outline-warning">Disconnect</button>
     
    </div> 
      

@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { ICONTRACT, IBALANCE, web3Selectors } from 'angular-web3';
+import { ICONTRACT_METADATA, IBALANCE, web3Selectors } from 'angular-web3';
 
 
 @Component({
@@ -15,7 +15,7 @@ export class ContractShowComponent implements OnInit , OnChanges{
   ngOnChanges(changes: SimpleChanges): void {
   
   }
-  @Input() contract!:ICONTRACT
+  @Input() contract!:ICONTRACT_METADATA
   @Input() balance!:IBALANCE
   ngOnInit(): void {
     this.store.select(web3Selectors.selectSignerNetwork).subscribe(network=> this.network = network as string )

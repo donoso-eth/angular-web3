@@ -30,12 +30,12 @@ export class ContractInputComponent implements OnInit {
 
   runMyFunction() {
 
-    const myValue =this.abi_input.inputs.map( (map:any)=> this.input_form.controls[map.name].value)  
+    const myValue =this.abi_input.inputs!.map( (map:any)=> this.input_form.controls[map.name].value)  
     
     const options:IINPUT_EVENT = {
       function: this.abi_input.name as string, 
-      state: this.abi_input.stateMutability,
-      outputs:this.abi_input.outputs,
+      state: this.abi_input.stateMutability!,
+      outputs:this.abi_input.outputs!,
       args: myValue,
     }
 
@@ -63,11 +63,11 @@ export class ContractInputComponent implements OnInit {
 
   initUi(_abi_input:any) {
     this.abi_input = _abi_input;
-    this.abi_input.inputs.forEach((input:any) => {
+    this.abi_input.inputs!.forEach((input:any) => {
       const newControl = new FormControl('',Validators.required);
       this.input_form.addControl(input.name, newControl);
     });
-    this.labels = this.abi_input.outputs.map((map:any)=> map.name)
+    this.labels = this.abi_input.outputs!.map((map:any)=> map.name)
 
     if (this.abi_input.stateMutability == 'payable') {
       this.payable_input = new FormControl(0)

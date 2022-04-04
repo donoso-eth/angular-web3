@@ -89,7 +89,7 @@ describe("Creates a The Graph Demo", () => {
       .to.be.true;
   });
 
-  it("The Graph Demo  should include TheGraphModule import in app.module", async () => {
+  it("The Graph Demo should include TheGraphModule import in app.module", async () => {
     const appModulePath =
       `/projects/schematest/src/app/app.module.ts` as string;
     const appModuleFile = (
@@ -103,9 +103,10 @@ describe("Creates a The Graph Demo", () => {
       true
     );
 
-    const fileName = "./5-the-graph/the-graph-demo.module.ts";
+    const fileName = "./5-the-graph/the-graph-demo.module"
     const symbolName = "TheGraphDemoModule";
     const allImports = findNodes(source_app, ts.SyntaxKind.ImportDeclaration);
+
     const relevantImports = allImports.filter((node) => {
       const importFiles = node
         .getChildren()
@@ -115,7 +116,7 @@ describe("Creates a The Graph Demo", () => {
       return importFiles.filter((file) => file === fileName).length === 1;
     });
 
-    console.log(relevantImports.length)
+
 
     expect(relevantImports.length).to.be.gt(0)
 
@@ -136,8 +137,64 @@ describe("Creates a The Graph Demo", () => {
       const importTextNodes = imports.filter(
         (n) => (n as ts.Identifier).text === symbolName
       );
-        console.log(importTextNodes)
+  
       expect(importTextNodes.length).to.equal(1);
     } 
   });
+
+  it("Add On subgraph should create subgraph folder", async () => {
+    expect(
+      tree.exists(
+        normalize(
+          '/projects/schematest/src/app/dapp-injector/services/graph-ql/graph-ql.service.ts'
+        )
+      )
+    ).to.be.true;
+  });
+
+
+  it("Add On Graph Node should create graph node folder", async () => {
+ 
+    expect(
+      tree.exists(
+        normalize(
+          "/add-ons/graph-node/Dockerfile"
+        )
+      )
+    ).to.be.true;
+  });
+
+  it("Add Graph Node scripts", async () => {
+
+     const packageJson = new JSONFile(tree,"package.json")
+     expect(packageJson.get(['scripts','create-graph-local'])).to.be.equal('cd subgraph && graph create --node http://localhost:8020/ angular-web3/your-contract')
+ 
+   });
+
+
+  it("Add On subgraph should create subgraph folder", async () => {
+ 
+    expect(
+      tree.exists(
+        normalize(
+          "/add-ons/subgraph/schema.graphql"
+        )
+      )
+    ).to.be.true;
+  });
+
+  it("It Add subgraph scripts", async () => {
+    const packageJson = new JSONFile(tree,"package.json")
+ 
+    expect(packageJson.get(['scripts',"build-graph"])).to.be.equal('cd subgraph && graph build')
+
+  });
+
+  it("It Add subgraph dependencies", async () => {
+
+     const packageJson = new JSONFile(tree,"package.json")
+     expect(packageJson.get(['devDependencies', "@graphprotocol/graph-cli"])).to.be.equal("^0.22.1")
+ 
+   });
+
 });

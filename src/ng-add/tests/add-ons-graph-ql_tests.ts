@@ -24,7 +24,7 @@ let appTree: UnitTestTree;
 let tree: UnitTestTree;
 const schematicRunner = new SchematicTestRunner("ng-add", collectionPath);
 
-describe("Initilization", () => {
+describe("Add on Graphql", () => {
   beforeEach(async () => {
     appTree = await schematicRunner
       .runExternalSchematicAsync(
@@ -59,8 +59,6 @@ describe("Initilization", () => {
   });
 
   it("Add On subgraph should create subgraph folder", async () => {
- 
-
     expect(
       tree.exists(
         normalize(

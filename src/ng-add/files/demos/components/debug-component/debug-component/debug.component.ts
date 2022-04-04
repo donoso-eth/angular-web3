@@ -20,7 +20,7 @@ import { ContractFactory, ethers } from 'ethers';
 import { NotifierService } from '../../notifier/notifier.service';
 import { DialogService } from '../../dialog/dialog.service';
 import { AngularContract } from 'src/app/dapp-injector/classes/contract';
-import { BlockWithTransactions, IABI_OBJECT, IBALANCE, ICONTRACT, IINPUT_EVENT } from 'angular-web3';
+import { BlockWithTransactions, IABI_OBJECT, IBALANCE, ICONTRACT_METADATA, IINPUT_EVENT } from 'angular-web3';
 
 
 @Component({
@@ -33,7 +33,7 @@ export class DebugComponent implements AfterViewInit {
   contract_abi!: Array<IABI_OBJECT>;
   walletBalance!: IBALANCE;
   contractBalance!: IBALANCE;
-  contractHeader!: ICONTRACT;
+  contractHeader!: ICONTRACT_METADATA;
   deployer_address!:string;
 
   greeting!: string;
@@ -88,8 +88,8 @@ export class DebugComponent implements AfterViewInit {
 
     if (
       abi.stateMutability == 'view' &&
-      abi.inputs.length == 0 &&
-      abi.outputs.length == 1
+      abi.inputs!.length == 0 &&
+      abi.outputs!.length == 1
     ) {
       componentRef = this.stateContainer.createComponent(
         dynamicComponentFactory

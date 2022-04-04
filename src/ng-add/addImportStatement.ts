@@ -96,7 +96,7 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   const importDappInjector:Change[] =  addImportToModule(
     source_app,
     appModulePath,
-    'DappInjectorModule',
+    "DappInjectorModule.forRoot({wallet:'burner', defaultNetwork:'localhost'})",
     "./dapp-injector/dapp-injector.module",
   )
 

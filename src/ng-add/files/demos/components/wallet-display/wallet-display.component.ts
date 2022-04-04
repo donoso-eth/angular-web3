@@ -79,7 +79,7 @@ export class WalletDisplayComponent implements AfterViewInit {
   ngAfterViewInit(): void {
 
     
-    this.store.pipe(web3Selectors.selectChainReady).subscribe(async (value) => {
+    this.store.pipe(web3Selectors.hookContractConnected).subscribe(async (value) => {
 
       console.log(value)
 
