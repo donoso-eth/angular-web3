@@ -43,6 +43,9 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   } else if (_options.dappDemo == "lensProtocol") {
     featureName = "LensProtocolModule";
     featurePath = "./4-lens-protocol/lens-protocol.module";
+  } else if (_options.dappDemo == "theGraph") {
+    featureName = "TheGraphDemoModule";
+    featurePath = "./5-the-graph/the-graph-demo.module";
   }else {
     return tree;
   }

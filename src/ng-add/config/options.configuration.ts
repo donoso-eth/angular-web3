@@ -223,6 +223,24 @@ export const configuration_options: {
         },
       ],
     },
+    theGraph: {
+      deps: {},
+      devDeps: {},
+      scripts: {},
+      addOns: ["graphNode","graphQlService","subgraph"],
+      templates_root: [
+        {
+          source: "./files/demos/demo-the-graph/hardhat",
+          target: "/hardhat/",
+        },
+      ],
+      templates_src: [
+        {
+          source: "./files/demos/demo-the-graph/demo",
+          target: "/app/5-the-graph",
+        },
+      ],
+    },
   },
   addOns: {
     subgraph: {

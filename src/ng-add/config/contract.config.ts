@@ -30,4 +30,10 @@ export const contract_config = {
     ctor: [],
     jsonName: "lens_hub",
   },
+  theGraph: {
+    artifactsPath: "Gravity.sol/Gravity.json",
+    name: "Gravity",
+    ctor: [],
+    jsonName: "gravity",
+  },
 };

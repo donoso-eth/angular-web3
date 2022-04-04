@@ -15,14 +15,14 @@
       "description": "description",
       "uniqueItems": true,
       "default":"minimalContract",
-      "enum": ["minimalContract", "helloWorldContract","debugContract", "nftContract", "lensProtocol"]
+      "enum": ["minimalContract", "helloWorldContract","debugContract", "nftContract", "lensProtocol", "theGraph"]
   },
   "addOns": {
     "description": "Dapp Services to be included",
     "type":"array",
     "items": {
       "type":"string",
-      "enum": ["graphQlService" ,"subgraph","ipfsService", "graphNode"  , "litProtocolService"]
+      "enum": ["graphQlService" ,"subgraph","ipfsService", "graphNode" ,"litProtocolService"]
     },
     "default": []
   },
