@@ -1,6 +1,6 @@
 import { InjectionToken, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { TheGraphDemoComponent } from './the-graph-demo/the-graph-demo.component';
+import { SuperFluidDemoComponent } from './super-fluid-demo/super-fluid-demo.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,16 +10,16 @@ import {BlockchainModule, ContractShowModule, DialogModule, HomeModule, Notifier
 
 import { ICONTRACT_METADATA } from 'angular-web3';
 
-import TheGraphMetadata from '../../assets/contracts/gravity_metadata.json';
+import SuperFluidMetadata from '../../assets/contracts/gravity_metadata.json';
 export const contractMetadata = new InjectionToken<ICONTRACT_METADATA>('contractMetadata')
 
-export const contractProvider= {provide: 'contractMetadata', useValue:TheGraphMetadata };
+export const contractProvider= {provide: 'contractMetadata', useValue:SuperFluidMetadata };
 
 
 
 @NgModule({
   declarations: [
-    TheGraphDemoComponent
+    SuperFluidDemoComponent
   ],
   imports: [
     CommonModule,
@@ -35,8 +35,8 @@ export const contractProvider= {provide: 'contractMetadata', useValue:TheGraphMe
     NotifierModule
   ],
   exports: [
-    TheGraphDemoComponent
+    SuperFluidDemoComponent
   ],
   providers: [contractProvider]
 })
-export class TheGraphDemoModule { }
+export class SuperFluidDemoModule { }

@@ -33,6 +33,7 @@ const changeContractConfig = (
     const contractConfigString = JSON.stringify({
       [_options.dappDemo]: contractConfig[_options.dappDemo],
     });
+
     host.create("hardhat/contract.config.json", contractConfigString);
   } else {
     let alreadyConfig;

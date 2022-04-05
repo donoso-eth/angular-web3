@@ -35,12 +35,12 @@ export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
 
 
 /// ============ components common for demo apps ================= 
-if (_options.demoToInstall== true){
-    templates_src.push(     {
-      source: "./files/demos/components",
-      target: "/app/dapp-components",
-    },)
-}
+// if (_options.demoToInstall== true){
+//     templates_src.push(     {
+//       source: "./files/demos/components",
+//       target: "/app/dapp-components",
+//     },)
+// }
   
 
 /// ============  demo apps ================= 

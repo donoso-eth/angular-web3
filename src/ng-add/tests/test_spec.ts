@@ -8,7 +8,9 @@
 
 //// TESTS DEMO APPS
 
-import "./demo-the-graph_tests";
+import "./demo-super-fluid_tests"
+
+//import "./demo-the-graph_tests";
 
 ////// TEST ADD ONS
 

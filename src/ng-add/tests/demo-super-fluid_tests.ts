@@ -32,7 +32,7 @@ const schematicRunner = new SchematicTestRunner("ng-add", collectionPath);
 
 let tree: UnitTestTree;
 
-describe("Creates a The Graph Demo", () => {
+describe("Creates SuperFluid Demo", () => {
   beforeEach(async () => {
     appTree = await schematicRunner
       .runExternalSchematicAsync(
@@ -58,38 +58,38 @@ describe("Creates a The Graph Demo", () => {
           test: true,
           demoToInstall: true,
           addOns: [],
-          dappDemo: "theGraph",
+          dappDemo: "superFluid",
         },
         appTree
       )
       .toPromise();
   });
 
-  it("The Graph contract entry in Contract JSON Config File", async () => {
+  it("Superfluid entry in Contract JSON Config File", async () => {
     const jsonNew = new JSONFile(tree, "hardhat/contract.config.json");
 
-    expect(jsonNew.get(["theGraph", "name"])).to.be.equal(
+    expect(jsonNew.get(["superFluid", "name"])).to.be.equal(
       "GravatarRegistry"
     );
   });
 
-  it("The Graph Demo app should install The Grpah Module", async () => {
+  it("Super Fluid Demo app should install SuperFluid Module", async () => {
 
     expect(
       tree.exists(
         normalize(
-          "/projects/schematest/src/app/5-the-graph/the-graph-demo.module.ts"
+          "/projects/schematest/src/app/6-super-fluid/super-fluid-demo.module.ts"
         )
       )
     ).to.be.true;
   });
 
-  it("The Graph Demo should copy minimal contract", async () => {
+  it("Super Fluid Demo should copy Gravater registry contract", async () => {
     expect(tree.exists(normalize("/hardhat/contracts/GravatarRegistry.sol")))
       .to.be.true;
   });
 
-  it("The Graph Demo should include TheGraphModule import in app.module", async () => {
+  it("Super Fluid Demo should include SuperFluidDemoModule import in app.module", async () => {
     const appModulePath =
       `/projects/schematest/src/app/app.module.ts` as string;
     const appModuleFile = (
@@ -103,8 +103,8 @@ describe("Creates a The Graph Demo", () => {
       true
     );
 
-    const fileName = "./5-the-graph/the-graph-demo.module"
-    const symbolName = "TheGraphDemoModule";
+    const fileName = "./6-super-fluid/super-fluid-demo.module"
+    const symbolName = "SuperFluidDemoModule";
     const allImports = findNodes(source_app, ts.SyntaxKind.ImportDeclaration);
 
     const relevantImports = allImports.filter((node) => {
@@ -142,58 +142,19 @@ describe("Creates a The Graph Demo", () => {
     } 
   });
 
-  it("Add On subgraph should create subgraph folder", async () => {
-    expect(
-      tree.exists(
-        normalize(
-          '/projects/schematest/src/app/dapp-injector/services/graph-ql/graph-ql.service.ts'
-        )
-      )
-    ).to.be.true;
-  });
 
+  it("it Add Superfluid sdk scripts", async () => {
 
-  it("Add On Graph Node should create graph node folder", async () => {
- 
-    expect(
-      tree.exists(
-        normalize(
-          "/add-ons/graph-node/Dockerfile"
-        )
-      )
-    ).to.be.true;
-  });
-
-  it("Add Graph Node scripts", async () => {
-
-     const packageJson = new JSONFile(tree,"package.json")
-     expect(packageJson.get(['scripts', "clean-graph-node"])).to.be.equal("rm -rf add-ons/graph-node/data/")
+    //  const packageJson = new JSONFile(tree,"package.json")
+    //  expect(packageJson.get(['scripts', "lit-js-sdk"])).to.be.equal("^1.1.149")
  
    });
   
 
-  it("Add On subgraph should create subgraph folder", async () => {
- 
-    expect(
-      tree.exists(
-        normalize(
-          "/add-ons/subgraph/schema.graphql"
-        )
-      )
-    ).to.be.true;
-  });
-
-  it("It Add subgraph scripts", async () => {
-    const packageJson = new JSONFile(tree,"package.json")
- 
-    expect(packageJson.get(['scripts',"build-graph"])).to.be.equal('cd subgraph && graph build')
-
-  });
-
-  it("It Add subgraph dependencies", async () => {
+  it("It Add Superfluid sdk dependencies", async () => {
 
      const packageJson = new JSONFile(tree,"package.json")
-     expect(packageJson.get(['devDependencies', "@graphprotocol/graph-cli"])).to.be.equal("^0.22.1")
+     expect(packageJson.get(['scripts', "lit-js-sdk"])).to.be.equal("^1.1.149")
  
    });
 

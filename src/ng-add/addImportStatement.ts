@@ -46,6 +46,9 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   } else if (_options.dappDemo == "theGraph") {
     featureName = "TheGraphDemoModule";
     featurePath = "./5-the-graph/the-graph-demo.module";
+  }  else if (_options.dappDemo == "superFluid") {
+    featureName = "SuperFluidDemoModule";
+    featurePath = "./6-super-fluid/super-fluid-demo.module";
   }else {
     return tree;
   }

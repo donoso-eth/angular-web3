@@ -18,9 +18,11 @@ dataSources:
       abis:
         - name: GravatarRegistry
           file: ./abis/gravity.json
+        - name: GravatarRegistry
+          path: ./abis/gravity.json
       eventHandlers:
-        - event: NewGravatar(uint256,address,string,string)
+        - event: uint256,address,string,string
           handler: handleNewGravatar
-        - event: UpdatedGravatar(uint256,address,string,string)
+        - event: uint256,address,string,string
           handler: handleUpdatedGravatar
       file: ./src/mapping.ts

@@ -1,32 +1,7 @@
-enum NftStatus {
-  DRAFT
-  PENDING
-  STANDBY
-  TIMEOUT
-  ACCEPTED
-  REJECTED
-}
-
-enum CampaignStatus {
-  ONBOARD
-  ACCEPTED
-  REJECTED
-}
-
-type GratitudeToken @entity {
+type Gravatar @entity {
   id: ID!
-  status: Int! # status
-  sender: Bytes! # address
-  receiver: Bytes! # address
-  lat: Int #lat
-  lng: Int #lng
-  tokenUri: String!
-}
-
-type GratitudeCampaign @entity {
-  id: ID!
-  campaign_creator: Bytes!
-  name: String!
-  status: Int!
-  campaignUri:String!
+  owner: Bytes
+  displayName: String
+  imageUrl: String
+  accepted: Boolean
 }

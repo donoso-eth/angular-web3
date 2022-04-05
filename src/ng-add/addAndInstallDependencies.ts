@@ -66,9 +66,12 @@ interface PackageJson {
     if (!json.devDependencies) {
       json.devDependencies = {};
     }
-      
+     
+
   
     let toInstallKeys = getOptionskeys(_options)
+
+
 
     for (const installKey of toInstallKeys) {
 

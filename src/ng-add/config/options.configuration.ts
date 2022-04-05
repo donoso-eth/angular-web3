@@ -121,7 +121,10 @@ export const configuration_options: {
     scripts: {},
     addOns:[],
     templates_root: [],
-    templates_src: [],
+    templates_src: [ {
+      source: "./files/demos/components",
+      target: "/app/dapp-components",
+    }],
   },
   dappDemos: {
     minimalContract: {
@@ -200,6 +203,25 @@ export const configuration_options: {
         },
       ],
     },
+  //// SuperFluid Demo app
+    superFluid: {
+      deps: {},
+      devDeps: {},
+      scripts: {  "lit-js-sdk": "^1.1.149"},
+      addOns: [],
+      templates_root: [
+        {
+          source: "./files/demos/demo-super-fluid/hardhat",
+          target: "/hardhat/",
+        },
+      ],
+      templates_src: [
+        {
+          source: "./files/demos/demo-super-fluid/demo",
+          target: "/app/6-super-fluid",
+        },
+      ],
+    },
     //// lens app
     lensProtocol: {
       deps: {},
@@ -256,10 +278,11 @@ export const configuration_options: {
         "@types/js-yaml": "^4.0.5",
       },
       scripts: {
-        codegen: "cd subgraph && graph codegen",
+        "publish:subgraph": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run ./scripts/publish.ts",
+        "codegen": "cd add-ons/subgraph && graph codegen",
         "build-graph": "cd subgraph && graph build",
-        "deploy-graph":"cd services/graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ GITHUB_USERNAME/your-contract",
-      },
+        "deploy-graph": "cd services/graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ GITHUB_USERNAME/your-contract"
+          },
       templates_root: [
         {
           source: "./files/add-ons/subgraph/subgraph",
@@ -279,11 +302,7 @@ export const configuration_options: {
         "@angular-builders/custom-webpack": "^13.1.0",
       },
       devDeps: {},
-      scripts: {
-        "run-graph-node": "cd services/graph-node && docker-compose up",
-        "remove-graph-node": "cd graph-node && docker-compose down",
-        "clean-graph-node": "rm -rf cd services/graph-node/data/",
-      },
+      scripts: {},
       templates_root: [],
       templates_src: [{
         source: "./files/add-ons/dapp-service-ipfs",
@@ -295,10 +314,13 @@ export const configuration_options: {
       deps: {},
       devDeps: {},
       scripts: {
-        "create-graph-local": "cd subgraph && graph create --node http://localhost:8020/ angular-web3/your-contract",
-        "remove-graph-local": "cd subgraph && graph remove --node http://localhost:8020/ angular-web3/your-contract",
-        "deploy-graph-local": "cd subgraph && graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 angular-web3/your-contract",
-      },
+        "run-graph-node": "cd add-ons/graph-node && docker-compose up",
+        "remove-graph-node": "cd add-ons/graph-node && docker-compose down",
+        "clean-graph-node": "rm -rf add-ons/graph-node/data/",
+        "create-graph-local": "cd add-ons/subgraph && graph create --node http://localhost:8020/ angular-web3/gravatar",
+        "remove-graph-local": "cd add-ons/subgraph && graph remove --node http://localhost:8020/ angular-web3/gravatar",
+        "deploy-graph-local": "cd add-ons/subgraph && graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 angular-web3/gravatar",
+          },
       templates_root: [{
         source: "./files/add-ons/graph-node",
         target: "/add-ons/graph-node/",

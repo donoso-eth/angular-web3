@@ -88,6 +88,7 @@ export const setupOptions = async (
                         "Hello World Contract",
                         "Debug Contract",
                         "Nft Contract",
+                        "Super Fluid", 
                         "Lens Protocol",
                         "The Graph",
                     ],

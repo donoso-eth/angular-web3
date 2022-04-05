@@ -24,11 +24,11 @@ import { FormControl, Validators } from '@angular/forms';
 import { GraphQlService } from 'src/app/dapp-injector/services/graph-ql/graph-ql.service';
 
 @Component({
-  selector: 'the-graph-demo',
-  templateUrl: './the-graph-demo.component.html',
-  styleUrls: ['./the-graph-demo.component.scss'],
+  selector: 'super-fluid-demo',
+  templateUrl: './super-fluid-demo.component.html',
+  styleUrls: ['./super-fluid-demo.component.scss'],
 })
-export class TheGraphDemoComponent extends DappBaseComponent implements OnInit {
+export class SuperFluidDemoComponent extends DappBaseComponent implements OnInit {
 
 
   walletBalance!: IBALANCE;
