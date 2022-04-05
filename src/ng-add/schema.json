@@ -22,7 +22,7 @@
     "type":"array",
     "items": {
       "type":"string",
-      "enum": ["graphQlService" ,"subgraph","ipfsService", "graphNode" ,"litProtocolService"]
+      "enum": ["graphQlService" ,"subgraph","ipfsService", "graphNode" ,"litProtocolService","superFluidService"]
     },
     "default": []
   },

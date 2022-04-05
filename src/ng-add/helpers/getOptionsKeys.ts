@@ -20,7 +20,7 @@ export const getOptionskeys= (_options:IOPTIONS_EXTENDED) => {
         
    /// ============ add common configuration for demo apps ================= 
     if (_options.demoToInstall== true ){
-     // toInstallKeys.push(configuration_options.dappDemoCommon)
+      toInstallKeys.push(configuration_options.dappDemoCommon)
     }
 
 

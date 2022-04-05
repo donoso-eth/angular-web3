@@ -205,10 +205,10 @@ export const configuration_options: {
     },
   //// SuperFluid Demo app
     superFluid: {
-      deps: {},
+      deps: { },
       devDeps: {},
-      scripts: {  "lit-js-sdk": "^1.1.149"},
-      addOns: [],
+      scripts: {   "@superfluid-finance/ethereum-contracts": "^1.1.1"},
+      addOns: ["superFluidService"],
       templates_root: [
         {
           source: "./files/demos/demo-super-fluid/hardhat",
@@ -328,7 +328,10 @@ export const configuration_options: {
       templates_src: [],
     },
     graphQlService:{
-      deps: {},
+      deps: { 
+      "@apollo/client": "^3.5.10",
+      "apollo-angular": "^3.0.0",
+      "graphql": "^16.3.0",},
       devDeps: {},
       scripts: {},
       templates_root: [],
@@ -347,6 +350,18 @@ export const configuration_options: {
       templates_src: [{
         source: "./files/add-ons/dapp-service-lit-protocol",
         target: "/app/dapp-injector/services/lit-protocol",
+      }],
+    },
+    superFluidService:{
+      deps: {
+        "@superfluid-finance/sdk-core": "^0.3.2",
+      },
+      devDeps: {},
+      scripts: {},
+      templates_root: [],
+      templates_src: [{
+        source: "./files/add-ons/dapp-service-super-fluid",
+        target: "/app/dapp-injector/services/super-fluid",
       }],
     },
   },

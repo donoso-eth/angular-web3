@@ -21,7 +21,6 @@ import { first, firstValueFrom } from 'rxjs';
 import { DialogService, NotifierService } from '../../dapp-components';
 import { uniswap_abi } from 'src/app/dapp-injector/helpers/uniswap_abi';
 import { FormControl, Validators } from '@angular/forms';
-import { GraphQlService } from 'src/app/dapp-injector/services/graph-ql/graph-ql.service';
 
 @Component({
   selector: 'super-fluid-demo',
@@ -54,7 +53,7 @@ export class SuperFluidDemoComponent extends DappBaseComponent implements OnInit
   constructor(
     private dialogService: DialogService,
     private notifierService: NotifierService,
-    private graphQl:GraphQlService,
+   
     dapp: DappInjectorService,
     store: Store<Web3State>
   ) {
@@ -208,9 +207,6 @@ export class SuperFluidDemoComponent extends DappBaseComponent implements OnInit
   }
 
 
-  async query(){
-    this.graphQl.query()
-  }
 
   override async hookChainIsLoading() {
     console.log('is loading');
