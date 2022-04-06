@@ -153,9 +153,21 @@ describe("Creates SuperFluid Demo", () => {
 
   it("It Add Superfluid sdk dependencies", async () => {
 
-     const packageJson = new JSONFile(tree,"package.json")
-     expect(packageJson.get(['scripts', "lit-js-sdk"])).to.be.equal("^1.1.149")
+     const packageJson = new JSONFile(tree,"package.json");
+     expect(packageJson.get(['dependencies', "@superfluid-finance/sdk-core"])).to.be.equal("^0.3.2")
  
    });
+
+
+
+   it("It Add Superfluid and replace hardhat config with fork", async () => {
+
+    const hardhat_config_file = tree.readContent("hardhat/hardhat.config.ts");
+
+    console.log(hardhat_config_file)
+
+   // expect(hardhat_config_file).toContain("src/assets");
+
+  });
 
 });

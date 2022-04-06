@@ -21,3 +21,5 @@ import "./demo-super-fluid_tests"
 // import "./add-ons-subgraph_tests";
 
 // import "./add-ons-graph-ql_tests";
+
+import "./add-ons-super-fluid_tests"
