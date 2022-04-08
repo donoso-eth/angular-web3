@@ -205,9 +205,9 @@ export const configuration_options: {
     },
   //// SuperFluid Demo app
     superFluid: {
-      deps: { },
+      deps: {"@superfluid-finance/ethereum-contracts": "^1.1.1" },
       devDeps: {},
-      scripts: { "@superfluid-finance/ethereum-contracts": "^1.1.1"},
+      scripts: { },
       addOns: ["superFluidService"],
       templates_root: [
         {

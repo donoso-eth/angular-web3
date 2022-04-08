@@ -69,7 +69,7 @@ describe("Creates SuperFluid Demo", () => {
     const jsonNew = new JSONFile(tree, "hardhat/contract.config.json");
 
     expect(jsonNew.get(["superFluid", "name"])).to.be.equal(
-      "GravatarRegistry"
+      "SuperApp"
     );
   });
 
@@ -84,8 +84,8 @@ describe("Creates SuperFluid Demo", () => {
     ).to.be.true;
   });
 
-  it("Super Fluid Demo should copy Gravater registry contract", async () => {
-    expect(tree.exists(normalize("/hardhat/contracts/GravatarRegistry.sol")))
+  it("Super Fluid Demo should copy superApp registry contract", async () => {
+    expect(tree.exists(normalize("/hardhat/contracts/SuperApp.sol")))
       .to.be.true;
   });
 
@@ -164,9 +164,7 @@ describe("Creates SuperFluid Demo", () => {
 
     const hardhat_config_file = tree.readContent("hardhat/hardhat.config.ts");
 
-    console.log(hardhat_config_file)
-
-   // expect(hardhat_config_file).toContain("src/assets");
+    expect(hardhat_config_file).to.contain("url: `${ALCHEMY_URL}`,");
 
   });
 

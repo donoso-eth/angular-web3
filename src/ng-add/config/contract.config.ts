@@ -25,10 +25,10 @@ export const contract_config = {
     jsonName: "nft_contract",
   },
   superFluid: {
-    "artifactsPath": "GravatarRegistry.sol/GravatarRegistry.json",
-    "name": "GravatarRegistry",
+    "artifactsPath": "SuperApp.sol/SuperApp.json",
+    "name": "SuperApp",
     "ctor": [],
-    "jsonName": "gravity"
+    "jsonName": "super_app"
   },
   lensProtocol: {
     artifactsPath: "4-LensHub.sol/LensHub.json",
