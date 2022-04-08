@@ -60,9 +60,17 @@ export const setupOptions = async (
     _options.sourceRoot = project.sourceRoot;
     // #endregion get source path
 
+
+    _options.alreadyInstalled = false;
+    if (host.exists("hardhat/hardhat.config.ts") == true) {
+        _options.alreadyInstalled = true;
+        _options.demoToInstall = false;
+    }
+
+
     // ============ get Demo app/services ========================
     // #region get source folder path
-    if (_options.test == false) {
+    if (_options.test == false && _options.alreadyInstalled == false) {
         const questions = [
             {
                 type: "confirm",
@@ -141,10 +149,6 @@ export const setupOptions = async (
 
     if (_options.skipInstall == undefined) {
         _options.skipInstall = false;
-    }
-    _options.alreadyInstalled = false;
-    if (host.exists("hardhat/hardhat.config.ts") == true) {
-        _options.alreadyInstalled = true;
     }
 
     // ============ Manual Angular Material installation  ========================
