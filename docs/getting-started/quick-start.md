@@ -1,6 +1,6 @@
-# Quick Start
+# 🏄‍♂️ Quick Start
 
-## 🏄‍♂️ Quick Start
+## Installation
 
 Prerequisites: To be in an **Angular project**
 
@@ -14,35 +14,20 @@ cd in the directory
 cd new web3-hello-world  
 ```
 
-&#x20;
-
 #### 1) Add the angular-web3 schematics package to your project
 
 ```bash
 ng add angular-web3
 ```
 
-&#x20;
-
 #### 2) chose installation Options:
 
 The package will prompt the options for configuration
 
 * Project name in the case that your workspace has more than one angular project
-* Do you wnat to install a Demo app or only infrastructure/services?
+* Do you want to install a Demo app or only infrastructure/services?&#x20;
 
-a) Demo Dapp to be installed:
-
-* Hello World Contract
-* Debug Contract
-* NFT Contract
-
-If you choose a Demo app, bear in mind that Angular Material will be installed for fast mock up
-
-&#x20; b) Having chosen an empty app you will have the opportunity to adda services (more to come)
-
-* ipfs
-* subgraph
+We will choose Hello World Contract
 
 &#x20;
 
@@ -60,10 +45,11 @@ to be able to :
 import { DappFeature } from 'angular-web3'
 ```
 
-throurought the entire dapp  \
 
 
-## A place to group your spaces
+One if the common issues that we will encounter moving forward will be the errors by compilation when adding libraries (not webpack 5 ready), therefore we will update also the tsconfig file including the oprtion "dasd"
+
+## Boostrap Blockchain
 
 A collection in GitBook is kind of like a folder for your spaces or other collections. When you create a collection, you'll get a kind of ‘tree’ view in your sidebar.
 
