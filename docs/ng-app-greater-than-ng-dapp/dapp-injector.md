@@ -4,7 +4,7 @@ description: Where the magic happens ✨
 
 # Dapp Injector
 
-The ma&#x20;
+
 
 {% embed url="https://docs.gitbook.com/spaces/space-visibility" %}
 

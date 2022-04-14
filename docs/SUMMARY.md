@@ -4,23 +4,17 @@
 
 ## 🏄‍♂️ Getting Started
 
-* [Quick Start](getting-started/quick-start.md)
+* [🏄‍♂️ Quick Start](getting-started/quick-start.md)
 
-***
-
-* [Page 1](page-1.md)
-
-## BLOCKCHAIN
-
-*
-
-## 🪄 ng App --->  ng dApp
+## 🪄 ng App ---> ng dApp
 
 * [Dapp Injector](ng-app-greater-than-ng-dapp/dapp-injector.md)
 * [Dapp Config](ng-app-greater-than-ng-dapp/dapp-config.md)
 * [Dapp State](ng-app-greater-than-ng-dapp/dapp-state.md)
 
-## 🔎 Dapp Demos
+## BLOCKCHAIN
+
+## Dapp Demos
 
 * [Hello World](dapp-demos/hello-world.md)
 * [Debug Contract](dapp-demos/debug-contract.md)
@@ -32,7 +26,7 @@
 
 ## 🏭 Add Ons
 
-* [Ipfs Service](add-ons/what-next.md)
+* [Ipfs Service](add-ons/ipfs-service.md)
 * [GraphQl Apollo Client](add-ons/graphql-apollo-client.md)
 * [subgraph](add-ons/subgraph.md)
 * [Graph Node](add-ons/graph-node.md)
