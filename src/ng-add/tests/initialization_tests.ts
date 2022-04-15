@@ -109,14 +109,6 @@ describe("Initilization", () => {
   });
 
 
-  it("Hardhat Config File contains assets path", async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "helloWorldContract" }, appTree)
-      .toPromise();
-    const hardhat_config_file = tree.readContent("hardhat/hardhat.config.ts");
-
-    expect(hardhat_config_file).toContain("src/assets");
-  });
 
   it("Should add Injector module ", async () => {
 
