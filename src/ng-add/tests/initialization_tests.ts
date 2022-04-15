@@ -63,6 +63,34 @@ describe("Initilization", () => {
   });
 
 
+  it("No demo app installation should work", async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync(
+        "ng-add",
+        { project: "default", test:true,demoToInstall:false, addOns:[],dappDemo: "noop" },
+        appTree
+      )
+      .toPromise();
+
+    expect(tree.files.length).toBeGreaterThan(2);
+  });
+
+
+  it("No demo app should not install miminalcontract", async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync(
+        "ng-add",
+        { project: "default", test:true,demoToInstall:false, addOns:[],dappDemo: "noop" },
+        appTree
+      )
+      .toPromise();
+
+      expect(tree.exists(normalize("/projects/schematest/src/app/0-minimal-contract/minimal-contract.module.ts"))).toBeFalse();
+
+  });
+
+
+
   it("Creates Hardhat Config File", async () => {
     const tree = await schematicRunner
       .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "helloWorldContract" }, appTree)

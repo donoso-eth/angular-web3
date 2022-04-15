@@ -127,6 +127,16 @@ export const configuration_options: {
     }],
   },
   dappDemos: {
+    noop: {
+      deps: {},
+      devDeps: {},
+      scripts: {},
+      addOns: [],
+      templates_root: [
+      ],
+      templates_src: [
+      ],
+    },
     minimalContract: {
       deps: {},
       devDeps: {},

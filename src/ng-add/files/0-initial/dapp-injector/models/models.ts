@@ -6,10 +6,10 @@ import { INETWORK, NETWORK_TYPE } from "../constants";
 
 export interface IDAPP_CONFIG {
   defaultNetwork: string,
-  wallet: 'wallet' | 'privKey' | 'burner',
+  wallet: 'wallet' | 'privKey' | 'local',
 }
 
-export interface IDAPP_STATE {
+export interface IDAPP_STATE<T extends Contract> {
   
   defaultProvider:providers.JsonRpcProvider | null;
   connectedNetwork:string | null
@@ -17,8 +17,8 @@ export interface IDAPP_STATE {
   signer: Signer | null,
   signerAddress:string | null,
 
-  defaultContract:AngularContract | null,
-  viewContract :AngularContract | null,
+  defaultContract: AngularContract<T>| null,
+  viewContract :Contract | null,
 }
 
 
@@ -67,9 +67,9 @@ export interface IFUNCION_CALL_RESULT {
 
 export interface ITRANSACTION_RESULT {
   success:boolean,
-  success_result?:ITRANSACTION_DETAILS,
+  payload:any;
   error_message?:string
-  success_message?:string;
+
 
 }
 

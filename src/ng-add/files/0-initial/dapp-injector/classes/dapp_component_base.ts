@@ -1,28 +1,29 @@
 import { OnInit, OnDestroy, ElementRef, AfterViewInit, Injectable, Directive } from '@angular/core';
 import { JsonRpcProvider } from '@ethersproject/providers';
 import { Store } from '@ngrx/store';
-import { AngularContract } from 'angular-web3';
 import { Signer } from 'ethers';
 import { pipe, Subject, takeUntil } from 'rxjs';
-import { DappInjectorService } from '../dapp-injector.service';
+import { IDEFAULT_CONTRACT } from 'src/assets/contracts/interfaces';
+import { DappInjector } from '../dapp-injector.service';
 import { NETWORK_STATUS, web3Selectors } from '../store';
+import { AngularContract } from './contract';
 
 @Directive()
 export class DappBaseComponent implements OnDestroy, AfterViewInit {
-  private destroyHooks: Subject<void> = new Subject();
+  public destroyHooks: Subject<void> = new Subject();
 
   ////// Public Available
   blockchain_is_busy: boolean = true;
   blockchain_status: NETWORK_STATUS = 'loading';
 
-  defaultContract!: AngularContract;
+  defaultContract!: AngularContract<IDEFAULT_CONTRACT>;
 
   defaultProvider!: JsonRpcProvider;
 
   signer!: Signer;
   signerAdress!: string;
 
-  constructor(public dapp: DappInjectorService, public store: Store) {}
+  constructor(public dapp: DappInjector, public store: Store) {}
 
   async hookChainIsLoading() {}
 
@@ -68,7 +69,7 @@ export class DappBaseComponent implements OnDestroy, AfterViewInit {
       .pipe(web3Selectors.hookContractConnected)
       .pipe(takeUntil(this.destroyHooks))
       .subscribe(() => {
-        this.defaultContract = this.dapp.defaultContract as AngularContract;
+        this.defaultContract = this.dapp.defaultContract!;
         this.signer = this.dapp.signer as Signer;
         this.defaultProvider = this.dapp.provider as JsonRpcProvider;
         this.signerAdress = this.dapp.signerAddress as string;
@@ -104,7 +105,4 @@ export class DappBaseComponent implements OnDestroy, AfterViewInit {
     this.destroyHooks.next();
     this.destroyHooks.complete();
   }
-}
-function chainStatus(chainStatus: any) {
-  throw new Error('Function not implemented.');
 }

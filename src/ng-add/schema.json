@@ -14,8 +14,8 @@
       "type": "string",
       "description": "description",
       "uniqueItems": true,
-      "default":"minimalContract",
-      "enum": ["minimalContract", "helloWorldContract","debugContract", "nftContract", "superFluid",  "lensProtocol", "theGraph"]
+      "default":"noop",
+      "enum": ["noop","minimalContract", "helloWorldContract","debugContract", "nftContract", "superFluid",  "lensProtocol", "theGraph"]
   },
   "addOns": {
     "description": "Dapp Services to be included",

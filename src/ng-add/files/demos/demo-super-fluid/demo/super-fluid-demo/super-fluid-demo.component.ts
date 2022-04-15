@@ -14,7 +14,7 @@ import {
   web3Selectors,
   AngularContract,
   DappBaseComponent,
-  DappInjectorService,
+  DappInjector,
 } from 'angular-web3';
 import { Store } from '@ngrx/store';
 import { first, firstValueFrom } from 'rxjs';
@@ -54,7 +54,7 @@ export class SuperFluidDemoComponent extends DappBaseComponent implements OnInit
     private dialogService: DialogService,
     private notifierService: NotifierService,
    
-    dapp: DappInjectorService,
+    dapp: DappInjector,
     store: Store<Web3State>
   ) {
     super(dapp, store);

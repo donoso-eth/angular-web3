@@ -7,7 +7,7 @@ import {
 } from '@superfluid-finance/sdk-core';
 import Operation from '@superfluid-finance/sdk-core/dist/module/Operation';
 import { ethers, utils } from 'ethers';
-import { DappInjectorService } from '../../dapp-injector.service';
+import { DappInjector } from '../../dapp-injector.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class SuperFluidServiceService {
   sf!: Framework;
   flow!: ConstantFlowAgreementV1;
   operations: Array<Operation> = [];
-  constructor(private dapp: DappInjectorService) {}
+  constructor(private dapp: DappInjector) {}
 
   async getContracts() {}
 

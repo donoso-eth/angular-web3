@@ -13,7 +13,7 @@ import {
 
 import { ContractInputComponent } from '../contract-input/contract-input.component';
 
-import { ContractFactory, ethers } from 'ethers';
+import { Contract, ContractFactory, ethers } from 'ethers';
 
 
 
@@ -21,6 +21,8 @@ import { NotifierService } from '../../notifier/notifier.service';
 import { DialogService } from '../../dialog/dialog.service';
 import { AngularContract } from 'src/app/dapp-injector/classes/contract';
 import { BlockWithTransactions, IABI_OBJECT, IBALANCE, ICONTRACT_METADATA, IINPUT_EVENT } from 'angular-web3';
+import { IDEFAULT_CONTRACT } from 'src/assets/contracts/interfaces';
+import { doSignerTransaction } from 'src/app/dapp-injector/classes/transactor';
 
 
 @Component({
@@ -63,7 +65,7 @@ export class DebugComponent implements AfterViewInit {
 
  
   }
-  @Input() public debugContract!: AngularContract;
+  @Input() public debugContract!: AngularContract<IDEFAULT_CONTRACT>;
 
   @ViewChild('inputContainer', { read: ViewContainerRef })
   inputContainer!: ViewContainerRef;
@@ -109,30 +111,33 @@ export class DebugComponent implements AfterViewInit {
 
     componentRef.instance.newEventFunction.subscribe(
       async (value: IINPUT_EVENT) => {
-        const myResult = await this.debugContract.runFunction(
-          value.function,
-          value.args,
-          value.state
+        const tx =  (this.debugContract.instance as Contract).functions[value.function].apply(
+          this,
+          value.args
         );
+
+        const myResult =  await doSignerTransaction(tx)
+
+      
    
-        if (myResult.msg.success == false) {
-          await this.notifierService.showNotificationTransaction(myResult.msg);
+        if (myResult.success == false) {
+          await this.notifierService.showNotificationTransaction(myResult);
         }
 
-        if (myResult.msg.success_result !== undefined) {
-          await this.notifierService.showNotificationTransaction(myResult.msg);
-        }
+        // if (myResult.success_result !== undefined) {
+        //   await this.notifierService.showNotificationTransaction(myResult);
+        // }
 
         if (value.function !== 'pure' && value.function !== 'view') {
           this.updateState();
         }
 
         if (value.outputs.length > 0) {
-          if (myResult.msg.success == true) {
+          if (myResult.success == true) {
             componentRef.instance.refreshUi(myResult.payload);
           } else {
             await this.notifierService.showNotificationTransaction(
-              myResult.msg
+              myResult
             );
           }
         }
@@ -142,16 +147,18 @@ export class DebugComponent implements AfterViewInit {
 
   async updateState() {
     for (const stateCompo of this.stateInstances) {
-      const result =
-        await this.debugContract.runContractFunction(
-          stateCompo.abi_input.name as string,
-          {}
-        );
+      const tx =  (this.debugContract.instance as Contract).functions[ stateCompo.abi_input.name!].apply(
+        this,[]
+      );
 
-      if (result.msg.success == true) {
+      const result =  await doSignerTransaction(tx)
+
+    
+
+      if (result.success == true) {
         stateCompo.refreshUi(result.payload);
       } else {
-        this.notifierService.showNotificationTransaction(result.msg);
+        this.notifierService.showNotificationTransaction(result);
       }
     }
   }
@@ -164,7 +171,7 @@ export class DebugComponent implements AfterViewInit {
       );
 
       this.eventsAbiArray.forEach((val) => {
-        this.debugContract.contract.on(val.name, (args) => {
+        this.debugContract.instance.on(val.name, (args) => {
           let payload;
           if (typeof args == 'object') {
             payload = JSON.stringify(args);

@@ -4,7 +4,7 @@ import {
   AngularContract,
   convertEtherToWei,
   convertUSDtoEther,
-  DappInjectorService,
+  DappInjector,
   IABI_OBJECT,
   IBALANCE,
   ICONTRACT,
@@ -52,7 +52,7 @@ export class NftContractComponent implements AfterViewInit {
     private dialogService: DialogService,
     private notifierService: NotifierService,
     private store: Store<Web3State>,
-    public dappInjectorService: DappInjectorService
+    public dappInjectorService: DappInjector
   ) {}
 
   async onChainStuff() {

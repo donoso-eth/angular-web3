@@ -99,7 +99,6 @@ export const setupOptions = async (
                         "Super Fluid", 
                         "Lens Protocol",
                         "The Graph",
-                        "SuperFluid"
                     ],
                     filter(value: string) {
                         let valueChanged = value.split(" ").join("");
@@ -116,7 +115,6 @@ export const setupOptions = async (
         _options.addOns = configuration_options.dappDemos[_options.dappDemo].addOns;
     } else {
         // ============ If Not demo APP========================
-        _options.dappDemo = "minimalContract";
         if (_options.test == false) {
             const questionsNoDemo = [
                 {

@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DebugComponent } from './debug-component/debug.component';
 
 
+
 @NgModule({
   declarations: [DebugComponent,
     ContractInputComponent,

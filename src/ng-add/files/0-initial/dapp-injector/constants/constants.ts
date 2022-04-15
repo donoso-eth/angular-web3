@@ -8,7 +8,7 @@ export const GRAPH_APIURL = "https://api.thegraph.com/subgraphs/name/jdonosocodi
 
 export const ALCHEMY_KEY = "oKxs-03sij-U_N0iOlrSsZFr29-IqbuF";
 
-export type NETWORK_TYPE = 'localhost' | 'mainnet'| 'mumbai' | 'kovan' | 'rinkeby' | 'ropsten' | 'goerli' |'polygon' | 'xdai' |'noop';
+export type NETWORK_TYPE = 'hardhat' |'localhost' | 'mainnet'| 'mumbai' | 'kovan' | 'rinkeby' | 'ropsten' | 'goerli' |'polygon' | 'xdai' |'noop';
 
 
 export const address_0 = '0x0000000000000000000000000000000000000000';

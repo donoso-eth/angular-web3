@@ -31,7 +31,7 @@
     </div>
 
     <button (click)="runMyFunction()" *ngIf="
-        abi_input.inputs.length == 0 && abi_input.stateMutability == 'view';
+        abi_input.inputs!.length == 0 && abi_input.stateMutability == 'view';
         else runFunction" mat-mini-fab color="accent" style="margin:auto">
       <mat-icon aria-hidden="false" aria-label="Example home icon">refresh</mat-icon>
     </button>

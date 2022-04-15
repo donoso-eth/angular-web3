@@ -17,7 +17,7 @@ export const  convertEthertoUSD = (ether_value:number,dollarExchange:number) => 
 }
 
 export const displayEther = (etherBalance:number)=> {
-  return etherBalance.toString().substring(0, 6)
+  return etherBalance.toString().substring(0, 20)
 }
 
 export const displayUsd = (usdBalance:any)=> {

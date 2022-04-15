@@ -14,7 +14,7 @@ import {
   web3Selectors,
   AngularContract,
   DappBaseComponent,
-  DappInjectorService,
+  DappInjector,
 } from 'angular-web3';
 import { Store } from '@ngrx/store';
 import { first, firstValueFrom } from 'rxjs';
@@ -55,7 +55,7 @@ export class TheGraphDemoComponent extends DappBaseComponent implements OnInit {
     private dialogService: DialogService,
     private notifierService: NotifierService,
     private graphQl:GraphQlService,
-    dapp: DappInjectorService,
+    dapp: DappInjector,
     store: Store<Web3State>
   ) {
     super(dapp, store);

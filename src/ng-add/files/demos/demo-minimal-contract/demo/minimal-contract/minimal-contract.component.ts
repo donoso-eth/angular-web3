@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   AngularContract,
-  DappInjectorService,
+  DappInjector,
   NETWORK_STATUS,
   web3Selectors,
   no_network,
@@ -49,7 +49,7 @@ export class MinimalContractComponent extends DappBaseComponent implements After
 
   constructor(
     store: Store,
-    dapp: DappInjectorService
+    dapp: DappInjector
   ) { super(dapp,store)}
 
   async asyncStuff() {
