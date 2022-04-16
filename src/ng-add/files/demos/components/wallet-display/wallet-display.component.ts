@@ -24,12 +24,13 @@ import {
 } from 'angular-web3';
 import { Contract, Signer } from 'ethers';
 import { firstValueFrom, takeUntil } from 'rxjs';
-import { uniswap_abi } from 'src/app/2-debug-contract/uniswap_abi';
+
 import {
   DappBaseComponent,
   netWorkByName,
   NETWORK_TYPE,
 } from 'src/app/dapp-injector/constants';
+import { uniswap_abi } from './uniswap_abi';
 
 @Component({
   selector: 'wallet-display',
@@ -60,6 +61,14 @@ export class WalletDisplayComponent extends DappBaseComponent {
       .subscribe((val) => {
         this.dapp.localWallet(val);
       });
+
+      this.dapp.provider!.on('block', async (log: any, event: any) => {
+        const balance = await this.signer.getBalance();
+        this.dollarExchange = await this.getDollarEther();
+        this.convertWeitoDisplay(balance);
+
+      });
+
   }
 
   async convertWeitoDisplay(balance: any) {
@@ -78,10 +87,13 @@ export class WalletDisplayComponent extends DappBaseComponent {
 
   openTransaction() {
     this.openTransactionEvent.emit();
+
+
   }
 
   doFaucet() {
     this.doFaucetEvent.emit();
+    alert("no facuvet")
   }
 
   doDisconnect() {
@@ -131,8 +143,8 @@ export class WalletDisplayComponent extends DappBaseComponent {
     this.address_to_show = await this.signer.getAddress();
 
     const balance = await this.signer.getBalance();
-
     this.dollarExchange = await this.getDollarEther();
+    this.convertWeitoDisplay(balance);
 
     this.network = this.dapp.connectedNetwork!;
 
@@ -148,7 +160,7 @@ export class WalletDisplayComponent extends DappBaseComponent {
       // that look like eyes, mouths and noses.
     };
     // await this.myWallet.refreshWalletBalance()
-    this.convertWeitoDisplay(balance);
+  
 
     if (this.network == 'localhost') {
       this.harhdat_local_privKeys = (

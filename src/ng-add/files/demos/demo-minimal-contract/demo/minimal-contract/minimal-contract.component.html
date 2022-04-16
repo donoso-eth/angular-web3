@@ -1,4 +1,4 @@
-<div style="text-align: center;">
+<div style="text-align: center;font-size:20px">
 <img [class.blockchain_is_busy]="blockchain_is_busy" width="50" alt="Angular Logo"
 src="data:image/png;base64,{{angular_web3}}" />
 
@@ -7,7 +7,7 @@ src="data:image/png;base64,{{angular_web3}}" />
   <div style="text-align: center" *ngIf="!!contractHeader">
     <p>Wallet {{ myWallet_address }}  <br> on {{ connected_netWork}} </p>
 
-    <p>Default Provider Settings Network  {{ provider_network}} </p>
+    <p style="color:black">Default Provider Settings Network <span style="color:green"> {{ provider_network}}</span> </p>
     <p>
       {{ contractHeader.name }} <br />deployed to {{ contractHeader.address }}
       <br /> on {{contract_network}}

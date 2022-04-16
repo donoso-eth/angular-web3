@@ -116,7 +116,7 @@ export const setupOptions = async (
     } else {
         // ============ If Not demo APP========================
         if (_options.test == false) {
-            const questionsNoDemo = [
+                 const questionsNoDemo = [
                 {
                     type: "checkbox",
                     name: "dappServices",
@@ -141,6 +141,7 @@ export const setupOptions = async (
             const answerNoDemo = await prompt(questionsNoDemo);
             _options.addOns = answerNoDemo.dappServices;
         }
+        _options.dappDemo = 'minimalContract';
     }
 
 

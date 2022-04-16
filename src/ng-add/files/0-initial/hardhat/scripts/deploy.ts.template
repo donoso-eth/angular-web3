@@ -5,10 +5,12 @@
 // Runtime Environment's members available in the global scope.
 
 import { writeFileSync,readFileSync } from "fs";
-import {ensureDir } from 'fs-extra'
+import {copySync, ensureDir,existsSync } from 'fs-extra'
 import { ethers,hardhatArguments } from "hardhat";
 import config from "../hardhat.config";
 import { join } from "path";
+import { createHardhatAndFundPrivKeysFiles } from "./helpers/localAccounts";
+import * as hre from 'hardhat';
 
 
 interface ICONTRACT_DEPLOY {
@@ -62,7 +64,7 @@ if (network == undefined) {
       toDeployContract.ctor
     );
 
-    const provider = new providers.JsonRpcProvider();
+   
     //const signer:Signer = await hre.ethers.getSigners()
 
     writeFileSync(
@@ -102,11 +104,23 @@ if (network == undefined) {
     );
   }
 
+ 
   ///// copy addressess files
-  if (!existsSync(`${contract_path}/local_accouts.json`)) {
+  if (!existsSync(`${contract_path}/interfaces/common.ts`)) {
     copySync(
       './typechain-types/common.ts',
       join(contract_path, 'interfaces', 'common.ts')
+    );
+  }
+
+  ///// create index FIle
+  if (!existsSync(`${contract_path}/interfaces/index.ts`)) {
+    const toDeployContract = contract_config[deployContracts[0]];
+
+    writeFileSync(
+      `${contract_path}/interfaces/index.ts`,
+      `import {${toDeployContract.name}} from './${toDeployContract.name}'
+      export type IDEFAULT_CONTRACT= ${toDeployContract.name}`
     );
   }
 }

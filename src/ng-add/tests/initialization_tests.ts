@@ -76,7 +76,7 @@ describe("Initilization", () => {
   });
 
 
-  it("No demo app should not install miminalcontract", async () => {
+  it("No demo app should miminalcontract", async () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         "ng-add",
@@ -85,7 +85,7 @@ describe("Initilization", () => {
       )
       .toPromise();
 
-      expect(tree.exists(normalize("/projects/schematest/src/app/0-minimal-contract/minimal-contract.module.ts"))).toBeFalse();
+      expect(tree.exists(normalize("/projects/schematest/src/app/0-minimal-contract/minimal-contract.module.ts"))).toBeTrue();
 
   });
 

@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { Signer } from 'ethers';
 import { pipe, Subject, takeUntil } from 'rxjs';
 import { IDEFAULT_CONTRACT } from 'src/assets/contracts/interfaces';
-import { DappInjector } from '../dapp-injector.service';
+import { DappInjector } from '../dapp-injector.service.ts';
 import { NETWORK_STATUS, web3Selectors } from '../store';
 import { AngularContract } from './contract';
 

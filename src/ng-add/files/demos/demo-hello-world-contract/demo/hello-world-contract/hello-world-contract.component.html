@@ -1,6 +1,6 @@
 
- <onchain-home *ngIf="contractHeader !== undefined"
-[contractHeader]="contractHeader"
+ <onchain-home *ngIf="contractHeader !== undefined" (openTransactionEvent)="openTransaction()"
+[contractHeader]="contractHeader" [blockchain_status]="blockchain_status"
 [blockchain_is_busy]="blockchain_is_busy"
 > 
 
@@ -9,12 +9,7 @@
   <mat-tab-group mat-align-tabs="center">
     <mat-tab label="Smart Contract">
   
-        <p style="text-align: center; font-size: 20px">
 
-        <wallet-display [signer]="signer" (doFaucetEvent)="doFaucet()"
-          (openTransactionEvent)="openTransaction()" ></wallet-display> 
-
-        </p>
 
         <div
           style="

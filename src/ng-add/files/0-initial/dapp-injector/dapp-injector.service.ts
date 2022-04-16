@@ -13,7 +13,7 @@ import { Web3Actions, web3Selectors } from './store';
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { Web3ModalComponent } from './web3-modal/web3-modal.component';
 import { Subject, takeUntil } from 'rxjs';
-import { IDEFAULT_CONTRACT } from 'src/assets/contracts/interfaces';
+import { IDEFAULT_CONTRACT } from '../../assets/contracts/interfaces';
 import { AngularContract } from './classes';
 
 

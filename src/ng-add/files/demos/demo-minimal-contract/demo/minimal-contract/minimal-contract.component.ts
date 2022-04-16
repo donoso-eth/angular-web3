@@ -3,13 +3,13 @@ import { Store } from '@ngrx/store';
 import {
   AngularContract,
   DappInjector,
-  NETWORK_STATUS,
-  web3Selectors,
   no_network,
   angular_web3,
   DappBaseComponent,
+  netWorkById,
 } from 'angular-web3';
 import { providers } from 'ethers';
+import { IDEFAULT_CONTRACT } from 'src/assets/contracts/interfaces';
 
 @Component({
   selector: 'minimal-contract',
@@ -39,7 +39,7 @@ export class MinimalContractComponent extends DappBaseComponent implements After
   myWallet_address!: string;
   contractHeader!: { name: string; address: string };
 
-  minimalContract!: AngularContract;
+  minimalContract!: AngularContract<IDEFAULT_CONTRACT>;
   netWork!: string;
   no_network = no_network;
   angular_web3 = angular_web3;
@@ -53,25 +53,22 @@ export class MinimalContractComponent extends DappBaseComponent implements After
   ) { super(dapp,store)}
 
   async asyncStuff() {
-    this.myWallet_address =
-      (await this.dapp.DAPP_STATE.signer?.getAddress()) as string;
+    this.myWallet_address = this.dapp.signerAddress!;
     this.contractHeader = {
       name: this.minimalContract.name,
       address: this.minimalContract.address,
     };
-    this.deployer_address = await (
-      await (
-        this.dapp.DAPP_STATE
-          .defaultProvider as providers.JsonRpcProvider
-      ).getSigner()
-    ).getAddress();
+    this.deployer_address = this.dapp.signerAddress!;
     this.connected_netWork! = this.dapp.DAPP_STATE.connectedNetwork as string
     this.contract_network = this.minimalContract.network_deployed;
-    this.provider_network  = this.dapp.dappConfig.defaultNetwork;
-  }
+    const net_id = (await this.dapp.provider?.getNetwork())?.chainId
+    this.provider_network = netWorkById(+net_id!).name
+    }
 
   override async hookContractConnected(): Promise<void> {
-    this.minimalContract = this.dapp.defaultContract as AngularContract;
+    this.minimalContract = this.dapp.defaultContract! ;
+   
+
     this.asyncStuff()
   }
 

@@ -21,7 +21,9 @@ import {
 import { Store } from '@ngrx/store';
 import { first, firstValueFrom } from 'rxjs';
 import { DialogService, NotifierService } from 'src/app/dapp-components';
-import { uniswap_abi } from 'src/app/dapp-injector/helpers/uniswap_abi';
+
+import { doSignerTransaction } from 'src/app/dapp-injector/classes/transactor';
+import { uniswap_abi } from '../uniswap_abi';
 
 @Component({
   selector: 'hello-world-contract',
@@ -62,7 +64,7 @@ export class HelloWorldContractComponent extends DappBaseComponent implements On
     try {
       // await this.dapp.init();
 
-      this.deployer_address = await (await this.dapp.provider!.getSigner()).getAddress();
+      this.deployer_address = this.dapp.signerAddress!;
 
       this.dapp.provider!.on('block', async (log: any, event: any) => {
         this.refreshContractBalance();
@@ -75,7 +77,7 @@ export class HelloWorldContractComponent extends DappBaseComponent implements On
         name: this.defaultContract.name,
         address: this.defaultContract.address,
         abi: this.defaultContract.abi,
-        network: '',
+        network: this.defaultContract.network_deployed,
       };
 
       await this.displayGreeting();
@@ -121,51 +123,36 @@ export class HelloWorldContractComponent extends DappBaseComponent implements On
   }
 
   async displayGreeting() {
-    const result = await this.defaultContract.runFunction('greet', []);
-    console.log(result.payload);
-    // this.deployer_balance = ethers.utils.formatUnits(
-    //   await this.newWallet.getBalance(),
-    //   18
-    // );
+
+    let result =  await this.defaultContract.instance.greet()
+
+   
+    this.greeting = result;
+
     this.loading_contract = 'found';
   }
 
-  async doFaucet() {
-    this.blockchain_is_busy = true;
-    let amountInEther = '0.1';
-    // Create a transaction object
 
-    let tx = {
-      to: await this.dapp.signerAddress,
-      // Convert currency unit from ether to wei
-      value: ethers.utils.parseEther(amountInEther),
-    };
-
-    // Send a transaction
-    const transaction_result = await this.dapp.doTransaction(tx, true);
-    this.blockchain_is_busy = false;
-    await this.notifierService.showNotificationTransaction(transaction_result);
-  }
 
   async openTransaction() {
     console.log(await this.getDollarEther());
-    this.blockchain_is_busy = true;
+  
     const res = await this.dialogService.openDialog();
-
+    this.blockchain_is_busy = true;
     if (res && res.type == 'transaction') {
       const usd = res.amount;
       const amountInEther = convertUSDtoEther(res.amount, await this.getDollarEther());
       const amountinWei = convertEtherToWei(amountInEther);
 
-      let tx = {
+      let tx = this.dapp.signer?.sendTransaction({
         to: res.to,
         // Convert currency unit from ether to wei
         value: amountinWei,
-      };
+      });
 
-      const transaction_result = await this.dapp.doTransaction(tx);
+      const transaction_result = await doSignerTransaction(tx!)  
       this.blockchain_is_busy = false;
-      await this.notifierService.showNotificationTransaction(transaction_result);
+      //await this.notifierService.showNotificationTransaction(transaction_result);
     } else {
       this.blockchain_is_busy = false;
     }
@@ -176,7 +163,7 @@ export class HelloWorldContractComponent extends DappBaseComponent implements On
       alert('No Greeting found, be nice!!');
       return;
     }
-
+    this.blockchain_is_busy = true;
     // const transaction_result = await this.dapp.runfunction({
     //   contractKey: 'myContract',
     //   method: 'setGreeting',
@@ -190,12 +177,16 @@ export class HelloWorldContractComponent extends DappBaseComponent implements On
     //   'payable'
     // );
 
+    let tx = this.defaultContract.instance.setGreeting(this.greeting_input)
+
+    let transaction_result = await doSignerTransaction(tx)
+
     // const transaction_result =
     //   await this.dapp.defaultContract.runTransactionFunction(
     //     'setGreeting',
     //     [this.greeting_input]
     //   );
-    // this.blockchain_is_busy = false;
+     this.blockchain_is_busy = false;
     // await this.notifierService.showNotificationTransaction(
     //   transaction_result.msg
     // );
@@ -215,6 +206,7 @@ export class HelloWorldContractComponent extends DappBaseComponent implements On
   override async hookContractConnected(): Promise<void> {
     console.log('CONNECTED COMPONENT')
     this.onChainStuff();
+    console.log(this.blockchain_status)
   }
 
   override ngOnDestroy(): void {

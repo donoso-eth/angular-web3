@@ -5,8 +5,8 @@
   <span *ngIf="blockchain_status=='wallet-connected'"> {{contractHeader.name}} is running!</span>
   <div class="spacer"></div>
 
-  <wallet-display *ngIf="blockchain_status=='wallet-connected'" style="margin-right:10px" 
-    (doFaucetEvent)="doFaucetEvent.emit()" (openTransactionEvent)="openTransactionEvent.emit()"></wallet-display>
+  <wallet-display *ngIf="blockchain_status=='wallet-connected'"  (openTransactionEvent)="openTransactionEvent.emit();" style="margin-right:10px" 
+  ></wallet-display>
 </div>
 
 <div class="content" role="main">

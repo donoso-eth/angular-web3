@@ -12,8 +12,8 @@ export class TransactionComponent implements OnInit {
   input_form:FormGroup;
   constructor(
 
-    // public dialogRef: MatDialogRef<TransactionComponent>,
-    // @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<TransactionComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
 
     this.input_form = new FormGroup({
@@ -22,13 +22,14 @@ export class TransactionComponent implements OnInit {
     });
 
   }
-  // doTransaction(){
-  //   this.activeModal.close({...{type:'transaction'},...this.input_form.getRawValue()});
-  // }
+  doTransaction(){
+    this.dialogRef.close({...{type:'transaction'},...this.input_form.getRawValue()})
 
-  // onNoClick(): void {
-  //   this.activeModal.close({type:'cancel'});
-  // }
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close({type:'cancel'});
+  }
   ngOnInit(): void {
   }
 

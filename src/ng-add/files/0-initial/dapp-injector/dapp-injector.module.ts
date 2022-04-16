@@ -1,6 +1,6 @@
 import { InjectionToken, ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DappInjector } from './dapp-injector.service';
+import { DappInjector } from './dapp-injector.service.ts';
 import { IDAPP_CONFIG } from './models';
 
 export const DappConfigService = new InjectionToken<IDAPP_CONFIG>('DappConfig');
