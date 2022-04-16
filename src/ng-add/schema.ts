@@ -37,7 +37,7 @@ export declare interface IOPTIONS {
 }
 
 
-export type DappDemoType ="noop" | "minimalContract" | "helloWorldContract" | "debugContract" | "nftContract" | "superFluid"| "lensProtocol" | "theGraph";
+export type DappDemoType = "minimalContract" | "helloWorldContract" | "debugContract" | "nftContract" | "superFluid"| "lensProtocol" | "theGraph";
 
 export type AddOnsType =  "graphQlService" | "subgraph" | "graphNode" | "ipfsService" | "litProtocolService" | "superFluidService";
 

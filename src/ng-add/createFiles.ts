@@ -15,6 +15,7 @@ import { IOPTIONS_EXTENDED } from "./schema";
 
 import { classify, dasherize, camelize, underscore } from '@angular-devkit/core/src/utils/strings';
 import { getOptionskeys } from "./helpers/getOptionsKeys";
+import { contract_config } from "./config/contract.config";
 const stringUtils = {classify, dasherize, camelize, underscore };
 
 export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
@@ -44,11 +45,15 @@ export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
   
 
 /// ============  demo apps ================= 
+
+  const contractName = contract_config[_options.dappDemo]
+
   const options_file_replacements = { 
     ...stringUtils,
     sourceRoot: _options.sourceRoot , 
     contractCode:_options.dappDemo,
-    metadata:_options.dappDemo + 'Metadata'  }
+    metadata:_options.dappDemo + 'Metadata' ,
+    contractName }
 
 
   for (const rootFile of templates_root) {
@@ -86,7 +91,7 @@ export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
     );
 
   const templateInjector = apply(url("./files/common/dapp/dapp-injector"), [
-    applyTemplates({ sourceRoot: _options.sourceRoot, metadata:_options.dappDemo + 'Metadata' }),
+    applyTemplates({ sourceRoot: _options.sourceRoot, metadata:_options.dappDemo + 'Metadata',  contractName }),
     move(normalize(normalize(`/${_options.sourceRoot}/app/dapp-injector`))),
   ]);
 

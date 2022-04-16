@@ -159,13 +159,4 @@ describe("Creates SuperFluid Demo", () => {
    });
 
 
-
-   it("It Add Superfluid and replace hardhat config with fork", async () => {
-
-    const hardhat_config_file = tree.readContent("hardhat/hardhat.config.ts");
-
-    expect(hardhat_config_file).to.contain("url: `${ALCHEMY_URL}`,");
-
-  });
-
 });

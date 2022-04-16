@@ -13,7 +13,7 @@ import { Web3Actions, web3Selectors } from './store';
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { Web3ModalComponent } from './web3-modal/web3-modal.component';
 import { Subject, takeUntil } from 'rxjs';
-import { IDEFAULT_CONTRACT } from '../../assets/contracts/interfaces';
+import { <%= contractName %>} from '../../assets/contracts/interfaces';
 import { AngularContract } from './classes';
 
 
@@ -25,7 +25,7 @@ export class DappInjector implements OnDestroy {
   private destroyHooks: Subject<void> = new Subject();
 
   ///// ---------  DAPP STATE INITIALIZATION
-  DAPP_STATE:IDAPP_STATE<IDEFAULT_CONTRACT> = {
+  DAPP_STATE:IDAPP_STATE<<%= contractName %>> = {
    
     defaultProvider: null,
     connectedNetwork: null,
@@ -191,7 +191,7 @@ async localWallet(index:number) {
   ///// ---------  Contract Initialization
   private async contractInitialization() {
 
-    const contract = new AngularContract<IDEFAULT_CONTRACT>({
+    const contract = new AngularContract<<%= contractName %>>({
       metadata: this.contractMetadata,
       provider: this.DAPP_STATE.defaultProvider!,
       signer: this.DAPP_STATE.signer!,

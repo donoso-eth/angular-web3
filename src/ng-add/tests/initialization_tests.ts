@@ -67,7 +67,7 @@ describe("Initilization", () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         "ng-add",
-        { project: "default", test:true,demoToInstall:false, addOns:[],dappDemo: "noop" },
+        { project: "default", test:true,demoToInstall:false, addOns:[],dappDemo: "minimalContract" },
         appTree
       )
       .toPromise();
@@ -80,7 +80,7 @@ describe("Initilization", () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         "ng-add",
-        { project: "default", test:true,demoToInstall:false, addOns:[],dappDemo: "noop" },
+        { project: "default", test:true,demoToInstall:false, addOns:[],dappDemo: "minimalContract" },
         appTree
       )
       .toPromise();
