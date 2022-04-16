@@ -12,14 +12,12 @@
 * [Dapp Config](ng-app-greater-than-ng-dapp/dapp-config.md)
 * [Dapp State](ng-app-greater-than-ng-dapp/dapp-state.md)
 
-## BLOCKCHAIN
-
 ## Dapp Demos
 
 * [Hello World](dapp-demos/hello-world.md)
 * [Debug Contract](dapp-demos/debug-contract.md)
 * [Nft Contract](dapp-demos/nft-contract.md)
-* [Super Fluid](dapp-demos/super-fluid.md)
+* [Superfluid](dapp-demos/super-fluid.md)
 * [Lens Protocol](dapp-demos/lens-protocol.md)
 * [Lite Coin](dapp-demos/lite-coin.md)
 * [Livepeer](dapp-demos/livepeer.md)
