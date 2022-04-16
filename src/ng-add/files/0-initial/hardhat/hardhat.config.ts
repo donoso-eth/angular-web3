@@ -95,7 +95,11 @@ const config: HardhatUserConfig = {
 
   networks: {
     hardhat: {
-      chainId: 1337,
+      forking: {
+        //your rpc url here, in this case for Mumbai
+        url: `https://polygon-mumbai.g.alchemy.com/v2/${ALCHEMY_ID_MUMBAI}`,
+        blockNumber: 25953748,
+      },
     },
     localhost: {
       url: 'http://localhost:8545',

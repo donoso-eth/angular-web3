@@ -19,7 +19,6 @@ import {
 import { Store } from '@ngrx/store';
 import { first, firstValueFrom } from 'rxjs';
 import { DialogService, NotifierService } from '../../dapp-components';
-import { uniswap_abi } from 'src/app/dapp-injector/helpers/uniswap_abi';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
@@ -68,27 +67,27 @@ export class SuperFluidDemoComponent extends DappBaseComponent implements OnInit
 
 
     
-        this.defaultContract.contract.on('NewGravatar', (args) => {
-          let payload;
-          if (typeof args == 'object') {
-            payload = JSON.stringify(args);
-          } else {
-            payload = args.toString();
-          }
-          console.log(payload)
-        });
+        // this.defaultContract.instance.on('NewGravatar', (args) => {
+        //   let payload;
+        //   if (typeof args == 'object') {
+        //     payload = JSON.stringify(args);
+        //   } else {
+        //     payload = args.toString();
+        //   }
+        //   console.log(payload)
+        // });
  
 
-        this.defaultContract.contract.on('UpdatedGravatar', (args,arg2,arg3,arg4) => {
-          let payload;
-          console.log(args,arg2,arg3,arg4)
-          if (typeof args == 'object') {
-            payload = JSON.stringify(args);
-          } else {
-            payload = args.toString();
-          }
-          console.log(payload)
-        });
+        // this.defaultContract.instance.on('UpdatedGravatar', (args,arg2,arg3,arg4) => {
+        //   let payload;
+        //   console.log(args,arg2,arg3,arg4)
+        //   if (typeof args == 'object') {
+        //     payload = JSON.stringify(args);
+        //   } else {
+        //     payload = args.toString();
+        //   }
+        //   console.log(payload)
+        // });
  
 
 
@@ -104,31 +103,7 @@ export class SuperFluidDemoComponent extends DappBaseComponent implements OnInit
     }
   }
 
-  async updateGravatarName() {
-    if (this.nameCtrl.invalid){
-      alert("please input name")
-      return
-    }
-    const name = this.nameCtrl.value;
-    const result = await this.defaultContract.runFunction('updateGravatarName', [
-      name,{ gasPrice: utils.parseUnits('100', 'gwei'), 
-      gasLimit: 2000000 }
-    ]);
-    console.log(result);
-  }
 
-  async updateGravatarImage() {
-    if (this.imageCtrl.invalid){
-      alert("please input image")
-      return
-    }
-    const image = this.imageCtrl.value;
-    const result = await this.defaultContract.runFunction('updateGravatarImage', [
-     image,{ gasPrice: utils.parseUnits('100', 'gwei'), 
-     gasLimit: 2000000 }
-    ]);
-  
-  }
 
   async createGravatar() {
     if (this.nameCtrl.invalid){
@@ -148,18 +123,9 @@ export class SuperFluidDemoComponent extends DappBaseComponent implements OnInit
 
 
 
-    const result = await this.defaultContract.runFunction('createGravatar', [
-      name,image
-    ]);
-    console.log(result);
   }
 
-  async getGravatar() {
-    const result = await this.defaultContract.runFunction('getGravatar', [
-      this.dapp.signerAddress,
-    ]);
-    console.log(result);
-  }
+
 
   async doFaucet() {
     this.blockchain_is_busy = true;
@@ -175,9 +141,9 @@ export class SuperFluidDemoComponent extends DappBaseComponent implements OnInit
     const deployer = await this.defaultProvider.getSigner();
 
     // Send a transaction
-    const transaction_result = await this.dapp.doTransaction(tx, deployer);
-    this.blockchain_is_busy = false;
-    await this.notifierService.showNotificationTransaction(transaction_result);
+    // const transaction_result = await this.dapp.doTransaction(tx, deployer);
+    // this.blockchain_is_busy = false;
+    // await this.notifierService.showNotificationTransaction(transaction_result);
   }
 
   async openTransaction() {
@@ -196,11 +162,11 @@ export class SuperFluidDemoComponent extends DappBaseComponent implements OnInit
         value: amountinWei,
       };
 
-      const transaction_result = await this.dapp.doTransaction(tx);
-      this.blockchain_is_busy = false;
-      await this.notifierService.showNotificationTransaction(
-        transaction_result
-      );
+      // const transaction_result = await this.dapp.doTransaction(tx);
+      // this.blockchain_is_busy = false;
+      // await this.notifierService.showNotificationTransaction(
+      //   transaction_result
+      // );
     } else {
       this.blockchain_is_busy = false;
     }

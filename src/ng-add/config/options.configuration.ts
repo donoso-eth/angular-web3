@@ -79,6 +79,7 @@ export const configuration_options: {
         "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json accounts",
       compile:
         "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json compile",
+      fork: "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json node  --network hardhat",
       generate:
         "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json generate",
       deploy:
