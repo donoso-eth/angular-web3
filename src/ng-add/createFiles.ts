@@ -46,7 +46,7 @@ export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
 
 /// ============  demo apps ================= 
 
-  const contractName = contract_config[_options.dappDemo]
+  const contractName = contract_config[_options.dappDemo].name
 
   const options_file_replacements = { 
     ...stringUtils,

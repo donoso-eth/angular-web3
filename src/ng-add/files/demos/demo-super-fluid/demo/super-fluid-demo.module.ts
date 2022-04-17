@@ -11,6 +11,10 @@ import {BlockchainModule, ContractShowModule, DialogModule, HomeModule, Notifier
 import { ICONTRACT_METADATA } from 'angular-web3';
 
 import SuperFluidMetadata from '../../assets/contracts/super_app_metadata.json';
+import { StreamComponent } from './stream/stream.component';
+import { IdaComponent } from './ida/ida.component';
+import { SuperAppComponent } from './super-app/super-app.component';
+import { SuperFluidServiceModule } from '../dapp-injector/services/super-fluid/super-fluid-service.module';
 export const contractMetadata = new InjectionToken<ICONTRACT_METADATA>('contractMetadata')
 
 export const contractProvider= {provide: 'contractMetadata', useValue:SuperFluidMetadata };
@@ -19,7 +23,10 @@ export const contractProvider= {provide: 'contractMetadata', useValue:SuperFluid
 
 @NgModule({
   declarations: [
-    SuperFluidDemoComponent
+    SuperFluidDemoComponent,
+    StreamComponent,
+    IdaComponent,
+    SuperAppComponent
   ],
   imports: [
     CommonModule,
@@ -32,7 +39,10 @@ export const contractProvider= {provide: 'contractMetadata', useValue:SuperFluid
     ContractShowModule,
     HomeModule,
     DialogModule,
-    NotifierModule
+    NotifierModule,
+
+    SuperFluidServiceModule
+
   ],
   exports: [
     SuperFluidDemoComponent

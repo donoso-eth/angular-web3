@@ -14,10 +14,13 @@ export const updateTsConfig = (
   if (!tsConfig) {
     throw new SchematicsException("No typescrit config fie");
   } 
-
     const pathString = [`${_options.sourceRoot}/app/dapp-injector/index.ts`]
+
     tsConfig.modify(['compilerOptions','paths','angular-web3'],pathString) 
-    
+
+    tsConfig.modify(['compilerOptions', 'skipLibCheck'],true)
+
+
 
   return tree;
 };

@@ -113,16 +113,7 @@ if (network == undefined) {
     );
   }
 
-  ///// create index FIle
-  if (!existsSync(`${contract_path}/interfaces/index.ts`)) {
-    const toDeployContract = contract_config[deployContracts[0]];
 
-    writeFileSync(
-      `${contract_path}/interfaces/index.ts`,
-      `import {${toDeployContract.name}} from './${toDeployContract.name}'
-      export type IDEFAULT_CONTRACT= ${toDeployContract.name}`
-    );
-  }
 }
 
 // We recommend this pattern to be able to use async/await everywhere
