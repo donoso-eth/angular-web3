@@ -1,0 +1,1 @@
+export interface ISTREAM_DISPLAY  { balance:number, streams:Array<number>}
