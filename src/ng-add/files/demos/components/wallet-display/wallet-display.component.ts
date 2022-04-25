@@ -21,12 +21,12 @@ import {
   Web3Actions,
   web3Selectors,
   Web3State,
+  DappBaseComponent
 } from 'angular-web3';
 import { Contract, Signer } from 'ethers';
 import { firstValueFrom, takeUntil } from 'rxjs';
 
 import {
-  DappBaseComponent,
   netWorkByName,
   NETWORK_TYPE,
 } from 'src/app/dapp-injector/constants';

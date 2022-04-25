@@ -20,7 +20,7 @@ export const updateTsConfig = (
 
     tsConfig.modify(['compilerOptions', 'skipLibCheck'],true)
 
-
+    tsConfig.modify(['compilerOptions', 'noPropertyAccessFromIndexSignature'],false)
 
   return tree;
 };

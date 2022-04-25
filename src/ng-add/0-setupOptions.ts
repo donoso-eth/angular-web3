@@ -123,6 +123,7 @@ export const setupOptions = async (
                     message: "Which services would you like to add to your project?",
                     choices: [
                         "Ipfs Service",
+                        "Super FluidService",
                         "Lit Protocol Service",
                         "GraphQl Service",
                         "Subgraph",

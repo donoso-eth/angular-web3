@@ -20,6 +20,7 @@ import { updateTsConfig } from "./updateTsConfig";
 import { runExternal } from "./runExternal";
 import { setupOptions } from "./0-setupOptions";
 import { addFontsToIndex } from "./addFonts";
+import { updateAppHtml } from "./updateAppHtml";
 
 /** Adds a package to the package.json in the given host tree. */
 
@@ -96,6 +97,10 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
     (tree: Tree, _context: SchematicContext) => {
       return addImport(tree, _options);
     },
+    (tree: Tree, _context: SchematicContext) => {
+      return updateAppHtml(tree, _options);
+    },
+
     (tree: Tree, _context: SchematicContext) => {
       return updateTsConfig(tree, _options);
     },

@@ -22,7 +22,7 @@ import { DialogService, NotifierService } from '../../dapp-components';
 import { FormControl, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'super-fluid-demo',
+  selector: 'super-fluid',
   templateUrl: './super-fluid-demo.component.html',
   styleUrls: ['./super-fluid-demo.component.scss'],
 })

@@ -9,7 +9,7 @@ import {copySync, ensureDir,existsSync } from 'fs-extra'
 import { ethers,hardhatArguments } from "hardhat";
 import config from "../hardhat.config";
 import { join } from "path";
-import { createHardhatAndFundPrivKeysFiles } from "./helpers/localAccounts";
+import { createHardhatAndFundPrivKeysFiles } from "../helpers/localAccounts";
 import * as hre from 'hardhat';
 
 

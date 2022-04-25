@@ -3,7 +3,8 @@ import { Store } from '@ngrx/store';
 import { ConstantFlowAgreementV1 } from '@superfluid-finance/sdk-core';
 import { DappBaseComponent, DappInjector } from 'angular-web3';
 import { Contract, Signer, Wallet } from 'ethers';
-import { ISTREAM_DISPLAY } from 'src/app/shared/models/models';
+import { ISTREAM_DISPLAY } from '../shared/models/models';
+
 import { abi_ERC20 } from './ERC20_ABI';
 
 @Component({

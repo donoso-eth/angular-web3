@@ -21,7 +21,7 @@ import { NotifierService } from '../../notifier/notifier.service';
 import { DialogService } from '../../dialog/dialog.service';
 import { AngularContract } from 'src/app/dapp-injector/classes/contract';
 import { BlockWithTransactions, IABI_OBJECT, IBALANCE, ICONTRACT_METADATA, IINPUT_EVENT } from 'angular-web3';
-import { IDEFAULT_CONTRACT } from 'src/assets/contracts/interfaces';
+import { <%= contractName %>} from '<%= sourceRoot %>/assets/contracts/interfaces/<%= contractName %>';
 import { doSignerTransaction } from 'src/app/dapp-injector/classes/transactor';
 
 
@@ -65,7 +65,7 @@ export class DebugComponent implements AfterViewInit {
 
  
   }
-  @Input() public debugContract!: AngularContract<IDEFAULT_CONTRACT>;
+  @Input() public debugContract!: AngularContract<<%= contractName %>>;
 
   @ViewChild('inputContainer', { read: ViewContainerRef })
   inputContainer!: ViewContainerRef;

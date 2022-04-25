@@ -1,6 +1,6 @@
 {
   "name": "angular-web3",
-  "version": "0.0.4-beta1",
+  "version": "0.0.4-beta2",
   "description": "A schematics packages providing tools for developping Angular Dapps",
   "scripts": {
     "build": "tsc -p tsconfig.json",

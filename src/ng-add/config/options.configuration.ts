@@ -75,14 +75,10 @@ export const configuration_options: {
     scripts: {
       chain:
         "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json node",
-      accounts:
-        "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json accounts",
       compile:
         "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json compile",
       fork: "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json node  --network hardhat",
-      generate:
-        "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json generate",
-      deploy:
+       deploy:
         "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run ./scripts/deploy.ts",
       "contracts:test":
         "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json test",
