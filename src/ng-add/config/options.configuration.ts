@@ -31,6 +31,13 @@ export const configuration_options: {
       ethers: "^5.0.0",
       "@ngrx/store": "^13.0.2",
       "@download/blockies": "^1.0.3",
+      "stream-browserify": "^3.0.0",
+      "os-browserify": "^0.3.0",
+      "https-browserify": "^1.0.0",
+      "assert": "^2.0.0",
+      "crypto-browserify": "^3.12.0",
+      "stream-http": "^3.2.0",
+      "util": "^0.12.4",
     },
     devDeps: {
       "@nomiclabs/hardhat-ethers": "2.0.2",
@@ -297,7 +304,7 @@ export const configuration_options: {
       deps: {
         "ang-jsoneditor": "^1.10.5",
         "json-editor": "^0.7.28",
-        "@angular-builders/custom-webpack": "^13.1.0",
+        "ipfs-http-client": "^56.0.3",
       },
       devDeps: {},
       scripts: {},

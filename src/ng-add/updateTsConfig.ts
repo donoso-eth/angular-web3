@@ -17,6 +17,13 @@ export const updateTsConfig = (
     const pathString = [`${_options.sourceRoot}/app/dapp-injector/index.ts`]
 
     tsConfig.modify(['compilerOptions','paths','angular-web3'],pathString) 
+    tsConfig.modify(['compilerOptions','paths',"crypto"],"./node_modules/crypto-browserify")
+    tsConfig.modify(['compilerOptions','paths',"stream"],"./node_modules/stream-browserify"),
+    tsConfig.modify(['compilerOptions','paths',"assert"],"./node_modules/assert"),
+    tsConfig.modify(['compilerOptions','paths',"http"],"./node_modules/stream-http"),
+    tsConfig.modify(['compilerOptions','paths',"https"],"./node_modules/https-browserify"),
+    tsConfig.modify(['compilerOptions','paths',"os"],"./node_modules/os-browserify"),
+    tsConfig.modify(['compilerOptions','paths',"url"],"./node_modules/url")
 
     tsConfig.modify(['compilerOptions', 'skipLibCheck'],true)
 
