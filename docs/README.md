@@ -10,7 +10,7 @@ coverY: 0
 
 ## :tada:Our Vission
 
-Use this area to play with the editor and get to grips with some of the content blocks. Have a play then move on to the next page!&#x20;
+Use this area to play with the editor and get to grips with some of the content blocks. Have a play then move on to the next page!
 
 ### :clap:Our Mission
 
@@ -18,4 +18,4 @@ Empower every Angular dev to deep dive into the web3 space enabling a speed run 
 
 ### Scaffold-eth
 
-Thanks to @austingriffith for crafting the awesome [Scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) project. This projects aims to reproduce with angular tooling the same experience as scaffold-sth produce for react devs
+Thanks to @austingriffith for crafting the awesome [Scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) project. This project aims to reproduce with angular tooling the same experience as scaffold-sth produce for react devs

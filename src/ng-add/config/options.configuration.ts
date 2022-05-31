@@ -90,6 +90,7 @@ export const configuration_options: {
       wire: "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run .helpers/wire.ts",
       tinker:
         "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run ./scripts/tinker.ts",
+        task: "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json",
     },
     addOns: [],
     templates_root: [
