@@ -68,6 +68,7 @@ export const configuration_options: {
       "eslint-plugin-prettier": "^3.4.0",
       "eslint-plugin-promise": "^5.1.0",
       "ethereum-waffle": "^3.0.0",
+      "ethereumjs-util": "^7.1.4",
       "@openzeppelin/contracts": "^4.5.0",
       prettier: "^2.3.2",
       "prettier-plugin-solidity": "^1.0.0-beta.13",
@@ -91,12 +92,12 @@ export const configuration_options: {
         "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json test",
       "contracts:coverage":
         "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json coverage",
-      "watch-contract": "cd hardhat && node scripts/helpers/watch.js",
-      "watch-tinker": "cd hardhat && node scripts/helpers/tinker-watch.js",
-      wire: "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run ./scripts/helpers/wire.ts",
-      task: "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json",
+      "watch-contract": "cd hardhat && nodehelpers/watch.js",
+      "watch-tinker": "cd hardhat && nodehelpers/tinker-watch.js",
+      wire: "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run .helpers/wire.ts",
       tinker:
         "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run ./scripts/tinker.ts",
+        task: "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json",
     },
     addOns: [],
     templates_root: [
@@ -285,8 +286,8 @@ export const configuration_options: {
       scripts: {
         "publish:subgraph": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run ./scripts/publish.ts",
         "codegen": "cd add-ons/subgraph && graph codegen",
-        "build-graph": "cd subgraph && graph build",
-        "deploy-graph": "cd services/graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ GITHUB_USERNAME/your-contract"
+        "build-graph": "cd add-ons/subgraph && graph build",
+        "deploy-graph": "cd add-ons/subgraph && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ GITHUB_USERNAME/your-contract"
           },
       templates_root: [
         {
