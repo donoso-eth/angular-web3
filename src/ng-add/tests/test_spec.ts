@@ -8,7 +8,7 @@
 
 //// TESTS DEMO APPS
 
-import "./demo-super-fluid_tests"
+//import "./demo-super-fluid_tests"
 
 //import "./demo-the-graph_tests";
 
@@ -22,4 +22,4 @@ import "./demo-super-fluid_tests"
 
 // import "./add-ons-graph-ql_tests";
 
-import "./add-ons-super-fluid_tests"
+// import "./add-ons-super-fluid_tests"

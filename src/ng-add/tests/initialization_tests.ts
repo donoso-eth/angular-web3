@@ -108,7 +108,14 @@ describe("Initilization", () => {
     expect(tree.exists("hardhat/contract.config.json")).toBeTrue();
   });
 
-
+  it("Update the polyfills", async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:false, addOns:[],dappDemo: "minimalContract" }, appTree)
+      .toPromise();
+      console.log(tree.files)
+    const polyfills = tree.readContent("/projects/schematest/src/polyfills.ts");;
+    expect(polyfills).toContain("require('process')")
+  });
 
   it("Should add Injector module ", async () => {
 

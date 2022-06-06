@@ -10,7 +10,7 @@ export const updateAppHtml = (
 ): Tree => {
    
 
-    if (_options.demoToInstall == true || _options.alreadyInstalled == false){
+    if ( _options.alreadyInstalled == false){
 
     const pathString = normalize(`/${_options.sourceRoot}/app/app.component.html`);
 
