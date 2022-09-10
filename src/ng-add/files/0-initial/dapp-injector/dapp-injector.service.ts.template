@@ -14,6 +14,7 @@ import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { Web3ModalComponent } from './web3-modal/web3-modal.component';
 import { Subject, takeUntil } from 'rxjs';
 import { <%= contractName %>} from '<%= sourceRoot %>/assets/contracts/interfaces/<%= contractName %>';
+import <%= contractName %>Metadata from '<%= sourceRoot %>/assets/contracts/<%=  jsonFile %>_metadata.json';
 import { AngularContract } from './classes';
 
 
@@ -26,8 +27,7 @@ export class DappInjector implements OnDestroy {
 
   ///// ---------  DAPP STATE INITIALIZATION
   DAPP_STATE:IDAPP_STATE<<%= contractName %>> = {
-   
-    defaultProvider: null,
+     defaultProvider: null,
     connectedNetwork: null,
 
     signer:null,
@@ -46,16 +46,16 @@ export class DappInjector implements OnDestroy {
 
 
   constructor(
-    @Inject(DappConfigService) private dappConfig: IDAPP_CONFIG,
+    @Inject(DappConfigService) public dappConfig: IDAPP_CONFIG,
     @Inject(DOCUMENT) private readonly document: any,
-    @Inject('contractMetadata') public contractMetadata: ICONTRACT_METADATA,
+  
     private store: Store
   ) {
     ///// ---------  Blockchain Bootstrap
     this.dappBootstrap();
   }
 
-  ///// ---- -----  Launching webmodal when chain is disconnected
+   ///// ---- -----  Launching webmodal when chain is disconnected
   async launchWebModal() {
     if (this.dappConfig.wallet !== 'wallet') {
       this.dappBootstrap();
@@ -74,18 +74,27 @@ export class DappInjector implements OnDestroy {
     this.DAPP_STATE.defaultProvider = await this.providerInitialization() as JsonRpcProvider;
 
   
-    /// todo launch read contract async not required to await
+ 
 
     ///// ---------  Signer Initialization in order to xxxxxx
 
     switch (this.dappConfig.wallet) {
       case 'wallet':
         const walletResult = await this.walletInitialization();
+   
+        await this.webModalInstanceLaunch()
 
+        if (!!walletResult){
         this.DAPP_STATE.signer = walletResult.signer;
         this.DAPP_STATE.defaultProvider = walletResult.provider;
+        setTimeout(async () => {
+          this.webModal.connectWallet()
+          
+        }, 100);
+       //  
+        }
+      
 
-        this.webModalInstanceLaunch()
 
         break;
 
@@ -97,7 +106,7 @@ export class DappInjector implements OnDestroy {
         let wallet:Wallet = new Wallet(this.harhdat_local_privKeys[0].key);
         this.DAPP_STATE.signer = await wallet.connect(this.DAPP_STATE.defaultProvider!);
         this.DAPP_STATE.signerAddress = this.harhdat_local_privKeys[0].address //await this.DAPP_STATE.signer.getAddress()
-
+        this.contractInitialization();
       
         break;
 
@@ -107,12 +116,12 @@ export class DappInjector implements OnDestroy {
         privateWallet = new Wallet(privKey);
         this.DAPP_STATE.signer = await privateWallet.connect(this.DAPP_STATE.defaultProvider);
         this.DAPP_STATE.signerAddress = await this.DAPP_STATE.signer.getAddress()
-       
+        this.contractInitialization();
         break;
     }
 
 
-    this.contractInitialization();
+   
     
   } catch (error) {
       console.log(error)
@@ -123,10 +132,11 @@ export class DappInjector implements OnDestroy {
 //// Local wallet initizlization
 async localWallet(index:number) {
 
+  
   console.log(index)
   this.store.dispatch(Web3Actions.chainBusy({ status: true }));
   this.store.dispatch(Web3Actions.chainStatus({status: 'loading'}))
-  console.log(this.harhdat_local_privKeys[index-1])
+
   let wallet:Wallet = new Wallet(this.harhdat_local_privKeys[index-1].key);
   this.DAPP_STATE.signer = await wallet.connect(this.DAPP_STATE.defaultProvider!);
   this.DAPP_STATE.signerAddress = await this.DAPP_STATE.signer.getAddress()
@@ -145,7 +155,7 @@ async localWallet(index:number) {
     } catch (error) {
       this.store.dispatch(Web3Actions.chainStatus({ status: 'fail-to-connect-network' }));
       this.store.dispatch(Web3Actions.chainBusy({ status: false }));
-      throw new Error("FAIL_TO_CONNECT_NETWORK");
+  
       
     }
     return  hardhatProvider ;
@@ -176,7 +186,7 @@ async localWallet(index:number) {
       } else {
         this.store.dispatch(Web3Actions.chainStatus({ status: 'wallet-not-connected' }));
         this.store.dispatch(Web3Actions.chainBusy({ status: false }));
-        throw new Error("WALLET_NOT_CONNECTED");
+        return
         
       }
     } else {
@@ -184,7 +194,7 @@ async localWallet(index:number) {
       this.store.dispatch(Web3Actions.chainStatus({ status: 'wallet-not-connected' }));
 
       this.store.dispatch(Web3Actions.chainBusy({ status: false }));
-      throw new Error("WALLET_NOT_CONNECTED");
+      return
     }
   }
 
@@ -192,7 +202,7 @@ async localWallet(index:number) {
   private async contractInitialization() {
 
     const contract = new AngularContract<<%= contractName %>>({
-      metadata: this.contractMetadata,
+      metadata:  <%= contractName %>Metadata,
       provider: this.DAPP_STATE.defaultProvider!,
       signer: this.DAPP_STATE.signer!,
     });
@@ -205,7 +215,7 @@ async localWallet(index:number) {
     const providerNetwork = await this.DAPP_STATE.defaultProvider!.getNetwork();
 
     const networkString = netWorkById(providerNetwork.chainId)?.name as string;
-    console.log(networkString);
+ 
     this.DAPP_STATE.connectedNetwork = networkString;
     this.store.dispatch(Web3Actions.setSignerNetwork({ network: networkString }));
 
@@ -219,6 +229,7 @@ async localWallet(index:number) {
   private async webModalInstanceLaunch(){
      ///// create web-modal/hoos for connection/disconection .etcc.....
      this.webModal = new Web3ModalComponent({ document: this.document }, this.store);
+    
 
      await this.webModal.loadWallets();
      this.webModal.onConnect.pipe(takeUntil(this.destroyHooks)).subscribe(async (walletConnectProvider) => {
@@ -230,8 +241,6 @@ async localWallet(index:number) {
        this.DAPP_STATE.signerAddress = await webModalSigner.getAddress()
        this.DAPP_STATE.defaultProvider = webModalProvider;
        this.DAPP_STATE.signer = webModalSigner;
-
-       
        this.contractInitialization();
      });
 
@@ -254,7 +263,8 @@ async localWallet(index:number) {
        this.DAPP_STATE.defaultContract = null;
        this.DAPP_STATE.defaultProvider = null;
      });
-
+     this.store.dispatch(Web3Actions.chainStatus({ status: 'fail-to-connect-network' }));
+     this.store.dispatch(Web3Actions.chainBusy({ status: false }));
   }
 
   /////// VIEW FUCNTIONS

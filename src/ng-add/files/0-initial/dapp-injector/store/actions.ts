@@ -10,6 +10,8 @@ export enum Web3ActionTypes {
 
   ReadContractIsReady = '[Read] Contract',
 
+  refreshBalances = '[Refresh] Balances',
+
   SetDollarExhange = '[Set] Dollar',
   UpdateWalletBalance = '[Update] WalletBalance'
 
@@ -20,7 +22,9 @@ export enum Web3ActionTypes {
 const chainStatus = createAction('[Chain] Status', props<{ status: NETWORK_STATUS }>());
 const chainBusy = createAction('[Chain] Busy', props<{ status: boolean }>());
 
-const readContractReady = createAction('[Read] Contract', props<{ readCotractisReady: true }>())
+const disconnectChain = createAction('[Disconnect] Chain',props<{status:'force-disconnect'}>());
+
+const refreshBalances = createAction('[Refresh] Balances',props<{refreshBalance:boolean}>());
 
 const setSignerNetwork = createAction('[Set] SignerNetwork', props<{ network: string }>());
 
@@ -35,8 +39,9 @@ export const Web3Actions = {
 
   chainStatus,
   chainBusy,
+  disconnectChain,
 
-  readContractReady,
+  refreshBalances,
 
   setSignerNetwork,
 

@@ -53,6 +53,7 @@ export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
     sourceRoot: _options.sourceRoot , 
     contractCode:_options.dappDemo,
     metadata:_options.dappDemo + 'Metadata' ,
+    jsonFile: underscore(dasherize(_options.dappDemo)),
     contractName }
 
 
