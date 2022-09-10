@@ -94,7 +94,7 @@ export const configuration_options: {
         "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json coverage",
       "watch-contract": "cd hardhat && nodehelpers/watch.js",
       "watch-tinker": "cd hardhat && nodehelpers/tinker-watch.js",
-      wire: "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run .helpers/wire.ts",
+      wire: "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run ./helpers/wire.ts",
       tinker:
         "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run ./scripts/tinker.ts",
         task: "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json",
