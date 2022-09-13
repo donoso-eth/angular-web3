@@ -284,7 +284,6 @@ export const configuration_options: {
         "@types/js-yaml": "^4.0.5",
       },
       scripts: {
-        "publish:subgraph": "cd hardhat && npx hardhat --tsconfig ./tsconfig.hardhat.json run ./scripts/publish.ts",
         "codegen": "cd add-ons/subgraph && graph codegen",
         "build-graph": "cd add-ons/subgraph && graph build",
         "deploy-graph": "cd add-ons/subgraph && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ GITHUB_USERNAME/your-contract"
