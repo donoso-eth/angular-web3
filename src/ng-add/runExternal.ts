@@ -12,6 +12,14 @@ import { IOPTIONS_EXTENDED } from './schema';
 
  /** Adds the Material Design fonts to the index HTML file. */
 
+ export const  addNgrx = (_options:IOPTIONS_EXTENDED): Rule => {
+  return (tree: Tree) => {
+    console.log(_options.projectFound)
+    externalSchematic("@ngrx/store@latest", "ng-add", { });
+    return tree;
+  };
+}
+
  
  export const  runExternal = (_options:IOPTIONS_EXTENDED): Rule => {
   return (tree: Tree) => {

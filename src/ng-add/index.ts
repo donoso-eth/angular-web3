@@ -17,7 +17,7 @@ import { contract_config } from "./config/contract.config";
 import { addImport } from "./addImportStatement";
 
 import { updateTsConfig } from "./updateTsConfig";
-import { runExternal } from "./runExternal";
+import { addNgrx, runExternal } from "./runExternal";
 import { setupOptions } from "./0-setupOptions";
 import { addFontsToIndex } from "./addFonts";
 import { updateAppHtml } from "./updateAppHtml";
@@ -106,14 +106,16 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
       return updateTsConfig(tree, _options);
     },
 
-    (tree: Tree, _context: SchematicContext) => {
-      return updatePolyfills(tree, _options);
-    },
+    // (tree: Tree, _context: SchematicContext) => {
+    //   return updatePolyfills(tree, _options);
+    // },
 
 
 
     adScriptsToPackageJson(_options),
     addFontsToIndex(_options),
+
+    // addNgrx(_options),
     // runExternal(_options),
     // externalSchematic("@angular/material", "ng-add", { project:_options.projectFound,
     //   animations: true, theme: "indigo-pink",  typography: false}),

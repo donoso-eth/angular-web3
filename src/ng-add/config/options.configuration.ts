@@ -29,7 +29,7 @@ export const configuration_options: {
   initial: {
     deps: {
       ethers: "^5.0.0",
-      "@ngrx/store": "^13.0.2",
+      "@ngrx/store": "^15.0.0",
       "@download/blockies": "^1.0.3",
       "stream-browserify": "^3.0.0",
       "os-browserify": "^0.3.0",
@@ -120,8 +120,8 @@ export const configuration_options: {
   dappDemoCommon:{
     deps:{
       "@download/blockies": "^1.0.3",
-      "@angular/cdk": "~13.2.2",
-      "@angular/material": "~13.2.2",
+      "@angular/cdk": "~15.0.1",
+      "@angular/material": "~15.0.1",
     },
     devDeps: {},
     scripts: {},
