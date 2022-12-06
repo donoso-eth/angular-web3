@@ -54,7 +54,7 @@ describe("Initilization", () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         "ng-add",
-        { project: "default", test:true,demoToInstall:true, addOns:[],dappDemo: "helloWorldContract" },
+        { project: "default",  test:true,demoToInstall:true, addOns:[],dappDemo: "helloWorldContract" },
         appTree
       )
       .toPromise();
@@ -67,10 +67,14 @@ describe("Initilization", () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         "ng-add",
-        { project: "default", test:true,demoToInstall:false, addOns:[],dappDemo: "minimalContract" },
+        { project: "default", contractName:'gasLess', test:true,demoToInstall:false, addOns:[],dappDemo: "minimalContract" },
         appTree
       )
       .toPromise();
+     
+        console.log(tree.files);
+        const app_module_file = tree.readContent("/projects/schematest/src/app/app.module.ts");
+        console.log(app_module_file)
 
     expect(tree.files.length).toBeGreaterThan(2);
   });
@@ -80,7 +84,7 @@ describe("Initilization", () => {
     const tree = await schematicRunner
       .runSchematicAsync(
         "ng-add",
-        { project: "default", test:true,demoToInstall:false, addOns:[],dappDemo: "minimalContract" },
+        { project: "default", contractName:'gasLess', test:true,demoToInstall:false, addOns:[],dappDemo: "minimalContract" },
         appTree
       )
       .toPromise();
@@ -108,14 +112,14 @@ describe("Initilization", () => {
     expect(tree.exists("hardhat/contract.config.json")).toBeTrue();
   });
 
-  it("Update the polyfills", async () => {
-    const tree = await schematicRunner
-      .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:false, addOns:[],dappDemo: "minimalContract" }, appTree)
-      .toPromise();
-      console.log(tree.files)
-    const polyfills = tree.readContent("/projects/schematest/src/polyfills.ts");;
-    expect(polyfills).toContain("require('process')")
-  });
+  // it("Update the polyfills", async () => {
+  //   const tree = await schematicRunner
+  //     .runSchematicAsync("ng-add",  { project: "default", test:true,demoToInstall:false, addOns:[],dappDemo: "minimalContract" }, appTree)
+  //     .toPromise();
+  //     console.log(tree.files)
+  //   const polyfills = tree.readContent("/projects/schematest/src/polyfills.ts");;
+  //   expect(polyfills).toContain("require('process')")
+  // });
 
   it("Should add Injector module ", async () => {
 

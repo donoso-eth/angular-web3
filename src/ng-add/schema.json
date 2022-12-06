@@ -10,6 +10,13 @@
     "type": "boolean",
     "default": false
   },
+  "uiFramework": {
+    "type": "string",
+    "description": "description",
+    "uniqueItems": true,
+    "default":"noop",
+    "enum": ["noop", "primeNG"]
+},
   "dappDemo": {
       "type": "string",
       "description": "description",

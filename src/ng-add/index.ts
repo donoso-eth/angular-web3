@@ -22,6 +22,8 @@ import { setupOptions } from "./0-setupOptions";
 import { addFontsToIndex } from "./addFonts";
 import { updateAppHtml } from "./updateAppHtml";
 import { updatePolyfills } from "./updatePolyfills";
+import { updateIndexHtml } from "./updateIndexHtml";
+import { updateAngularJson } from "./updateAngularJson";
 
 /** Adds a package to the package.json in the given host tree. */
 
@@ -109,8 +111,14 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
     // (tree: Tree, _context: SchematicContext) => {
     //   return updatePolyfills(tree, _options);
     // },
+    // (tree: Tree, _context: SchematicContext) => {
+    //   return updateAngularJson(tree, _options);
+    // },
 
 
+    updateIndexHtml(_options),
+
+    
 
     adScriptsToPackageJson(_options),
     addFontsToIndex(_options),

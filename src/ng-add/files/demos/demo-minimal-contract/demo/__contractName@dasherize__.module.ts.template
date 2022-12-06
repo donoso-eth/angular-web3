@@ -1,0 +1,21 @@
+import { NgModule,InjectionToken } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { <%= contractName %>Component } from './<%= dasherize(contractName) %>/<%= dasherize(contractName) %>component';
+
+
+
+
+
+@NgModule({
+  declarations: [
+    <%= capitalize(contractName)%>Component
+  ],
+  imports: [
+    CommonModule,
+  ],
+  exports: [
+    <%= capitalize(contractName)%>Component,
+  ],
+  providers:[]
+})
+export class <%= capitalize(contractName) %>Module { }

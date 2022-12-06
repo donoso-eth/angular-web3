@@ -3,6 +3,7 @@
  */
 export declare interface IOPTIONS {
 
+    uiFramework: string;
     /**
      * Demo App;
      */
@@ -16,6 +17,10 @@ export declare interface IOPTIONS {
      */
     addOns: Array<AddOnsType>;
    
+
+    contractName: string;
+
+
     /**
      * skipInstall
      */
@@ -36,10 +41,11 @@ export declare interface IOPTIONS {
 
 }
 
-
 export type DappDemoType = "minimalContract" | "helloWorldContract" | "debugContract" | "nftContract" | "superFluid"| "lensProtocol" | "theGraph";
 
 export type AddOnsType =  "graphQlService" | "subgraph" | "graphNode" | "ipfsService" | "litProtocolService" | "superFluidService";
+
+export type UiFrameworkType = "prineNG"
 
 export interface IOPTIONS_EXTENDED extends IOPTIONS {
     sourceRoot?: string,

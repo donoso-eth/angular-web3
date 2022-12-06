@@ -9,7 +9,7 @@ import {
   netWorkById,
 } from 'angular-web3';
 import { providers } from 'ethers';
-import { <%= contractName %>} from '<%= sourceRoot %>/assets/contracts/interfaces/<%= contractName %>';
+import { <%= demoName %>} from '<%= sourceRoot %>/assets/contracts/interfaces/<%= demoName %>';
 
 @Component({
   selector: 'minimal-contract',
@@ -39,7 +39,7 @@ export class MinimalContractComponent extends DappBaseComponent implements After
   myWallet_address!: string;
   contractHeader!: { name: string; address: string };
 
-  minimalContract!: AngularContract<<%= contractName %>>;
+  minimalContract!: AngularContract<<%= demoName %>>;
   netWork!: string;
   no_network = no_network;
   angular_web3 = angular_web3;

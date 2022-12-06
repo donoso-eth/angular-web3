@@ -13,10 +13,10 @@ import {
 import { configuration_options } from "./config/options.configuration";
 import { IOPTIONS_EXTENDED } from "./schema";
 
-import { classify, dasherize, camelize, underscore } from '@angular-devkit/core/src/utils/strings';
+import { classify, dasherize, camelize, underscore,capitalize } from '@angular-devkit/core/src/utils/strings';
 import { getOptionskeys } from "./helpers/getOptionsKeys";
 import { contract_config } from "./config/contract.config";
-const stringUtils = {classify, dasherize, camelize, underscore };
+const stringUtils = {classify, dasherize, camelize, underscore,capitalize };
 
 export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
   
@@ -46,15 +46,20 @@ export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
 
 /// ============  demo apps ================= 
 
-  const contractName = contract_config[_options.dappDemo].name
+  const demoName = contract_config[_options.dappDemo].name
+  const contractName = _options.contractName == undefined ? demoName : _options.contractName;
+
 
   const options_file_replacements = { 
     ...stringUtils,
     sourceRoot: _options.sourceRoot , 
     contractCode:_options.dappDemo,
+    contractName,
     metadata:_options.dappDemo + 'Metadata' ,
     jsonFile: underscore(dasherize(_options.dappDemo)),
-    contractName }
+    demoName }
+
+
 
 
   for (const rootFile of templates_root) {
@@ -92,14 +97,17 @@ export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
     );
 
   const templateInjector = apply(url("./files/common/dapp/dapp-injector"), [
-    applyTemplates({ sourceRoot: _options.sourceRoot, metadata:_options.dappDemo + 'Metadata',  contractName }),
+    applyTemplates({ 
+      sourceRoot: _options.sourceRoot, 
+      metadata:_options.dappDemo + 'Metadata',  
+      demoName }),
     move(normalize(normalize(`/${_options.sourceRoot}/app/dapp-injector`))),
   ]);
 
   templateRules.push(mergeWith(templateInjector, MergeStrategy.Overwrite));
 
   const templateCommonApp = apply(url("./files/common/dapp/app"), [
-    applyTemplates({ contractCode:_options.dappDemo }),
+    applyTemplates({  ...stringUtils,contractCode:_options.dappDemo, contractName }),
     move(normalize(normalize(`/${_options.sourceRoot}/app/`))),
   ]);
 

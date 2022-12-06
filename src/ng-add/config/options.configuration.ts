@@ -1,4 +1,4 @@
-import { DappDemoType, AddOnsType } from "../schema";
+import { DappDemoType, AddOnsType, UiFrameworkType } from "../schema";
 
 export interface IDEMO {
   deps: { [key: string]: string };
@@ -25,6 +25,7 @@ export const configuration_options: {
   dappDemoCommon: IDEMO_APP,
   dappDemos: { [key in DappDemoType]: IDEMO_APP };
   addOns: { [key in AddOnsType]: IDEMO_SERVICE };
+  uiFramework : { [key in UiFrameworkType]: IDEMO_SERVICE };
 } = {
   initial: {
     deps: {
@@ -370,4 +371,21 @@ export const configuration_options: {
       }],
     },
   },
+  uiFramework : {
+    "prineNG": {
+      devDeps:{},
+      deps:{
+      "primeflex": "^3.3.0",
+      "primeicons": "^6.0.1",
+      "primeng": "^15.0.0-rc.1",
+      "prismjs": "^1.29.0",},
+      scripts:{},
+      templates_root:[],
+      templates_src:[
+        {
+        source: "./files/ui-framework/framework-primeNG/assets",
+        target: "/app/assets",
+      },],
+    }
+  }
 };

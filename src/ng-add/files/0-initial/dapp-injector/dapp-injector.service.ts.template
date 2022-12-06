@@ -13,8 +13,8 @@ import { Web3Actions, web3Selectors } from './store';
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { Web3ModalComponent } from './web3-modal/web3-modal.component';
 import { Subject, takeUntil } from 'rxjs';
-import { <%= contractName %>} from '<%= sourceRoot %>/assets/contracts/interfaces/<%= contractName %>';
-import <%= contractName %>Metadata from '<%= sourceRoot %>/assets/contracts/<%=  jsonFile %>_metadata.json';
+import { <%= demoName %>} from '<%= sourceRoot %>/assets/contracts/interfaces/<%= demoName %>';
+import <%= demoName %>Metadata from '<%= sourceRoot %>/assets/contracts/<%=  jsonFile %>_metadata.json';
 import { AngularContract } from './classes';
 
 
@@ -26,7 +26,7 @@ export class DappInjector implements OnDestroy {
   private destroyHooks: Subject<void> = new Subject();
 
   ///// ---------  DAPP STATE INITIALIZATION
-  DAPP_STATE:IDAPP_STATE<<%= contractName %>> = {
+  DAPP_STATE:IDAPP_STATE<<%= demoName %>> = {
      defaultProvider: null,
     connectedNetwork: null,
 
@@ -201,8 +201,8 @@ async localWallet(index:number) {
   ///// ---------  Contract Initialization
   private async contractInitialization() {
 
-    const contract = new AngularContract<<%= contractName %>>({
-      metadata:  <%= contractName %>Metadata,
+    const contract = new AngularContract<<%= demoName %>>({
+      metadata:  <%= demoName %>Metadata,
       provider: this.DAPP_STATE.defaultProvider!,
       signer: this.DAPP_STATE.signer!,
     });

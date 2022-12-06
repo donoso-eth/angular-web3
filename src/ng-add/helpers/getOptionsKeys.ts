@@ -1,4 +1,4 @@
-import { IOPTIONS_EXTENDED } from "../schema";
+import { IOPTIONS_EXTENDED, UiFrameworkType } from "../schema";
 import { configuration_options } from "../config/options.configuration";
 
 export const getOptionskeys= (_options:IOPTIONS_EXTENDED) => {
@@ -17,6 +17,12 @@ export const getOptionskeys= (_options:IOPTIONS_EXTENDED) => {
       toInstallKeys.push(configuration_options.addOns[addOn])
     }
   
+       /// ============ add configuration ================= 
+      if( _options.uiFramework !== 'noop') {
+        toInstallKeys.push(configuration_options.uiFramework[_options.uiFramework as UiFrameworkType ])
+      }
+        
+      
         
    /// ============ add common configuration for demo apps ================= 
     if (_options.demoToInstall== true ){

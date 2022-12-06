@@ -8,6 +8,7 @@ import {
   addProviderToModule,
 } from "@schematics/angular/utility/ast-utils";
 import { Change, InsertChange } from "@schematics/angular/utility/change";
+import { capitalize, dasherize } from "@angular-devkit/core/src/utils/strings";
 
 class AddToModuleContext {
   // source of the module file
@@ -24,12 +25,13 @@ class AddToModuleContext {
 export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   
   //// Importing Feature module
+  
   let featureName;
   let featurePath;
   if (_options.dappDemo == "minimalContract") {
-    featureName = "MinimalContractModule";
+    featureName = `${capitalize(_options.contractName)}Module`;
     featurePath =
-      "./0-minimal-contract/minimal-contract.module";
+      `./${dasherize(_options.contractName)}/${dasherize(_options.contractName)}.module`;
   } else if (_options.dappDemo == "helloWorldContract") {
     featureName = "HelloWorldContractModule";
     featurePath =
