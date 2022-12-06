@@ -45,7 +45,7 @@ export type DappDemoType = "minimalContract" | "helloWorldContract" | "debugCont
 
 export type AddOnsType =  "graphQlService" | "subgraph" | "graphNode" | "ipfsService" | "litProtocolService" | "superFluidService";
 
-export type UiFrameworkType = "prineNG"
+export type UiFrameworkType = "primeNG"
 
 export interface IOPTIONS_EXTENDED extends IOPTIONS {
     sourceRoot?: string,

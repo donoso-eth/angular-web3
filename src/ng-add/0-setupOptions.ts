@@ -117,7 +117,7 @@ export const setupOptions = async (
     if (_options.test == false) {
         const questionNameContract = [
             {
-              name: "filename",
+              name: "contractName",
               type: "input",
               default: "defaultContract",
               message: "Enter Contract Name",
@@ -131,13 +131,13 @@ export const setupOptions = async (
           ];
     
           _options.dappDemo = "minimalContract";
-          _options.contractName = await prompt(questionNameContract);
-
+          const answerName= await prompt(questionNameContract);
+          _options.contractName = answerName.contractName;
          //// Ui's framework to install
          const questionsUiFramework = [
             {
               type: "list",
-              name: "demoAppuiFramework",
+              name: "uiFramework",
               message: "Do you want to install a Ui Framework",
               default:"noop",
               choices: [
@@ -155,7 +155,7 @@ export const setupOptions = async (
           ];
           const answerUI = await prompt(questionsUiFramework);
 
-          _options.uiFramework = answerUI;
+          _options.uiFramework = answerUI.uiFramework;
 
       //// Services to install
       const questionsServices = [

@@ -9,6 +9,7 @@ import {
   MergeStrategy,
   chain,
   apply,
+  SchematicContext,
 } from "@angular-devkit/schematics";
 import { configuration_options } from "./config/options.configuration";
 import { IOPTIONS_EXTENDED } from "./schema";
@@ -18,17 +19,25 @@ import { getOptionskeys } from "./helpers/getOptionsKeys";
 import { contract_config } from "./config/contract.config";
 const stringUtils = {classify, dasherize, camelize, underscore,capitalize };
 
-export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
-  
-  let toInstallKeys = getOptionskeys(_options)
-  
-  const templateRules = [];
+export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED,  context: SchematicContext): Rule => {
+
+  const demoName = contract_config[_options.dappDemo].name
+  const contractName = _options.contractName == undefined ? demoName : _options.contractName;
+
+
+  _options.contractName  = contractName;
+  let toInstallKeys = getOptionskeys(_options, context)
+ 
+
+
+  const templateRules:any[] = [];
 
   let templates_src:Array<{source:string, target:string}> =[];
   let templates_root:Array<{source:string, target:string}> =[];
-
+  
 
   toInstallKeys.forEach(ele=> {
+    
     templates_root = templates_root.concat(ele.templates_root);
     templates_src = templates_src.concat(ele.templates_src)
   })
@@ -45,9 +54,6 @@ export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
   
 
 /// ============  demo apps ================= 
-
-  const demoName = contract_config[_options.dappDemo].name
-  const contractName = _options.contractName == undefined ? demoName : _options.contractName;
 
 
   const options_file_replacements = { 
@@ -88,40 +94,30 @@ export const createFiles = (host: Tree, _options: IOPTIONS_EXTENDED): Rule => {
 
 
     const templateCommonHardhat = apply(url("./files/common/hardhat"), [
-      applyTemplates({ sourceRoot: _options.sourceRoot , contractCode:_options.dappDemo }),
+      applyTemplates({ sourceRoot: _options.sourceRoot ,  contractName, contractCode:_options.dappDemo }),
       move(normalize(`/hardhat/`)),
     ]);
 
-    templateRules.push(
-      mergeWith(templateCommonHardhat, MergeStrategy.Overwrite)
-    );
+   // templateRules.push(      mergeWith(templateCommonHardhat, MergeStrategy.Overwrite)    );
 
   const templateInjector = apply(url("./files/common/dapp/dapp-injector"), [
     applyTemplates({ 
       sourceRoot: _options.sourceRoot, 
       metadata:_options.dappDemo + 'Metadata',  
-      demoName }),
+      demoName, contractName }),
     move(normalize(normalize(`/${_options.sourceRoot}/app/dapp-injector`))),
   ]);
 
-  templateRules.push(mergeWith(templateInjector, MergeStrategy.Overwrite));
+  //templateRules.push(mergeWith(templateInjector, MergeStrategy.Overwrite));
 
   const templateCommonApp = apply(url("./files/common/dapp/app"), [
     applyTemplates({  ...stringUtils,contractCode:_options.dappDemo, contractName }),
     move(normalize(normalize(`/${_options.sourceRoot}/app/`))),
   ]);
 
-  templateRules.push(mergeWith(templateCommonApp, MergeStrategy.Overwrite));
+  //templateRules.push(mergeWith(templateCommonApp, MergeStrategy.Overwrite));
 
 
-
-  // if (!host.exists(`${_options.sourceRoot}/typings.d.ts`)) {
-  //   const templateTypings = apply(url("./files/typings"), [
-  //     applyTemplates({}),
-  //     move(normalize(`/${_options.sourceRoot}/`)),
-  //   ]);
-  //   templateRules.push(mergeWith(templateTypings));
-  // }
 
   return chain(templateRules);
 };

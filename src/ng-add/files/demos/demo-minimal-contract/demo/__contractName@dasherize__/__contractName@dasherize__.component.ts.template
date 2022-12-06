@@ -9,11 +9,11 @@ import {
   netWorkById,
 } from 'angular-web3';
 import { providers } from 'ethers';
-import { <%= demoName %>} from '<%= sourceRoot %>/assets/contracts/interfaces/<%= demoName %>';
+import {  <%= capitalize(contractName)%>} from '<%= sourceRoot %>/assets/contracts/interfaces/<%= capitalize(contractName)%>';
 
 @Component({
-  selector: 'minimal-contract',
-  templateUrl: './minimal-contract.component.html',
+  selector: ' <%= dasherize(contractName)%>}',
+  templateUrl: './<%= dasherize(contractName)%>}.component.html',
   styles: [
     `
       .blockchain_is_busy {
@@ -34,7 +34,7 @@ import { <%= demoName %>} from '<%= sourceRoot %>/assets/contracts/interfaces/<%
     `,
   ],
 })
-export class MinimalContractComponent extends DappBaseComponent implements AfterViewInit {
+export class <%= capitalize(contractName)%>Component extends DappBaseComponent implements AfterViewInit {
   deployer_address!: string;
   myWallet_address!: string;
   contractHeader!: { name: string; address: string };

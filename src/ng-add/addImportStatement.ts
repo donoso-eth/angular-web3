@@ -29,6 +29,7 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   let featureName;
   let featurePath;
   if (_options.dappDemo == "minimalContract") {
+
     featureName = `${capitalize(_options.contractName)}Module`;
     featurePath =
       `./${dasherize(_options.contractName)}/${dasherize(_options.contractName)}.module`;
@@ -55,6 +56,8 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
     return tree;
   }
 
+
+
   const appModulePath = `/${_options.sourceRoot}/app/app.module.ts` as string;
 
   const appModuleFile = (
@@ -74,14 +77,15 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
     true
   );
 
+    console.log(featureName);
+    console.log(featurePath)
 
-
-  let importsFeature:Change[] =  addImportToModule(
-    source_app,
-    appModulePath,
-    featureName,
-    featurePath,
-  )
+  let importsFeature:Change[] = []; //=  addImportToModule(
+  //   source_app,
+  //   appModulePath,
+  //   featureName,
+  //   featurePath,
+  // )
 
   const importReducer  = insertImport(
     source_app,

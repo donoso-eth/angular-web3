@@ -12,13 +12,15 @@ export const updateAngularJson = (
   if (_options.uiFramework == 'primeNG'){
   let workspaceConfig = new JSONFile(tree, "angular.json");
 
-  let scripts = workspaceConfig.get([
-    "projects",
-    _options.projectFound as string,
-    "architect",
-    "build",
-    "scriptas",
-  ]) as string[];
+  let scripts:any[] = [];
+  // workspaceConfig.get([
+  //   "projects",
+  //   _options.projectFound as string,
+  //   "architect",
+  //   "build",
+  //   "scripts",
+  // ]) as string[];
+
 
   scripts = scripts.concat([
     "node_modules/prismjs/prism.js",

@@ -372,7 +372,7 @@ export const configuration_options: {
     },
   },
   uiFramework : {
-    "prineNG": {
+    "primeNG": {
       devDeps:{},
       deps:{
       "primeflex": "^3.3.0",

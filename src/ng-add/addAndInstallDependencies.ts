@@ -20,7 +20,8 @@ interface PackageJson {
 
  const addPackageToPackageJson = (
     host: Tree,
-    _options:IOPTIONS_EXTENDED
+    _options:IOPTIONS_EXTENDED,
+    _context: SchematicContext
   ): Tree => {
     if (host.exists("package.json") == false) {
       host.create("package.json", "{}");
@@ -33,7 +34,7 @@ interface PackageJson {
     }
 
 
-    let toInstallKeys = getOptionskeys(_options)
+    let toInstallKeys = getOptionskeys(_options,_context)
 
     for (const installKey of toInstallKeys) {
 
@@ -55,7 +56,8 @@ interface PackageJson {
   
  const addPackageToDevPackageJson = (
     host: Tree,
-    _options:IOPTIONS_EXTENDED
+    _options:IOPTIONS_EXTENDED,
+    _context: SchematicContext
   ): Tree => {
     if (host.exists("package.json") == false) {
       host.create("package.json", "{}");
@@ -69,7 +71,7 @@ interface PackageJson {
      
 
   
-    let toInstallKeys = getOptionskeys(_options)
+    let toInstallKeys = getOptionskeys(_options,_context)
 
 
 
@@ -95,8 +97,8 @@ export const addAndinstallDependencies = (_options:IOPTIONS_EXTENDED): Rule => {
     return (tree: Tree, _context: SchematicContext) => {
     
 
-      addPackageToDevPackageJson(tree, _options);
-      addPackageToPackageJson(tree, _options)
+      addPackageToDevPackageJson(tree, _options,_context);
+      addPackageToPackageJson(tree, _options,_context)
 
 
         if (_options.skipInstall == false) {

@@ -1,10 +1,14 @@
- import  './initialization_tests'
+ //import  './initialization_tests'
 
 //import './already_installed_tests'
 
 //  import './demo-mimimal_tests'
 
 // import './demo-lens-protocol_tests'
+
+
+///// TEST FRAMEWORK UI
+import './ui_framework_tests'
 
 //// TESTS DEMO APPS
 

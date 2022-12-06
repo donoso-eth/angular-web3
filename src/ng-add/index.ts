@@ -24,6 +24,7 @@ import { updateAppHtml } from "./updateAppHtml";
 import { updatePolyfills } from "./updatePolyfills";
 import { updateIndexHtml } from "./updateIndexHtml";
 import { updateAngularJson } from "./updateAngularJson";
+import { updateStyles } from "./updateStyles";
 
 /** Adds a package to the package.json in the given host tree. */
 
@@ -91,16 +92,25 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
     async (tree: Tree, _context: SchematicContext) => {
       await setupOptions(tree, _options, _context);
     },
+
+    
     (tree: Tree, _context: SchematicContext) => {
       changeContractConfig(tree, _options);
     },
     (tree: Tree, _context: SchematicContext) => {
-      return createFiles(tree, _options);
+      return createFiles(tree, _options,_context);
+   
     },
+    // (tree: Tree, _context: SchematicContext) => {
+    //   _context.logger.warn(
+    //     `101 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
+    //   );
+    //   return addImport(tree, _options);
+    // },
     (tree: Tree, _context: SchematicContext) => {
-      return addImport(tree, _options);
-    },
-    (tree: Tree, _context: SchematicContext) => {
+      _context.logger.warn(
+        `111 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
+      );
       return updateAppHtml(tree, _options);
     },
 
@@ -111,23 +121,29 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
     // (tree: Tree, _context: SchematicContext) => {
     //   return updatePolyfills(tree, _options);
     // },
-    // (tree: Tree, _context: SchematicContext) => {
-    //   return updateAngularJson(tree, _options);
-    // },
+    (tree: Tree, _context: SchematicContext) => {
+      return updateAngularJson(tree, _options);
+    },
 
 
     updateIndexHtml(_options),
-
+    
+    (tree: Tree, _context: SchematicContext) => {
+    return updateStyles(tree,_options);
+    },
     
 
     adScriptsToPackageJson(_options),
     addFontsToIndex(_options),
 
+    
     // addNgrx(_options),
     // runExternal(_options),
     // externalSchematic("@angular/material", "ng-add", { project:_options.projectFound,
     //   animations: true, theme: "indigo-pink",  typography: false}),
     //externalSchematic("@ng-bootstrap/ng-bootstrap", "ng-add", { project:_options.projectFound}),
+
+
     addAndinstallDependencies(_options),
     (tree: Tree, _context: SchematicContext) => {
       return doTheLogs(tree, _options, _context);

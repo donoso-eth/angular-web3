@@ -34,7 +34,7 @@ export const adScriptsToPackageJson = (_options: IOPTIONS_EXTENDED): Rule => {
       json.scripts = {};
     }
 
-    let toInstallKeys = getOptionskeys(_options)
+    let toInstallKeys = getOptionskeys(_options,_context)
 
     for (const installKey of toInstallKeys) {
 

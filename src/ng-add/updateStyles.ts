@@ -7,7 +7,7 @@ import { JSONFile } from "./helpers/json-file";
 export const updateStyles = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
   if (_options.uiFramework == 'primeNG') {
     const pathString = normalize(
-      `/${_options.sourceRoot}/app/app.component.html`
+      `/${_options.sourceRoot}/styles.scss`
     );
 
 
