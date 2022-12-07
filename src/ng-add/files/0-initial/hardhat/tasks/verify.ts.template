@@ -11,7 +11,7 @@ const contract_config = JSON.parse(
 ) as { [key: string]: any };
 
 task('verify-contract', 'verify').setAction(async ({}, hre) => {
-  let deployContract = '<%= demoName %>/';
+  let deployContract = '<%= contractName %>/';
   let toDeployContract = contract_config[deployContract];
   const toVerifyApp = JSON.parse(
     readFileSync(
@@ -24,7 +24,7 @@ task('verify-contract', 'verify').setAction(async ({}, hre) => {
 
   
   await hre.run('verify:verify', {
-    address: toVerifyApp .address,
-    constructorArguments: [ ,
+    address: toVerifyApp.address,
+    constructorArguments: [] ,
   });
 });

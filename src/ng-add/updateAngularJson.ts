@@ -12,33 +12,33 @@ export const updateAngularJson = (
   if (_options.uiFramework == 'primeNG'){
   let workspaceConfig = new JSONFile(tree, "angular.json");
 
-  let scripts:any[] = [];
-  // workspaceConfig.get([
-  //   "projects",
-  //   _options.projectFound as string,
-  //   "architect",
-  //   "build",
-  //   "scripts",
-  // ]) as string[];
 
+  let scriptsPath = [
+    "projects",
+    _options.projectFound as string,
+    "architect",
+    "build",
+    "options",
+    "scripts",
+  ];
+
+
+  let scripts = workspaceConfig.get(scriptsPath) as Array<string>
 
   scripts = scripts.concat([
     "node_modules/prismjs/prism.js",
     "node_modules/prismjs/components/prism-typescript.js",
   ]);
 
+
   workspaceConfig.modify(
-    [
-      "projects",
-      _options.projectFound as string,
-      "architect",
-      "build",
-      "scriptas",
-    ],
+  scriptsPath,
     scripts
   );
 
-  tree.overwrite("angular.json", JSON.stringify(workspaceConfig));
+
+
+  //tree.overwrite("angular.json", JSON.stringify(workspaceConfig));
   }
   return tree;
 };

@@ -1,0 +1,11 @@
+import { expect } from "chai";
+import { ethers } from "hardhat";
+
+describe("<%= capitalize(contractName)%>", function () {
+  it("Should return the new greeting once it's changed", async function () {
+    const <%= capitalize(contractName)%> = await ethers.getContractFactory("<%= capitalize(contractName)%>");
+    const <%= camelize(contractName)%> = await capitalize(contractName).deploy();
+    await <%= camelize(contractName)%>.deployed();
+
+  });
+});

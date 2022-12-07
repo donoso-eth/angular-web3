@@ -1,0 +1,30 @@
+<div
+*ngIf="isBusy"
+style="
+  z-index: 1000;
+  background: #00000070;
+  text-align: center;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  align-items: center;
+  top: 0;
+  display: flex;
+  justify-content: center;
+"
+>
+<div class="col-12 xl:col-6" style="border-radius:56px; padding:0.3rem; background: linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%);">
+  <div class="h-full w-full m-0 py-7 px-4" style="border-radius:53px; background: linear-gradient(180deg, var(--surface-50) 38.9%, var(--surface-0));">
+      <div  *ngIf="isBusyMessage.header != ''" class="text-center mb-5">
+       
+          <div class="text-900 text-3xl font-medium mb-3">{{isBusyMessage.header}}</div>
+          <span class="text-600 font-medium">{{isBusyMessage.body}}</span>
+      </div>
+  
+      <div class="w-full md:w-10 mx-auto">
+        <p-progressSpinner></p-progressSpinner>
+      </div>
+  </div>
+</div>
+
+</div>

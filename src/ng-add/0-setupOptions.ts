@@ -7,7 +7,7 @@ import { IOPTIONS_EXTENDED } from "./schema";
 import { prompt } from "inquirer";
 import { configuration_options } from "./config/options.configuration";
 import { JSONFile } from "./helpers/json-file";
-import { capitalize } from "@angular-devkit/core/src/utils/strings";
+import { camelize, capitalize } from "@angular-devkit/core/src/utils/strings";
 
 ///////////////////////////////////////////////////////////
 //////////////////// SetUp Options /////////////////////////
@@ -110,6 +110,7 @@ export const setupOptions = async (
       const answerDemo = await prompt(questionsDemo);
 
       _options.dappDemo = answerDemo.demoApp;
+      _options.contractName = _options.dappDemo;
     }
     _options.addOns = configuration_options.dappDemos[_options.dappDemo].addOns;
   } else {
@@ -123,10 +124,14 @@ export const setupOptions = async (
               message: "Enter Contract Name",
               validate(value: string) {
                 if (value.length) {
+
                   return true;
                 }
                 return "It cannot be empty. Please enter it correctly...";
               },
+              filter(value:string) {
+                return capitalize(camelize((value)))
+              }
             },
           ];
     

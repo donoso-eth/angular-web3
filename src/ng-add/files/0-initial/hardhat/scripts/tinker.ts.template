@@ -12,7 +12,7 @@ const tinker = async () => {
 
     // ADDRESS TO MINT TO:
     
-    const toDeployContract = contract_config["<%= contractCode %>"]
+    const toDeployContract = contract_config["<%= camelize(contractName) %>"]
    
     if (toDeployContract == undefined){
       console.error("Your contract is not yet configured")

@@ -12,8 +12,8 @@ import { providers } from 'ethers';
 import {  <%= capitalize(contractName)%>} from '<%= sourceRoot %>/assets/contracts/interfaces/<%= capitalize(contractName)%>';
 
 @Component({
-  selector: ' <%= dasherize(contractName)%>}',
-  templateUrl: './<%= dasherize(contractName)%>}.component.html',
+  selector: '<%= dasherize(contractName)%>',
+  templateUrl: './<%= dasherize(contractName)%>.component.html',
   styles: [
     `
       .blockchain_is_busy {
@@ -39,7 +39,7 @@ export class <%= capitalize(contractName)%>Component extends DappBaseComponent i
   myWallet_address!: string;
   contractHeader!: { name: string; address: string };
 
-  minimalContract!: AngularContract<<%= demoName %>>;
+  <%= camelize(contractName)%>!: AngularContract<<%= capitalize(contractName)%>>;
   netWork!: string;
   no_network = no_network;
   angular_web3 = angular_web3;
@@ -55,18 +55,18 @@ export class <%= capitalize(contractName)%>Component extends DappBaseComponent i
   async asyncStuff() {
     this.myWallet_address = this.dapp.signerAddress!;
     this.contractHeader = {
-      name: this.minimalContract.name,
-      address: this.minimalContract.address,
+      name: this.<%= camelize(contractName)%>.name,
+      address: this.<%= camelize(contractName)%>.address,
     };
     this.deployer_address = this.dapp.signerAddress!;
     this.connected_netWork! = this.dapp.DAPP_STATE.connectedNetwork as string
-    this.contract_network = this.minimalContract.network_deployed;
+    this.contract_network = this.<%= camelize(contractName)%>.network_deployed;
     const net_id = (await this.dapp.provider?.getNetwork())?.chainId
     this.provider_network = netWorkById(+net_id!).name
     }
 
   override async hookContractConnected(): Promise<void> {
-    this.minimalContract = this.dapp.defaultContract! ;
+    this.<%= camelize(contractName)%>= this.dapp.defaultContract! ;
    
 
     this.asyncStuff()

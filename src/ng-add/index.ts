@@ -25,6 +25,8 @@ import { updatePolyfills } from "./updatePolyfills";
 import { updateIndexHtml } from "./updateIndexHtml";
 import { updateAngularJson } from "./updateAngularJson";
 import { updateStyles } from "./updateStyles";
+import { toUnder } from "./helpers/misc";
+import { camelize, capitalize, dasherize } from "@angular-devkit/core/src/utils/strings";
 
 /** Adds a package to the package.json in the given host tree. */
 
@@ -35,11 +37,31 @@ const changeContractConfig = (
 
   const contractConfig: any = contract_config;
   if (_options.alreadyInstalled == false) {
-    const contractConfigString = JSON.stringify({
-      [_options.dappDemo]: contractConfig[_options.dappDemo],
-    });
 
+    if (_options.contractName !== _options.dappDemo){
+
+      const jsonName = camelize(_options.contractName) ;
+      let artifactsPath = `${capitalize(_options.contractName)}.sol/${capitalize(_options.contractName)}.json`
+      let obj =  {
+        "artifactsPath": artifactsPath,
+      "name": capitalize(_options.contractName),
+      "ctor": [],
+      "jsonName": dasherize(_options.contractName)
+    }
+    const contractConfigString = JSON.stringify({
+      [jsonName]: obj,
+    });
     host.create("hardhat/contract.config.json", contractConfigString);
+
+    } else {
+      const contractConfigString = JSON.stringify({
+        [_options.dappDemo]: contractConfig[_options.dappDemo],
+      });
+  
+      host.create("hardhat/contract.config.json", contractConfigString);
+    }
+
+  
   } else {
     let alreadyConfig;
     alreadyConfig = JSON.parse(
@@ -54,10 +76,12 @@ const changeContractConfig = (
       );
     }
 
-
-
-    alreadyConfig[_options.dappDemo] =
+   
+ 
+      alreadyConfig[_options.dappDemo] =
       contractConfig[_options.dappDemo];
+    
+
     const contractConfigString = JSON.stringify(alreadyConfig);
 
     host.overwrite("hardhat/contract.config.json", contractConfigString);
@@ -101,12 +125,10 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
       return createFiles(tree, _options,_context);
    
     },
-    // (tree: Tree, _context: SchematicContext) => {
-    //   _context.logger.warn(
-    //     `101 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
-    //   );
-    //   return addImport(tree, _options);
-    // },
+    (tree: Tree, _context: SchematicContext) => {
+  
+      return addImport(tree, _options);
+    },
     (tree: Tree, _context: SchematicContext) => {
       _context.logger.warn(
         `111 XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX`
@@ -150,3 +172,5 @@ export function ngAdd(_options: IOPTIONS_EXTENDED): Rule {
     }
   ]);
 }
+
+

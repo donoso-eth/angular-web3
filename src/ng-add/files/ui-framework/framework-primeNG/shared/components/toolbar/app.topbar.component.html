@@ -1,0 +1,118 @@
+<div class="layout-topbar">
+  <a style="width: unset" class="layout-topbar-logo" routerLink="">
+    <img  style="transform: scale(0.7);" src="assets/images/logo_horizontal.png" />
+  </a>
+
+  <div
+    *ngIf="blockchain_status !== 'wallet-connected'"
+    style="margin-left: 10px"
+    class="layout-topbar-menu"
+  >
+    <a
+      [routerLink]="'landing'"
+      style="margin-left: unset"
+      class="p-link layout-topbar-button"
+    >
+      home
+    </a>
+  </div>
+  <div
+    *ngIf="blockchain_status != 'wallet-connected'"
+    style="align-items: center; margin-right: 30px"
+    class="layout-topbar-menu"
+  >
+    <button
+      style="width: fit-content"
+      pButton
+      pRipple
+      (click)="connect()"
+      type="button"
+      label="Connect"
+      class="p-button-rounded mr-2 mb-2"
+    ></button>
+  </div>
+  <div
+    *ngIf="blockchain_status == 'wallet-connected'"
+    style="margin-left: 10px"
+    class="layout-topbar-menu"
+  >
+    <a 
+      [routerLink]="'landing'"
+      style="margin-left: unset;width:120px;font-size:20px"
+      class="p-link layout-topbar-button menu_css" routerLinkActive="active"
+    >
+      home
+    </a>
+    <a 
+      routerLink="dashboard"
+      style="margin-left:30px;width:120px"
+      class="p-link layout-topbar-button menu_css" routerLinkActive="active"
+    >
+     dashboard
+    </a>
+    <a 
+    routerLink="credit-marketplace"
+    style="margin-left:30px;width:120px"
+    class="p-link layout-topbar-button menu_css" routerLinkActive="active"
+  >
+   marketplace
+  </a>
+  </div>
+  <div
+    *ngIf="blockchain_status == 'wallet-connected'"
+    style="align-items: center; margin-right: 30px"
+    class="layout-topbar-menu"
+  >
+    <span style="color: var(--primary-color)">{{
+      displayAdress(address_to_show)
+    }}</span>
+    <i
+      class="pi pi-copy"
+      style="margin-left:5px;font-size: 1rem; cursor: pointer"
+      [cdkCopyToClipboard]="address_to_show"
+    ></i>
+    <p-dropdown
+      *ngIf="network == 'localhost'"
+      class="ml-4"
+      [options]="users"
+      [formControl]="localUserCtrl"
+      placeholder="Select a RewardType"
+    >
+      <ng-template pTemplate="selectedItem">
+        <div
+          style="display: inline-flex; width: 100%"
+          class="country-item country-item-value"
+        >
+          <div>User {{ localUserCtrl.value }}</div>
+        </div>
+      </ng-template>
+      <ng-template let-user pTemplate="user">
+        <div style="width: 100%" class="flex align-items-center">
+          <span>User {{ user }}</span>
+        </div>
+      </ng-template>
+    </p-dropdown>
+    <button
+      pButton
+      pRipple
+      style="position: relative; width: fit-content"
+      (click)="doDisconnect()"
+      type="button"
+      label="Disconnect"
+      class="p-button-outlined ml-4 mr-2"
+    ></button>
+
+    <!-- <a href="#" class="p-link layout-topbar-button">
+            <i class="pi pi-calendar"></i>
+            <span>Calendar</span>
+        </a>
+        <a  (click)="doDisconnect()" class="p-link layout-topbar-button">
+            <i class="pi pi-cog"></i>
+            <span>Settings</span>
+        </a>
+        <a href="#" class="p-link layout-topbar-button">
+            <i class="pi pi-user"></i>
+            <span>Profile</span> 
+        </a>-->
+  </div>
+</div>

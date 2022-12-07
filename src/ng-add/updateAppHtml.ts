@@ -14,7 +14,7 @@ export const updateAppHtml = (
 
     const pathString = normalize(`/${_options.sourceRoot}/app/app.component.html`);
 
-    const componentSelector = dasherize(_options.dappDemo)
+    const componentSelector = _options.dappDemo == _options.contractName ? dasherize(_options.dappDemo) : dasherize(_options.contractName)
 
     tree.overwrite(pathString,`<${componentSelector}></${componentSelector}>`)
     }

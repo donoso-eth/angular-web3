@@ -384,8 +384,13 @@ export const configuration_options: {
       templates_src:[
         {
         source: "./files/ui-framework/framework-primeNG/assets",
-        target: "/app/assets",
-      },],
+        target: "/assets",
+      },
+      {
+        source: "./files/ui-framework/framework-primeNG/shared",
+        target: "/app/shared",
+      },
+    ],
     }
   }
 };

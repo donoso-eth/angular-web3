@@ -1,7 +1,9 @@
 <p >
-<span style="color:red"> XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
-<span><br>This package is under strong development anc continous changes, not all the demos are working so far</span>
-<span style="color:red"> XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
+<span style="color:red"> </span>
+<span><br>This package is under strong development and continous changes, not all the demos are working so far</span>
+
+
+
 
 Thanks to  @austingriffith for crafting the awesome [Scaffold-eth](https://github.com/scaffold-eth/scaffold-eth) project. This projects aims to reproduce with angular tooling the same experience as scaffold-sth produce for react devs
 

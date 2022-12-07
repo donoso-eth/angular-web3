@@ -80,12 +80,12 @@ export const addImport = (tree: Tree, _options: IOPTIONS_EXTENDED): Tree => {
     console.log(featureName);
     console.log(featurePath)
 
-  let importsFeature:Change[] = []; //=  addImportToModule(
-  //   source_app,
-  //   appModulePath,
-  //   featureName,
-  //   featurePath,
-  // )
+  let importsFeature:Change[] =  addImportToModule(
+    source_app,
+    appModulePath,
+    featureName,
+    featurePath,
+  )
 
   const importReducer  = insertImport(
     source_app,
