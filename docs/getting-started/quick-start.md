@@ -5,7 +5,7 @@
 Prerequisites: To be in an **Angular project**
 
 ```bash
-ng new web3-hello-world 
+ng new web3-hello-world 2
 ```
 
 cd in the directory
@@ -25,11 +25,9 @@ ng add angular-web3
 The package will prompt the options for configuration
 
 * Project name in the case that your workspace has more than one angular project
-* Do you want to install a Demo app or only infrastructure/services?&#x20;
+* Do you want to install a Demo app or only infrastructure/services?
 
 We will choose Hello World Contract
-
-&#x20;
 
 #### 3) Updated tsconfig.json:
 
@@ -44,8 +42,6 @@ to be able to :
 ```
 import { DappFeature } from 'angular-web3'
 ```
-
-
 
 One if the common issues that we will encounter moving forward will be the errors by compilation when adding libraries (not webpack 5 ready), therefore we will update also the tsconfig file including the oprtion "dasd"
 
