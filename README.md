@@ -59,7 +59,7 @@ ng add angular-web3
 ### 2) chose installation Options:
 The package will prompt the options for configuration  
 - Project name in the case that your workspace has more than one angular project
-- Do you wnat to install a Demo app or only infrastructure/services?
+- Do you want to install a Demo app or only infrastructure/services?
 
 a) Demo Dapp to be installed:
   - Hello World Contract
